@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'GDS Transport', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #0b0c0c;
+  line-height: 1.5;
+}
+
+/* GDS Transport font - similar to the one used in the screenshot */
+@font-face {
+  font-family: 'GDS Transport';
+  src: local('Arial');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GDS Transport';
+  src: local('Arial Bold');
+  font-weight: bold;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin-top: 0;
+}
+
+a {
+  color: #1d70b8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Custom colors matching the screenshot */
+:root {
+  --primary-blue: #1d70b8;
+  --dark-blue: #003078;
+  --light-grey: #f3f2f1;
+  --mid-grey: #b1b4b6;
+  --dark-grey: #505a5f;
+  --black: #0b0c0c;
+  --white: #ffffff;
+  --green: #00703c;
+  --light-green: #2e7d32;
+  --red: #d4351c;
+  --stat-card-blue: #1d70b8;
+  --stat-card-dark-grey: #505a5f;
+}

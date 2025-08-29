@@ -1,0 +1,48 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import './App.css';
+
+// Components
+import Header from './components/Header/Header';
+import Breadcrumb from './components/Navigation/Breadcrumb';
+import AttendanceData from './components/Dashboard/AttendanceData';
+import SchoolPage from './components/School/SchoolPage';
+import PupilPage from './components/Pupil/PupilPage';
+import Footer from './components/Footer/Footer';
+
+const AppContainer = styled.div`
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MainContent = styled.main`
+  flex: 1;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+function App() {
+  return (
+    <Router>
+      <AppContainer>
+        <Header />
+        <MainContent>
+          <Breadcrumb />
+          <Routes>
+            <Route path="/" element={<AttendanceData />} />
+            <Route path="/school" element={<SchoolPage />} />
+            <Route path="/pupil/*" element={<PupilPage />} />
+          </Routes>
+        </MainContent>
+        <Footer />
+      </AppContainer>
+    </Router>
+  );
+}
+
+export default App;
