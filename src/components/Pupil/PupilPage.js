@@ -5,6 +5,9 @@ import { getAllPupils } from '../../services/pupilDataService';
 import TabNavigation from '../Dashboard/TabNavigation';
 import PupilSideNav from './PupilSideNav';
 import PupilVisualisations from './PupilVisualisations';
+import PupilPreviousYear from './PupilPreviousYear';
+import PupilYearToDateComparison from './PupilYearToDateComparison';
+import PupilAttendanceCodes from './PupilAttendanceCodes';
 import { media } from '../../styles/mediaQueries';
 
 // Styled components
@@ -64,26 +67,7 @@ const TabContent = styled.div`
   flex: 1;
 `;
 
-const PupilSelectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  
-  ${media.medium`
-    flex-direction: column;
-  `}
-`;
-
-const SelectLabel = styled.label`
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const SelectContainer = styled.div`
-  position: relative;
-  width: 200px;
-`;
-
+// These styled components are used in PupilSideNav
 const StyledSelect = styled.div`
   border: 1px solid #b1b4b6;
   padding: 8px 12px;
@@ -96,46 +80,6 @@ const StyledSelect = styled.div`
 
 const DropdownIcon = styled.span`
   margin-left: 10px;
-`;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #b1b4b6;
-  border-top: none;
-  z-index: 10;
-  display: ${props => (props.isOpen ? 'block' : 'none')};
-`;
-
-const SearchInput = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  border-bottom: 1px solid #b1b4b6;
-`;
-
-const SearchIcon = styled.span`
-  margin-right: 8px;
-`;
-
-const Input = styled.input`
-  border: none;
-  outline: none;
-  width: 100%;
-`;
-
-const DropdownItem = styled.div`
-  padding: 8px 12px;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #f3f2f1;
-  }
 `;
 
 const PupilDetailsContainer = styled.div`
@@ -302,39 +246,9 @@ const SupportLink = styled.a`
   }
 `;
 
-const PupilInsights = ({ pupils, selectedPupil, setSelectedPupil, dropdownOpen, setDropdownOpen, searchTerm, setSearchTerm, filteredPupils, dropdownRef, handlePupilSelect, formatDate }) => {
+const PupilInsights = ({ selectedPupil, formatDate }) => {
   return (
     <>
-      <PupilSelectionContainer>
-        <SelectLabel>Select pupil</SelectLabel>
-        <SelectContainer ref={dropdownRef}>
-          <StyledSelect onClick={() => setDropdownOpen(!dropdownOpen)}>
-            {selectedPupil ? selectedPupil.name : 'select pupil'}
-            <DropdownIcon>▼</DropdownIcon>
-          </StyledSelect>
-          
-          <DropdownMenu isOpen={dropdownOpen}>
-            <SearchInput>
-              <SearchIcon>🔍</SearchIcon>
-              <Input 
-                type="text" 
-                placeholder="Search" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </SearchInput>
-            
-            {filteredPupils.map((pupil) => (
-              <DropdownItem 
-                key={pupil.id} 
-                onClick={() => handlePupilSelect(pupil)}
-              >
-                {pupil.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </SelectContainer>
-      </PupilSelectionContainer>
       
       {selectedPupil && (
         <>
@@ -542,22 +456,23 @@ const PupilPage = () => {
         <TabNavigation />
         
         <MainContentWrapper>
-          <PupilSideNav />
+          <PupilSideNav 
+            selectedPupil={selectedPupil}
+            setSelectedPupil={setSelectedPupil}
+            dropdownOpen={dropdownOpen}
+            setDropdownOpen={setDropdownOpen}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredPupils={filteredPupils}
+            dropdownRef={dropdownRef}
+            handlePupilSelect={handlePupilSelect}
+          />
           
           <TabContent>
             <Routes>
               <Route path="/" element={
                 <PupilInsights 
-                  pupils={pupils}
                   selectedPupil={selectedPupil}
-                  setSelectedPupil={setSelectedPupil}
-                  dropdownOpen={dropdownOpen}
-                  setDropdownOpen={setDropdownOpen}
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  filteredPupils={filteredPupils}
-                  dropdownRef={dropdownRef}
-                  handlePupilSelect={handlePupilSelect}
                   formatDate={formatDate}
                 />
               } />
@@ -565,13 +480,13 @@ const PupilPage = () => {
                 <PupilVisualisations selectedPupil={selectedPupil} />
               } />
               <Route path="/previous-year" element={
-                <div>Previous Academic Year Content</div>
+                <PupilPreviousYear selectedPupil={selectedPupil} />
               } />
               <Route path="/comparison" element={
-                <div>Year-to-date Comparison Content</div>
+                <PupilYearToDateComparison selectedPupil={selectedPupil} />
               } />
               <Route path="/codes" element={
-                <div>Attendance Codes Content</div>
+                <PupilAttendanceCodes selectedPupil={selectedPupil} />
               } />
             </Routes>
           </TabContent>

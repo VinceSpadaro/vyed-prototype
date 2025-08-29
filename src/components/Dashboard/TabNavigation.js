@@ -50,7 +50,7 @@ const TabNavigation = () => {
     <TabsContainer>
       <Tab to="/" active={pathname === '/' ? true : undefined}>Insights dashboard</Tab>
       <Tab to="/school" active={pathname === '/school' ? true : undefined}>School</Tab>
-      <Tab to="/pupil" active={pathname === '/pupil' ? true : undefined}>Pupil</Tab>
+      <Tab to="/pupil" active={pathname.startsWith('/pupil') ? true : undefined}>Pupil</Tab>
       <div style={{ flexGrow: 1 }}></div>
       <Tab to="/guidance" active={pathname === '/guidance' ? true : undefined}>Guidance</Tab>
       <Tab to="/feedback" active={pathname === '/feedback' ? true : undefined}>Feedback</Tab>
