@@ -19,6 +19,9 @@ import UnauthorisedAbsencePage from './components/UnauthorisedAbsence/Unauthoris
 import CheckLeaverDataPage from './components/CheckLeaverData/CheckLeaverDataPage';
 import GuidancePage from './components/Guidance/GuidancePage';
 import FeedbackPage from './components/Feedback/FeedbackPage';
+import IndexPage from './components/Home/IndexPage';
+import ReportsPage from './components/Reports/ReportsPage';
+import ComparePage from './components/Compare/ComparePage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -43,7 +46,8 @@ function App() {
         <MainContent>
           <Breadcrumb />
           <Routes>
-            <Route path="/" element={<AttendanceData />} />
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/insights" element={<AttendanceData />} />
             <Route path="/school" element={<SchoolPage />} />
             <Route path="/pupil/*" element={<PupilPage />} />
             <Route path="/data-visualisations" element={<DataVisualisationsPage />} />
@@ -55,6 +59,8 @@ function App() {
             <Route path="/check-leaver-data" element={<CheckLeaverDataPage />} />
             <Route path="/guidance" element={<GuidancePage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/compare" element={<ComparePage />} />
           </Routes>
         </MainContent>
         <Footer />
