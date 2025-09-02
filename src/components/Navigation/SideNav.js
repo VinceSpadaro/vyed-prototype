@@ -71,7 +71,7 @@ const SideNav = () => {
           <NavLink to="/absence-bandings" active={pathname === '/absence-bandings' ? true : undefined}>Absence bandings</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/unauthorised-absence">Unauthorised absence</NavLink>
+          <NavLink to="/unauthorised-absence" active={pathname === '/unauthorised-absence' ? true : undefined}>Unauthorised absence</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/check-leaver-data">Check leaver data</NavLink>

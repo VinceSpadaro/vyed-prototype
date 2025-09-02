@@ -46,8 +46,8 @@ const TabNavigation = () => {
   const location = useLocation();
   const { pathname } = location;
   
-  // Consider data-visualisations, previous-academic-year, year-to-date-comparison, and absence-bandings as part of insights dashboard
-  const isInsightsDashboardActive = pathname === '/' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings';
+  // Consider data-visualisations, previous-academic-year, year-to-date-comparison, absence-bandings, and unauthorised-absence as part of insights dashboard
+  const isInsightsDashboardActive = pathname === '/' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings' || pathname === '/unauthorised-absence';
   
   return (
     <TabsContainer>

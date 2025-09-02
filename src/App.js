@@ -15,6 +15,7 @@ import PreviousAcademicYearPage from './components/PreviousAcademicYear/Previous
 import YearToDateComparisonPage from './components/YearToDateComparison/YearToDateComparisonPage';
 import AbsenceBandingsPage from './components/AbsenceBandings/AbsenceBandingsPage';
 import AbsenceBandingDetail from './components/AbsenceBandings/AbsenceBandingDetail';
+import UnauthorisedAbsencePage from './components/UnauthorisedAbsence/UnauthorisedAbsencePage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -47,6 +48,7 @@ function App() {
             <Route path="/year-to-date-comparison" element={<YearToDateComparisonPage />} />
             <Route path="/absence-bandings" element={<AbsenceBandingsPage />} />
             <Route path="/absence-bandings/:bandId" element={<AbsenceBandingDetail />} />
+            <Route path="/unauthorised-absence" element={<UnauthorisedAbsencePage />} />
           </Routes>
         </MainContent>
         <Footer />
