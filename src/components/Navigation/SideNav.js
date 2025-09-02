@@ -74,7 +74,7 @@ const SideNav = () => {
           <NavLink to="/unauthorised-absence" active={pathname === '/unauthorised-absence' ? true : undefined}>Unauthorised absence</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/check-leaver-data">Check leaver data</NavLink>
+          <NavLink to="/check-leaver-data" active={pathname === '/check-leaver-data' ? true : undefined}>Check leaver data</NavLink>
         </NavItem>
       </NavList>
     </SideNavContainer>

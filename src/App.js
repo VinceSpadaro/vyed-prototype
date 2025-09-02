@@ -16,6 +16,9 @@ import YearToDateComparisonPage from './components/YearToDateComparison/YearToDa
 import AbsenceBandingsPage from './components/AbsenceBandings/AbsenceBandingsPage';
 import AbsenceBandingDetail from './components/AbsenceBandings/AbsenceBandingDetail';
 import UnauthorisedAbsencePage from './components/UnauthorisedAbsence/UnauthorisedAbsencePage';
+import CheckLeaverDataPage from './components/CheckLeaverData/CheckLeaverDataPage';
+import GuidancePage from './components/Guidance/GuidancePage';
+import FeedbackPage from './components/Feedback/FeedbackPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -49,6 +52,9 @@ function App() {
             <Route path="/absence-bandings" element={<AbsenceBandingsPage />} />
             <Route path="/absence-bandings/:bandId" element={<AbsenceBandingDetail />} />
             <Route path="/unauthorised-absence" element={<UnauthorisedAbsencePage />} />
+            <Route path="/check-leaver-data" element={<CheckLeaverDataPage />} />
+            <Route path="/guidance" element={<GuidancePage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
           </Routes>
         </MainContent>
         <Footer />
