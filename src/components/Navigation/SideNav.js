@@ -62,13 +62,13 @@ const SideNav = () => {
           <NavLink to="/data-visualisations" active={pathname === '/data-visualisations' ? true : undefined}>Data visualisations</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/previous-academic-year">Previous academic year</NavLink>
+          <NavLink to="/previous-academic-year" active={pathname === '/previous-academic-year' ? true : undefined}>Previous academic year</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/year-to-date-comparison">Year-to-date comparison</NavLink>
+          <NavLink to="/year-to-date-comparison" active={pathname === '/year-to-date-comparison' ? true : undefined}>Year-to-date comparison</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/absence-bandings">Absence bandings</NavLink>
+          <NavLink to="/absence-bandings" active={pathname === '/absence-bandings' ? true : undefined}>Absence bandings</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/unauthorised-absence">Unauthorised absence</NavLink>
