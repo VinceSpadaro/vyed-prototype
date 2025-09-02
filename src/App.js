@@ -10,6 +10,7 @@ import AttendanceData from './components/Dashboard/AttendanceData';
 import SchoolPage from './components/School/SchoolPage';
 import PupilPage from './components/Pupil/PupilPage';
 import Footer from './components/Footer/Footer';
+import DataVisualisationsPage from './components/DataVisualisations/DataVisualisationsPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -37,6 +38,7 @@ function App() {
             <Route path="/" element={<AttendanceData />} />
             <Route path="/school" element={<SchoolPage />} />
             <Route path="/pupil/*" element={<PupilPage />} />
+            <Route path="/data-visualisations" element={<DataVisualisationsPage />} />
           </Routes>
         </MainContent>
         <Footer />

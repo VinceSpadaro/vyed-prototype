@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { media } from '../Dashboard/ResponsiveStyles';
 
 const SideNavContainer = styled.nav`
@@ -49,14 +49,17 @@ const NavLink = styled(Link)`
 `;
 
 const SideNav = () => {
+  const location = useLocation();
+  const { pathname } = location;
+  
   return (
     <SideNavContainer>
       <NavList>
         <NavItem>
-          <NavLink to="/" active={true}>Current insights</NavLink>
+          <NavLink to="/" active={pathname === '/' ? true : undefined}>Current insights</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/data-visualisations">Data visualisations</NavLink>
+          <NavLink to="/data-visualisations" active={pathname === '/data-visualisations' ? true : undefined}>Data visualisations</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/previous-academic-year">Previous academic year</NavLink>

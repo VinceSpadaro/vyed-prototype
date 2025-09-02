@@ -46,9 +46,12 @@ const TabNavigation = () => {
   const location = useLocation();
   const { pathname } = location;
   
+  // Consider data-visualisations as part of insights dashboard
+  const isInsightsDashboardActive = pathname === '/' || pathname === '/data-visualisations';
+  
   return (
     <TabsContainer>
-      <Tab to="/" active={pathname === '/' ? true : undefined}>Insights dashboard</Tab>
+      <Tab to="/" active={isInsightsDashboardActive ? true : undefined}>Insights dashboard</Tab>
       <Tab to="/school" active={pathname === '/school' ? true : undefined}>School</Tab>
       <Tab to="/pupil" active={pathname.startsWith('/pupil') ? true : undefined}>Pupil</Tab>
       <div style={{ flexGrow: 1 }}></div>
