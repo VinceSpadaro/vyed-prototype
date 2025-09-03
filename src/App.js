@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './App.css';
+import { UserTypeProvider, useUserType } from './context/UserTypeContext';
 
 // Components
 import Header from './components/Header/Header';
@@ -22,6 +23,7 @@ import FeedbackPage from './components/Feedback/FeedbackPage';
 import IndexPage from './components/Home/IndexPage';
 import ReportsPage from './components/Reports/ReportsPage';
 import ComparePage from './components/Compare/ComparePage';
+import UserTypeSelectionPage from './components/UserTypeSelection/UserTypeSelectionPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -38,7 +40,18 @@ const MainContent = styled.main`
   width: 100%;
 `;
 
-function App() {
+// Protected route component that redirects to user type selection if no user type is selected
+const ProtectedRoute = ({ children }) => {
+  const { hasUserTypeSelected } = useUserType();
+  
+  if (!hasUserTypeSelected) {
+    return <Navigate to="/select-user-type" replace />;
+  }
+  
+  return children;
+};
+
+function AppRoutes() {
   return (
     <Router>
       <AppContainer>
@@ -46,26 +59,95 @@ function App() {
         <MainContent>
           <Breadcrumb />
           <Routes>
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/insights" element={<AttendanceData />} />
-            <Route path="/school" element={<SchoolPage />} />
-            <Route path="/pupil/*" element={<PupilPage />} />
-            <Route path="/data-visualisations" element={<DataVisualisationsPage />} />
-            <Route path="/previous-academic-year" element={<PreviousAcademicYearPage />} />
-            <Route path="/year-to-date-comparison" element={<YearToDateComparisonPage />} />
-            <Route path="/absence-bandings" element={<AbsenceBandingsPage />} />
-            <Route path="/absence-bandings/:bandId" element={<AbsenceBandingDetail />} />
-            <Route path="/unauthorised-absence" element={<UnauthorisedAbsencePage />} />
-            <Route path="/check-leaver-data" element={<CheckLeaverDataPage />} />
-            <Route path="/guidance" element={<GuidancePage />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
-            <Route path="/reports" element={<ReportsPage />} />
-            <Route path="/compare" element={<ComparePage />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <IndexPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/select-user-type" element={<UserTypeSelectionPage />} />
+            <Route path="/insights" element={
+              <ProtectedRoute>
+                <AttendanceData />
+              </ProtectedRoute>
+            } />
+            <Route path="/school" element={
+              <ProtectedRoute>
+                <SchoolPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/pupil/*" element={
+              <ProtectedRoute>
+                <PupilPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/data-visualisations" element={
+              <ProtectedRoute>
+                <DataVisualisationsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/previous-academic-year" element={
+              <ProtectedRoute>
+                <PreviousAcademicYearPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/year-to-date-comparison" element={
+              <ProtectedRoute>
+                <YearToDateComparisonPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/absence-bandings" element={
+              <ProtectedRoute>
+                <AbsenceBandingsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/absence-bandings/:bandId" element={
+              <ProtectedRoute>
+                <AbsenceBandingDetail />
+              </ProtectedRoute>
+            } />
+            <Route path="/unauthorised-absence" element={
+              <ProtectedRoute>
+                <UnauthorisedAbsencePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/check-leaver-data" element={
+              <ProtectedRoute>
+                <CheckLeaverDataPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/guidance" element={
+              <ProtectedRoute>
+                <GuidancePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/feedback" element={
+              <ProtectedRoute>
+                <FeedbackPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute>
+                <ReportsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/compare" element={
+              <ProtectedRoute>
+                <ComparePage />
+              </ProtectedRoute>
+            } />
           </Routes>
         </MainContent>
         <Footer />
       </AppContainer>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <UserTypeProvider>
+      <AppRoutes />
+    </UserTypeProvider>
   );
 }
 
