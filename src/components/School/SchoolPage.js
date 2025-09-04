@@ -13,6 +13,8 @@ const ContentContainer = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
   
   ${media.medium`
     flex-direction: column;
@@ -23,6 +25,8 @@ const MainContentWrapper = styled.div`
   display: flex;
   gap: 20px;
   flex: 1;
+  width: 100%;
+  max-width: 100%;
   
   ${media.medium`
     flex-direction: column;
@@ -31,10 +35,15 @@ const MainContentWrapper = styled.div`
 
 const MainContent = styled.div`
   flex: 1;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 `;
 
 const SidebarContent = styled.div`
   width: 300px;
+  min-width: 300px;
+  flex-shrink: 0;
   
   ${media.medium`
     width: 100%;
@@ -55,12 +64,18 @@ const TableContainer = styled.div`
   overflow-x: auto;
   margin-bottom: 20px;
   border: 1px solid #b1b4b6;
+  width: 100%;
+  max-width: 100%;
+  display: block;
 `;
 
 const StyledTable = styled.table`
   width: 100%;
+  min-width: 1000px; /* Ensure table has a minimum width for scrolling */
   border-collapse: collapse;
+  border-spacing: 0;
   font-size: 0.9rem;
+  table-layout: auto; /* Allow columns to size based on content */
 `;
 
 const TableHeader = styled.thead`
@@ -68,9 +83,10 @@ const TableHeader = styled.thead`
   border-bottom: 2px solid #b1b4b6;
   
   th {
-    padding: 12px 15px;
+    padding: 12px 20px;
     text-align: left;
     font-weight: 600;
+    white-space: nowrap;
   }
 `;
 
@@ -84,8 +100,9 @@ const TableBody = styled.tbody`
   }
   
   td {
-    padding: 10px 15px;
+    padding: 10px 20px;
     border-bottom: 1px solid #e5e5e5;
+    white-space: nowrap;
   }
 `;
 
@@ -234,7 +251,7 @@ const SchoolPage = () => {
   });
   
   return (
-    <div>
+    <div style={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
       <PageTitle>School attendance data</PageTitle>
       
       <UpdatesSection />
@@ -296,20 +313,20 @@ const SchoolPage = () => {
                 <div>Loading pupil data...</div>
               ) : (
                 <>
-                  <TableContainer onScroll={handleScroll} style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                  <TableContainer onScroll={handleScroll} style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'auto', width: '100%', display: 'block' }}>
                     <StyledTable>
                       <TableHeader>
                         <tr>
-                          <th>Pupil name</th>
-                          {(userType === 'localAuthority' || userType === 'trust') && <th>School name</th>}
-                          <th>UPN</th>
-                          <th>Attendance</th>
-                          <th>Absence</th>
-                          <th>Authorized</th>
-                          <th>Unauthorized</th>
-                          <th>Full days missed</th>
-                          <th>Possible sessions</th>
-                          <th>Missed sessions</th>
+                          <th style={{ minWidth: '150px' }}>Pupil name</th>
+                          {(userType === 'localAuthority' || userType === 'trust') && <th style={{ minWidth: '150px' }}>School name</th>}
+                          <th style={{ minWidth: '120px' }}>UPN</th>
+                          <th style={{ minWidth: '100px' }}>Attendance</th>
+                          <th style={{ minWidth: '100px' }}>Absence</th>
+                          <th style={{ minWidth: '100px' }}>Authorized</th>
+                          <th style={{ minWidth: '100px' }}>Unauthorized</th>
+                          <th style={{ minWidth: '120px' }}>Full days missed</th>
+                          <th style={{ minWidth: '140px' }}>Possible sessions</th>
+                          <th style={{ minWidth: '120px' }}>Missed sessions</th>
                         </tr>
                       </TableHeader>
                       <TableBody>
