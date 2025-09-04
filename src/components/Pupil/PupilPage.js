@@ -10,6 +10,7 @@ import PupilYearToDateComparison from './PupilYearToDateComparison';
 import PupilAttendanceCodes from './PupilAttendanceCodes';
 import UpdatesSection from '../Common/UpdatesSection';
 import { media } from '../../styles/mediaQueries';
+import { useUserType } from '../../context/UserTypeContext';
 
 // Styled components
 const Container = styled.div`
@@ -221,6 +222,7 @@ const SupportLink = styled.a`
 `;
 
 const PupilInsights = ({ selectedPupil, formatDate }) => {
+  console.log('PupilInsights received selectedPupil:', selectedPupil);
   return (
     <>
       
@@ -355,32 +357,94 @@ const PupilInsights = ({ selectedPupil, formatDate }) => {
   );
 };
 
+// Sample data for multiple schools
+const schoolsMap = {
+  'demo-school': 'Demo School',
+  'school-one': 'School One',
+  'school-two': 'School Two',
+  'school-three': 'School Three',
+  'school-four': 'School Four',
+  'school-five': 'School Five'
+};
+
 const PupilPage = () => {
+  const { userType } = useUserType();
   const [pupils, setPupils] = useState([]);
   const [selectedPupil, setSelectedPupil] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPupils, setFilteredPupils] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState('all');
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     // Fetch pupil data
     const pupilData = getAllPupils();
-    setPupils(pupilData);
-    setFilteredPupils(pupilData);
-  }, []);
-
-  useEffect(() => {
-    // Filter pupils based on search term
-    if (searchTerm) {
-      const filtered = pupils.filter(pupil => 
-        pupil.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredPupils(filtered);
+    
+    // For Local Authority users, add school name to each pupil
+    if (userType === 'localAuthority') {
+      // Assign random schools to pupils for demo purposes
+      const dataWithSchools = pupilData.map(pupil => {
+        const schoolKeys = Object.keys(schoolsMap);
+        const randomSchool = schoolKeys[Math.floor(Math.random() * schoolKeys.length)];
+        return {
+          ...pupil,
+          schoolId: randomSchool,
+          schoolName: schoolsMap[randomSchool]
+        };
+      });
+      setPupils(dataWithSchools);
+      setFilteredPupils(dataWithSchools);
     } else {
-      setFilteredPupils(pupils);
+      setPupils(pupilData);
+      setFilteredPupils(pupilData);
     }
-  }, [searchTerm, pupils]);
+  }, [userType]);
+
+  // Effect for filtering pupils based on search and school selection
+  useEffect(() => {
+    // Filter pupils based on search term and selected school
+    let filtered = pupils;
+    
+    // For Local Authority users
+    if (userType === 'localAuthority') {
+      // If no school is selected or 'all' is selected, show no pupils
+      if (!selectedSchool || selectedSchool === 'all') {
+        filtered = [];
+      } else {
+        // Filter by the selected school
+        filtered = filtered.filter(pupil => pupil.schoolId === selectedSchool);
+        
+        // Then filter by search term if provided
+        if (searchTerm) {
+          filtered = filtered.filter(pupil => 
+            pupil.name.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+      }
+    } else {
+      // For non-LA users, just filter by search term
+      if (searchTerm) {
+        filtered = filtered.filter(pupil => 
+          pupil.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+    }
+    
+    setFilteredPupils(filtered);
+  }, [searchTerm, pupils, selectedSchool, userType]);
+  
+  // Separate effect to clear selected pupil when school changes
+  useEffect(() => {
+    if (userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all')) {
+      setSelectedPupil(null);
+    }
+  }, [selectedSchool, userType, setSelectedPupil]);
+  
+  // Log when selectedPupil changes
+  useEffect(() => {
+    console.log('selectedPupil state updated:', selectedPupil);
+  }, [selectedPupil]);
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -397,8 +461,26 @@ const PupilPage = () => {
   }, []);
 
   const handlePupilSelect = (pupil) => {
-    setSelectedPupil(pupil);
-    setDropdownOpen(false);
+    // Make sure we're setting a complete pupil object with all required properties
+    if (pupil && pupil.id) {
+      // Create a new object to ensure React detects the state change
+      const selectedPupilData = {
+        ...pupil,
+        id: pupil.id,
+        name: pupil.name,
+        upn: pupil.upn,
+        attendance: pupil.attendance,
+        absence: pupil.absence,
+        authorized: pupil.authorized,
+        unauthorized: pupil.unauthorized,
+        fullDaysMissed: pupil.fullDaysMissed,
+        possibleSessions: pupil.possibleSessions,
+        missedSessions: pupil.missedSessions
+      };
+      
+      setSelectedPupil(selectedPupilData);
+      setDropdownOpen(false);
+    }
   };
 
   const formatDate = () => {
@@ -430,26 +512,29 @@ const PupilPage = () => {
             filteredPupils={filteredPupils}
             dropdownRef={dropdownRef}
             handlePupilSelect={handlePupilSelect}
+            selectedSchool={selectedSchool}
+            setSelectedSchool={setSelectedSchool}
           />
           
           <TabContent>
+            {console.log('Rendering Routes with selectedPupil:', selectedPupil)}
             <Routes>
-              <Route path="/" element={
+              <Route index element={
                 <PupilInsights 
                   selectedPupil={selectedPupil}
                   formatDate={formatDate}
                 />
               } />
-              <Route path="/visualisations" element={
+              <Route path="visualisations" element={
                 <PupilVisualisations selectedPupil={selectedPupil} />
               } />
-              <Route path="/previous-year" element={
+              <Route path="previous-year" element={
                 <PupilPreviousYear selectedPupil={selectedPupil} />
               } />
-              <Route path="/comparison" element={
+              <Route path="comparison" element={
                 <PupilYearToDateComparison selectedPupil={selectedPupil} />
               } />
-              <Route path="/codes" element={
+              <Route path="codes" element={
                 <PupilAttendanceCodes selectedPupil={selectedPupil} />
               } />
             </Routes>

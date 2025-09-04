@@ -40,10 +40,7 @@ const StyledSelect = styled.select`
   cursor: pointer;
   
   /* Border styling */
-  border-top: 2px solid #0b0c0c;
-  border-bottom: 2px solid #0b0c0c;
-  border-left: 2px solid #0b0c0c;
-  border-right: 2px solid #0b0c0c;
+  border: solid 2px #0b0c0c;
   
   /* Interactive states */
   &:hover {
@@ -74,6 +71,8 @@ const StyledSelect = styled.select`
  * @param {string} props.value - The currently selected value
  * @param {function} props.onChange - Function to call when selection changes
  * @param {boolean} props.required - Whether the field is required
+ * @param {boolean} props.disabled - Whether the select is disabled
+ * @param {string} props.placeholder - Placeholder text when no option is selected
  * @returns {React.Component} - Select component
  */
 const Select = ({ 
@@ -82,7 +81,9 @@ const Select = ({
   options, 
   value, 
   onChange, 
-  required = false 
+  required = false,
+  disabled = false,
+  placeholder = ''
 }) => {
   return (
     <SelectContainer>
@@ -94,10 +95,16 @@ const Select = ({
       {/* Select dropdown with options */}
       <StyledSelect 
         id={id} 
-        value={value} 
+        value={value || ''} 
         onChange={onChange}
         required={required}
+        disabled={disabled}
       >
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -123,7 +130,9 @@ Select.propTypes = {
   ).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 export default Select;

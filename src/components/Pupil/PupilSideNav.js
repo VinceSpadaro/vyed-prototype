@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
+import { useUserType } from '../../context/UserTypeContext';
+import { Select } from '../FormElements';
 
 const SideNavContainer = styled.div`
   width: 220px;
@@ -38,69 +40,16 @@ const PupilSelectionContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const SelectLabel = styled.label`
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const SelectContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const StyledSelect = styled.div`
-  border: 1px solid #b1b4b6;
-  padding: 8px 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-`;
-
-const DropdownIcon = styled.span`
-  margin-left: 10px;
-`;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #b1b4b6;
-  border-top: none;
-  z-index: 10;
-  display: ${props => (props.isOpen ? 'block' : 'none')};
-`;
-
-const SearchInput = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  border-bottom: 1px solid #b1b4b6;
-`;
-
-const SearchIcon = styled.span`
-  margin-right: 8px;
-`;
-
-const Input = styled.input`
-  border: none;
-  outline: none;
-  width: 100%;
-`;
-
-const DropdownItem = styled.div`
-  padding: 8px 12px;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #f3f2f1;
-  }
-`;
+// School options for Local Authority users
+const schoolOptions = [
+  { value: 'all', label: 'All' },
+  { value: 'demo-school', label: 'Demo School' },
+  { value: 'school-one', label: 'School One' },
+  { value: 'school-two', label: 'School Two' },
+  { value: 'school-three', label: 'School Three' },
+  { value: 'school-four', label: 'School Four' },
+  { value: 'school-five', label: 'School Five' }
+];
 
 const PupilSideNav = ({ 
   selectedPupil, 
@@ -111,42 +60,63 @@ const PupilSideNav = ({
   setSearchTerm, 
   filteredPupils, 
   dropdownRef, 
-  handlePupilSelect 
+  handlePupilSelect,
+  selectedSchool,
+  setSelectedSchool
 }) => {
   const location = useLocation();
   const path = location.pathname;
+  const { userType } = useUserType();
+  
+  // Handle school selection change
+  const handleSchoolChange = (e) => {
+    setSelectedSchool(e.target.value);
+  };
+  
+  // Create pupil options for the Select component
+  const pupilOptions = filteredPupils.map(pupil => ({
+    value: pupil.id.toString(),
+    label: pupil.name
+  }));
+  
+  // Handle pupil selection change
+  const handlePupilSelectChange = (e) => {
+    const selectedId = e.target.value;
+    if (selectedId && selectedId !== '') {
+      // Find the pupil by ID, ensuring string comparison
+      const pupil = filteredPupils.find(p => p.id.toString() === selectedId);
+      if (pupil) {
+        // Pass the complete pupil object to the parent component
+        handlePupilSelect(pupil);
+      }
+    }
+  };
   
   return (
     <SideNavContainer>
+      {userType === 'localAuthority' && (
+        <PupilSelectionContainer>
+          <Select
+            id="school-select"
+            label="Select school"
+            options={schoolOptions}
+            value={selectedSchool || 'all'}
+            onChange={handleSchoolChange}
+          />
+        </PupilSelectionContainer>
+      )}
+      
       <PupilSelectionContainer>
-        <SelectLabel>Select pupil</SelectLabel>
-        <SelectContainer ref={dropdownRef}>
-          <StyledSelect onClick={() => setDropdownOpen(!dropdownOpen)}>
-            {selectedPupil ? selectedPupil.name : 'select pupil'}
-            <DropdownIcon>▼</DropdownIcon>
-          </StyledSelect>
-          
-          <DropdownMenu isOpen={dropdownOpen}>
-            <SearchInput>
-              <SearchIcon>🔍</SearchIcon>
-              <Input 
-                type="text" 
-                placeholder="Search" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </SearchInput>
-            
-            {filteredPupils.map((pupil) => (
-              <DropdownItem 
-                key={pupil.id} 
-                onClick={() => handlePupilSelect(pupil)}
-              >
-                {pupil.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </SelectContainer>
+        <Select
+          id="pupil-select"
+          label="Select pupil"
+          options={pupilOptions}
+          value={selectedPupil ? selectedPupil.id : ''}
+          onChange={handlePupilSelectChange}
+          disabled={userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all')}
+          placeholder={userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all') ? 
+            'Please select a school first' : 'Select a pupil'}
+        />
       </PupilSelectionContainer>
       
       <NavList>
