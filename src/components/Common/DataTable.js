@@ -25,7 +25,7 @@ const TableHeaderCell = styled.th`
   font-weight: 600;
   border-bottom: 2px solid #b1b4b6;
   color: ${props => props.headerTextColor || '#0b0c0c'};
-  white-space: nowrap;
+  white-space: normal;
 `;
 
 const TableRow = styled.tr`
