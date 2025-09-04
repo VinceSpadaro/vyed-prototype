@@ -54,6 +54,8 @@ const SideNavContainer = styled.div`
 const MainContentContainer = styled.div`
   flex: 1;
   padding: 0 20px;
+  min-width: 0; /* This prevents flex items from overflowing */
+  overflow-x: auto;
 `;
 
 const SidebarContainer = styled.div`
