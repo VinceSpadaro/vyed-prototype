@@ -3,6 +3,28 @@ import styled from 'styled-components';
 import FilterItem from './FilterItem';
 import { media } from '../Dashboard/ResponsiveStyles';
 
+const FilterItemContainer = styled.div`
+  padding: 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  background-color: ${props => props.isActive ? '#f5f5f5' : '#fff'};
+`;
+
+const FilterHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+`;
+
+const FilterTitle = styled.h3`
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+`;
+
 const FiltersContainer = styled.div`
   border: 1px solid #b1b4b6;
   padding: 15px;
@@ -60,6 +82,7 @@ const Filters = () => {
     persistentlyAbsent: [],
     severelyAbsent: [],
     sen: [],
+    senType: [],
     fsm: [],
     ehcp: [],
     lac: [],
@@ -254,6 +277,18 @@ const Filters = () => {
         onClear={() => handleClearFilter('sen')}
         onSelect={(option, isAdvanced) => handleFilterChange('sen', option, isAdvanced)}
       />
+      <FilterItemContainer isActive={false}>
+        <FilterHeader>
+          <div style={{ flex: 1 }}>
+            <FilterTitle>
+              SEN type (Rank 1 or 2)
+            </FilterTitle>
+            <div style={{ fontWeight: 'normal', fontSize: '0.9rem', marginTop: '4px', color: '#666' }}>
+              Options being discussed
+            </div>
+          </div>
+        </FilterHeader>
+      </FilterItemContainer>
       <FilterItem
         title="Free school meals (FSM)"
         description={getFilterDescription('fsm')}
