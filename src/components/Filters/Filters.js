@@ -67,7 +67,8 @@ const Filters = () => {
     cin: [],
     cpp: [],
     leavers: [],
-    leavingDate: []
+    leavingDate: [],
+    eal: []
   });
   
   // Filter options for each category
@@ -94,7 +95,8 @@ const Filters = () => {
     cin: ['Select all', 'Unknown'],
     cpp: ['Select all', 'Unknown'],
     leavers: ['Select all', 'All current pupils', 'Leavers current academic year', 'Leavers previous academic year'],
-    leavingDate: ['Select all', 'Has leaving date', 'No leaving date']
+    leavingDate: ['Select all', 'Has leaving date', 'No leaving date'],
+    eal: ['Select all', 'No', 'Unknown', 'Yes']
   };
   
   // Function to clear a filter
@@ -216,6 +218,13 @@ const Filters = () => {
         options={filterOptions.ethnicity}
         onClear={() => handleClearFilter('ethnicity')}
         onSelect={(option, isAdvanced) => handleFilterChange('ethnicity', option, isAdvanced)}
+      />
+      <FilterItem
+        title="English as an additional language"
+        description={getFilterDescription('eal')}
+        options={filterOptions.eal}
+        onClear={() => handleClearFilter('eal')}
+        onSelect={(option, isAdvanced) => handleFilterChange('eal', option, isAdvanced)}
       />
       <FilterItem
         title="Year group"
