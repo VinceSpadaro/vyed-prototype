@@ -179,8 +179,8 @@ const SchoolPage = () => {
     // Fetch pupil data
     const data = getAllPupils();
     
-    // For Local Authority users, add school name to each pupil
-    if (userType === 'localAuthority') {
+    // For Local Authority and Trust users, add school name to each pupil
+    if (userType === 'localAuthority' || userType === 'trust') {
       // Assign random schools to pupils for demo purposes
       const dataWithSchools = data.map(pupil => {
         const schoolKeys = Object.keys(schoolsMap);
@@ -203,8 +203,8 @@ const SchoolPage = () => {
   useEffect(() => {
     let pupils = filteredPupils;
     
-    // Filter by selected school for Local Authority users
-    if (userType === 'localAuthority' && selectedSchool !== 'all') {
+    // Filter by selected school for Local Authority and Trust users
+    if ((userType === 'localAuthority' || userType === 'trust') && selectedSchool !== 'all') {
       pupils = filteredPupils.filter(pupil => pupil.schoolId === selectedSchool);
     }
     
@@ -245,7 +245,7 @@ const SchoolPage = () => {
         <MainContentWrapper>
           <MainContent>
             <SchoolPageContainer>
-              {userType === 'localAuthority' ? (
+              {userType === 'localAuthority' || userType === 'trust' ? (
               <>
                 <SchoolName>{selectedSchool === 'all' ? 'All Schools' : schoolsMap[selectedSchool]}</SchoolName>
                 <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
@@ -301,7 +301,7 @@ const SchoolPage = () => {
                       <TableHeader>
                         <tr>
                           <th>Pupil name</th>
-                          {userType === 'localAuthority' && <th>School name</th>}
+                          {(userType === 'localAuthority' || userType === 'trust') && <th>School name</th>}
                           <th>UPN</th>
                           <th>Attendance</th>
                           <th>Absence</th>
@@ -316,7 +316,7 @@ const SchoolPage = () => {
                         {visiblePupils.map((pupil) => (
                           <tr key={pupil.id}>
                             <td>{pupil.name}</td>
-                            {userType === 'localAuthority' && <td>{pupil.schoolName}</td>}
+                            {(userType === 'localAuthority' || userType === 'trust') && <td>{pupil.schoolName}</td>}
                             <td>{pupil.upn}</td>
                             <td>{pupil.attendance}</td>
                             <td>{pupil.absence}</td>
