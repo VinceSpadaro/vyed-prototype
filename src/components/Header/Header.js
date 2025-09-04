@@ -50,9 +50,7 @@ const UserType = styled.span`
   text-transform: uppercase;
 `;
 
-const OrgName = styled.span`
-  font-weight: bold;
-`;
+// Removed unused OrgName styled component
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -80,7 +78,7 @@ const Button = styled.button`
 `;
 
 const Header = () => {
-  const { userType, organisationName, hasUserTypeSelected, clearUserType } = useUserType();
+  const { userType, hasUserTypeSelected, clearUserType } = useUserType();
   
   const handleSignOut = () => {
     clearUserType();
@@ -102,7 +100,6 @@ const Header = () => {
         {hasUserTypeSelected && (
           <UserInfo>
             <UserType>{getUserTypeLabel(userType)}</UserType>
-            <OrgName>{organisationName}</OrgName>
           </UserInfo>
         )}
       </div>

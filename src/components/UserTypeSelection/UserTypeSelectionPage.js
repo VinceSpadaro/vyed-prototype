@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
 import RadioButton from '../FormElements/RadioButton';
-import InputField from '../FormElements/InputField';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -18,15 +17,7 @@ const Title = styled.h1`
   color: #0b0c0c;
 `;
 
-const Description = styled.p`
-  font-size: 19px;
-  margin-bottom: 30px;
-  color: #0b0c0c;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 30px;
-`;
+// Removed unused styled components
 
 const FieldsetStyled = styled.fieldset`
   border: none;
@@ -73,20 +64,14 @@ const ErrorMessage = styled.div`
 
 const UserTypeSelectionPage = () => {
   const navigate = useNavigate();
-  const { setUserType, setOrganisationName } = useUserType();
+  const { setUserType } = useUserType();
   
   const [selectedType, setSelectedType] = useState('');
-  const [orgName, setOrgName] = useState('');
-  const [errors, setErrors] = useState({ userType: false, orgName: false });
+  const [errors, setErrors] = useState({ userType: false });
 
   const handleTypeChange = (e) => {
     setSelectedType(e.target.value);
-    setErrors({ ...errors, userType: false });
-  };
-
-  const handleOrgNameChange = (e) => {
-    setOrgName(e.target.value);
-    setErrors({ ...errors, orgName: false });
+    setErrors({ userType: false });
   };
 
   const handleSubmit = (e) => {
@@ -94,26 +79,21 @@ const UserTypeSelectionPage = () => {
     
     // Validate form
     const newErrors = {
-      userType: !selectedType,
-      orgName: !orgName.trim()
+      userType: !selectedType
     };
     
     setErrors(newErrors);
     
-    // If no errors, save and redirect
-    if (!newErrors.userType && !newErrors.orgName) {
+    // If no errors, save and redirect to insights page
+    if (!newErrors.userType) {
       setUserType(selectedType);
-      setOrganisationName(orgName.trim());
-      navigate('/');
+      navigate('/insights');
     }
   };
 
   return (
     <Container>
       <Title>Select your organisation type</Title>
-      <Description>
-        This will help us show you the most relevant information for your organisation.
-      </Description>
       
       <form onSubmit={handleSubmit}>
         <FieldsetStyled>
@@ -148,18 +128,6 @@ const UserTypeSelectionPage = () => {
             />
           </RadioGroup>
         </FieldsetStyled>
-        
-        <FormGroup>
-          <InputField
-            id="organisationName"
-            label="Organisation name"
-            value={orgName}
-            onChange={handleOrgNameChange}
-            placeholder="Enter your organisation name"
-            error={errors.orgName ? "Please enter your organisation name" : ""}
-            required
-          />
-        </FormGroup>
         
         <Button type="submit">Continue</Button>
       </form>
