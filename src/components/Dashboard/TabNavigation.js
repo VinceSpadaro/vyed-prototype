@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
+import { useUserType } from '../../context/UserTypeContext';
 
 const TabsContainer = styled.div`
   display: flex;
@@ -45,13 +46,25 @@ const Tab = styled(Link)`
 const TabNavigation = () => {
   const location = useLocation();
   const { pathname } = location;
+  const { userType } = useUserType();
   
   // Consider insights, data-visualisations, previous-academic-year, year-to-date-comparison, absence-bandings, unauthorised-absence, and check-leaver-data as part of insights dashboard
   const isInsightsDashboardActive = pathname === '/' || pathname === '/insights' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings' || pathname === '/unauthorised-absence' || pathname === '/check-leaver-data';
+  const isLocalAuthorityActive = pathname === '/local-authority';
+  const isTrustActive = pathname === '/trust';
   
   return (
     <TabsContainer>
       <Tab to="/insights" active={isInsightsDashboardActive ? true : undefined}>Insights dashboard</Tab>
+      
+      {userType === 'localAuthority' && (
+        <Tab to="/local-authority" active={isLocalAuthorityActive ? true : undefined}>Local Authority</Tab>
+      )}
+      
+      {userType === 'trust' && (
+        <Tab to="/trust" active={isTrustActive ? true : undefined}>Trust</Tab>
+      )}
+      
       <Tab to="/school" active={pathname === '/school' ? true : undefined}>School</Tab>
       <Tab to="/pupil" active={pathname.startsWith('/pupil') ? true : undefined}>Pupil</Tab>
       <div style={{ flexGrow: 1 }}></div>

@@ -24,6 +24,8 @@ import IndexPage from './components/Home/IndexPage';
 import ReportsPage from './components/Reports/ReportsPage';
 import ComparePage from './components/Compare/ComparePage';
 import UserTypeSelectionPage from './components/UserTypeSelection/UserTypeSelectionPage';
+import LocalAuthorityPage from './components/LocalAuthority/LocalAuthorityPage';
+import TrustPage from './components/Trust/TrustPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -133,6 +135,16 @@ function AppRoutes() {
             <Route path="/compare" element={
               <ProtectedRoute>
                 <ComparePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/local-authority" element={
+              <ProtectedRoute>
+                <LocalAuthorityPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/trust" element={
+              <ProtectedRoute>
+                <TrustPage />
               </ProtectedRoute>
             } />
           </Routes>
