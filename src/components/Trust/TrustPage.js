@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import TabNavigation from '../Dashboard/TabNavigation';
 import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
+import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
+import { media } from '../Dashboard/ResponsiveStyles';
 
 const Container = styled.div`
   padding: 20px;
@@ -22,7 +24,33 @@ const ContentContainer = styled.div`
 `;
 
 const MainContent = styled.div`
+  flex: 1;
   padding: 20px;
+`;
+
+const MainContentWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  
+  ${media.medium`
+    flex-direction: column;
+  `}
+`;
+
+const SidebarContent = styled.div`
+  width: 300px;
+  
+  ${media.medium`
+    width: 100%;
+    margin-top: 20px;
+  `}
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #1d70b8;
+  padding-bottom: 5px;
 `;
 
 const PlaceholderText = styled.p`
@@ -42,15 +70,20 @@ const TrustPage = () => {
       <ContentContainer>
         <TabNavigation />
         
-        <MainContent>
-          <h2>Trust Overview</h2>
-          <PlaceholderText>
-            This page will display Trust specific data for {organisationName || 'your Trust'}.
-          </PlaceholderText>
-          <PlaceholderText>
-            Content for this tab is currently being developed.
-          </PlaceholderText>
-        </MainContent>
+        <MainContentWrapper>
+          <MainContent>
+            <SectionTitle>Trust Overview: {organisationName || 'Your Trust'}</SectionTitle>
+            
+            {/* Content will be implemented later */}
+            <PlaceholderText>
+              Content for this section will be implemented later.
+            </PlaceholderText>
+          </MainContent>
+          
+          <SidebarContent>
+            <Filters />
+          </SidebarContent>
+        </MainContentWrapper>
       </ContentContainer>
       
       <SupportSection />
