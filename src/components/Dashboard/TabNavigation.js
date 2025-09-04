@@ -5,7 +5,8 @@ import { useUserType } from '../../context/UserTypeContext';
 
 const TabsContainer = styled.div`
   display: flex;
-  border-bottom: 1px solid #b1b4b6;
+  border: 1px solid #b1b4b6;
+  background-color: light-grey;
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
