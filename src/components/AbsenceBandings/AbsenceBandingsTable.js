@@ -53,6 +53,7 @@ const StatusTag = styled.span`
   font-size: 14px;
   font-weight: 500;
   text-align: center;
+  width: 140px; /* Fixed width for all tags */
   background-color: ${props => {
     if (props.status === 'Approaching') return '#fff2cc';
     if (props.status === 'Persistently absent') return '#f8d7da';
