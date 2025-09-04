@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TabNavigation from '../Dashboard/TabNavigation';
-import UpdatesSection from '../Dashboard/UpdatesSection';
+import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
 
 const Container = styled.div`

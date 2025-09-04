@@ -8,6 +8,7 @@ import PupilVisualisations from './PupilVisualisations';
 import PupilPreviousYear from './PupilPreviousYear';
 import PupilYearToDateComparison from './PupilYearToDateComparison';
 import PupilAttendanceCodes from './PupilAttendanceCodes';
+import UpdatesSection from '../Common/UpdatesSection';
 import { media } from '../../styles/mediaQueries';
 
 // Styled components
@@ -22,33 +23,6 @@ const PageTitle = styled.h1`
   margin-bottom: 20px;
 `;
 
-const UpdatesBox = styled.div`
-  border: 2px solid #1d70b8;
-  padding: 20px;
-  margin-bottom: 30px;
-`;
-
-const UpdatesTitle = styled.h2`
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-`;
-
-const UpdatesList = styled.ul`
-  margin-left: 20px;
-`;
-
-const UpdatesListItem = styled.li`
-  margin-bottom: 5px;
-`;
-
-const UpdatesLink = styled.a`
-  color: #1d70b8;
-  text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -440,17 +414,7 @@ const PupilPage = () => {
     <Container>
       <PageTitle>View school attendance data</PageTitle>
       
-      <UpdatesBox>
-        <UpdatesTitle>Get updates on:</UpdatesTitle>
-        <UpdatesList>
-          <UpdatesListItem>
-            <UpdatesLink href="#">how to use the tool</UpdatesLink>
-          </UpdatesListItem>
-          <UpdatesListItem>
-            <UpdatesLink href="#">current technical issues</UpdatesLink>
-          </UpdatesListItem>
-        </UpdatesList>
-      </UpdatesBox>
+      <UpdatesSection />
       
       <ContentContainer>
         <TabNavigation />

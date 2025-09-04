@@ -5,7 +5,7 @@ import TabNavigation from '../Dashboard/TabNavigation';
 import Filters from '../Filters/Filters';
 import { media } from '../../styles/mediaQueries';
 import SupportSection from '../Support/SupportSection';
-import UpdatesSection from '../Dashboard/UpdatesSection';
+import UpdatesSection from '../Common/UpdatesSection';
 
 const ContentContainer = styled.div`
   display: flex;

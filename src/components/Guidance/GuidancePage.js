@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import TabNavigation from '../Dashboard/TabNavigation';
-import UpdatesSection from '../Dashboard/UpdatesSection';
+import UpdatesSection from '../Common/UpdatesSection';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;

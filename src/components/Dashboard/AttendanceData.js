@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TabNavigation from './TabNavigation';
 import SchoolInfo from './SchoolInfo';
-import UpdatesSection from './UpdatesSection';
+import UpdatesSection from '../Common/UpdatesSection';
 import Filters from '../Filters/Filters';
 import SideNav from '../Navigation/SideNav';
 import SupportSection from '../Support/SupportSection';

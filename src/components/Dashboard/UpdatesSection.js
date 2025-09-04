@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const UpdatesContainer = styled.div`
-  border: 1px solid #b1b4b6;
+  border: 2px solid #1d70b8;
   padding: 20px;
   margin-bottom: 30px;
   background-color: #fff;
@@ -13,6 +13,7 @@ const UpdatesTitle = styled.h2`
   font-size: 1.2rem;
   margin-top: 0;
   margin-bottom: 15px;
+  color: #1d70b8;
 `;
 
 const UpdatesList = styled.ul`
