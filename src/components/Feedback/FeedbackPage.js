@@ -1,25 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import TabNavigation from '../Dashboard/TabNavigation';
+import PageLayout from '../Dashboard/PageLayout';
 import UpdatesSection from '../Common/UpdatesSection';
-import SupportSection from '../Support/SupportSection';
 
-const Container = styled.div`
-  font-family: Arial, sans-serif;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-`;
-
-const Header = styled.header`
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h1`
-  font-size: 36px;
-  margin-bottom: 20px;
-`;
+// Page layout is handled by PageLayout component
 
 const FeedbackContainer = styled.div`
   display: flex;
@@ -115,42 +99,47 @@ const FeedbackPage = () => {
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
   const formattedDate = currentDate.toLocaleDateString('en-GB', options);
   
-  return (
-    <Container>
-      <Header>
-        <Title>View school attendance data</Title>
-        <UpdatesSection />
-      </Header>
-      
-      <TabNavigation />
-      
-      <FeedbackContainer>
-        <FeedbackCard>
-          <CardHeader>
-            <OptionsIcon>...</OptionsIcon>
-            <CardTitle>Give feedback about Monitor your school attendance</CardTitle>
-            <DateText>{formattedDate}</DateText>
-          </CardHeader>
-          
-          <CardContent>
-            <CardText>
-              This form is to give feedback only. Do not use this form to report a problem, or if you need a response.
-            </CardText>
-          </CardContent>
-          
-          <CardFooter>
-            <StartButton>Start now</StartButton>
-          </CardFooter>
-        </FeedbackCard>
+  const feedbackContent = (
+    <FeedbackContainer>
+      <FeedbackCard>
+        <CardHeader>
+          <OptionsIcon>...</OptionsIcon>
+          <CardTitle>Give feedback about Monitor your school attendance</CardTitle>
+          <DateText>{formattedDate}</DateText>
+        </CardHeader>
         
-        <FooterNote>
-          This content is created by the owner of the form. The data you submit will be sent to the form owner. Microsoft is not responsible for the privacy or security practices of its customers, including those of this form owner. Never give out your password.
-          <FooterLink href="#"> Report abuse</FooterLink>
-        </FooterNote>
-      </FeedbackContainer>
+        <CardContent>
+          <CardText>
+            This form is to give feedback only. Do not use this form to report a problem, or if you need a response.
+          </CardText>
+        </CardContent>
+        
+        <CardFooter>
+          <StartButton>Start now</StartButton>
+        </CardFooter>
+      </FeedbackCard>
       
-      <SupportSection />
-    </Container>
+      <FooterNote>
+        This content is created by the owner of the form. The data you submit will be sent to the form owner. Microsoft is not responsible for the privacy or security practices of its customers, including those of this form owner. Never give out your password.
+        <FooterLink href="#"> Report abuse</FooterLink>
+      </FooterNote>
+    </FeedbackContainer>
+  );
+
+  const supportContent = (
+    <p>
+      If you need help with anything, you can <a href="/submit-enquiry">submit an enquiry</a>.
+    </p>
+  );
+
+  return (
+    <PageLayout
+      title="View school attendance data"
+      updatesBox={<UpdatesSection />}
+      supportSection={supportContent}
+    >
+      {feedbackContent}
+    </PageLayout>
   );
 };
 

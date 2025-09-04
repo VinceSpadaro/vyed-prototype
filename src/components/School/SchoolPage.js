@@ -51,6 +51,13 @@ const SidebarContent = styled.div`
   `}
 `;
 
+const PageContainer = styled.div`
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
 const SchoolPageContainer = styled.div`
   margin-bottom: 30px;
 `;
@@ -251,7 +258,7 @@ const SchoolPage = () => {
   });
   
   return (
-    <div style={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
+    <PageContainer>
       <PageTitle>School attendance data</PageTitle>
       
       <UpdatesSection />
@@ -361,7 +368,7 @@ const SchoolPage = () => {
       </ContentContainer>
       
       <SupportSection />
-    </div>
+    </PageContainer>
   );
 };
 

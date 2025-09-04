@@ -5,6 +5,9 @@ import SideNav from '../Navigation/SideNav';
 
 const PageContainer = styled.div`
   width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const PageTitle = styled.h1`
@@ -54,7 +57,7 @@ const SideNavContainer = styled.div`
 
 const MainContentContainer = styled.div`
   flex: 1;
-  padding: 0;
+  padding: 20px;
   min-width: 0; /* This prevents flex items from overflowing */
   overflow-x: auto;
 `;

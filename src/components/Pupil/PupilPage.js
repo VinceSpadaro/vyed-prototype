@@ -14,7 +14,7 @@ import { useUserType } from '../../context/UserTypeContext';
 
 // Styled components
 const Container = styled.div`
-  padding: 0;
+  padding: 0 20px;
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
@@ -28,18 +28,33 @@ const PageTitle = styled.h1`
 
 const ContentContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  border: 1px solid #b1b4b6;
-  margin-bottom: 30px;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
 `;
 
 const MainContentWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  gap: 20px;
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  
+  ${media.medium`
+    flex-direction: column;
+  `}
+`;
+
+const MainContent = styled.div`
+  flex: 1;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 `;
 
 const TabContent = styled.div`
-  padding: 0;
+  padding: 20px;
   flex: 1;
   min-width: 0; /* This prevents flex items from overflowing */
   overflow-x: auto;
@@ -501,9 +516,9 @@ const PupilPage = () => {
       
       <UpdatesSection />
       
+      <TabNavigation />
+      
       <ContentContainer>
-        <TabNavigation />
-        
         <MainContentWrapper>
           <PupilSideNav 
             selectedPupil={selectedPupil}
@@ -519,7 +534,8 @@ const PupilPage = () => {
             setSelectedSchool={setSelectedSchool}
           />
           
-          <TabContent>
+          <MainContent>
+            <TabContent>
             {console.log('Rendering Routes with selectedPupil:', selectedPupil)}
             <Routes>
               <Route index element={
@@ -542,6 +558,7 @@ const PupilPage = () => {
               } />
             </Routes>
           </TabContent>
+          </MainContent>
         </MainContentWrapper>
       </ContentContainer>
       

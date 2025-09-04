@@ -46,9 +46,16 @@ const SidebarContent = styled.div`
   `}
 `;
 
+const Container = styled.div`
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
 const AttendanceData = () => {
   return (
-    <div>
+    <Container>
       <PageTitle>View school attendance data</PageTitle>
       
       <UpdatesSection />
@@ -70,7 +77,7 @@ const AttendanceData = () => {
       </ContentContainer>
       
       <SupportSection />
-    </div>
+    </Container>
   );
 };
 

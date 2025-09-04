@@ -12,9 +12,10 @@ import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
 
 const Container = styled.div`
-  padding: 20px;
-  max-width: 1200px;
+  padding: 0 20px;
+  max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
   overflow-x: hidden;
 `;
 

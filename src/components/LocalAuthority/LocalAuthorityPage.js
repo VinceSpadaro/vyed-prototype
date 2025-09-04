@@ -11,9 +11,10 @@ import DataTable from '../Common/DataTable';
 import { localAuthorityOverviewData, schoolOptions, schoolsData } from '../../data/localAuthorityData';
 
 const Container = styled.div`
-  padding: 20px;
-  max-width: 1200px;
+  padding: 0 20px;
+  max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
   overflow-x: hidden;
 `;
 
