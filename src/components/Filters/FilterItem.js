@@ -19,9 +19,9 @@ const FilterHeader = styled.div`
 `;
 
 const FilterTitle = styled.h3`
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 400;
   color: #333;
 `;
 
@@ -52,7 +52,7 @@ const FilterContent = styled.div`
 `;
 
 const FilterTypeLabel = styled.div`
-  font-size: 1rem;
+  font-size: 1.2 rem;
   margin: 15px 0 10px 0;
   color: #333;
 `;
