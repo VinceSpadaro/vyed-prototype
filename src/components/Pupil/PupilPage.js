@@ -14,9 +14,10 @@ import { useUserType } from '../../context/UserTypeContext';
 
 // Styled components
 const Container = styled.div`
-  padding: 20px;
-  max-width: 1200px;
+  padding: 0;
+  max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
 `;
 
 const PageTitle = styled.h1`
@@ -38,8 +39,10 @@ const MainContentWrapper = styled.div`
 `;
 
 const TabContent = styled.div`
-  padding: 20px;
+  padding: 0;
   flex: 1;
+  min-width: 0; /* This prevents flex items from overflowing */
+  overflow-x: auto;
 `;
 
 // These styled components are used in PupilSideNav

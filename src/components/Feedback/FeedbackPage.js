@@ -6,9 +6,10 @@ import SupportSection from '../Support/SupportSection';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0;
+  width: 100%;
 `;
 
 const Header = styled.header`

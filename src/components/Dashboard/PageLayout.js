@@ -45,6 +45,7 @@ const UpdatesBox = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   width: 100%;
+  max-width: 100%;
 `;
 
 const SideNavContainer = styled.div`
@@ -53,7 +54,7 @@ const SideNavContainer = styled.div`
 
 const MainContentContainer = styled.div`
   flex: 1;
-  padding: 0 20px;
+  padding: 0;
   min-width: 0; /* This prevents flex items from overflowing */
   overflow-x: auto;
 `;

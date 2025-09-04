@@ -36,8 +36,8 @@ const AppContainer = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  padding: 0 20px;
-  max-width: 1200px;
+  padding: 0;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
 `;

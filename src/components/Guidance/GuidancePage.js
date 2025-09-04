@@ -6,9 +6,10 @@ import UpdatesSection from '../Common/UpdatesSection';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0;
+  width: 100%;
 `;
 
 const Header = styled.header`
@@ -29,9 +30,11 @@ const MainContent = styled.main`
 
 const ContentArea = styled.div`
   flex: 1;
-  padding: 20px;
+  padding: 0;
   background-color: #fff;
   border: 1px solid #ddd;
+  min-width: 0; /* This prevents flex items from overflowing */
+  overflow-x: auto;
 `;
 
 const BackLink = styled(Link)`
