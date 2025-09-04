@@ -2,10 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+// ============================================================================
+// Styled Components
+// ============================================================================
+
+/**
+ * Container for the select component with proper spacing
+ */
 const SelectContainer = styled.div`
   margin-bottom: 20px;
 `;
 
+/**
+ * Label styling for accessibility and visual hierarchy
+ */
 const Label = styled.label`
   display: block;
   font-weight: 600;
@@ -13,22 +23,49 @@ const Label = styled.label`
   font-size: 16px;
 `;
 
+/**
+ * Custom styled select dropdown
+ * - Has black borders on all sides
+ * - Shows hand cursor on hover
+ * - Yellow highlight on left/right borders when focused
+ */
 const StyledSelect = styled.select`
+  /* Base styling */
   width: 100%;
   padding: 10px;
-  border: 2px solid #0b0c0c;
+  padding-right: 20px; /* Extra padding for the chevron */
   font-size: 16px;
   line-height: 1.25;
   background-color: #ffffff;
+  cursor: pointer;
+  
+  /* Border styling */
+  border-top: 2px solid #0b0c0c;
+  border-bottom: 2px solid #0b0c0c;
+  border-left: 2px solid #0b0c0c;
+  border-right: 2px solid #0b0c0c;
+  
+  /* Interactive states */
+  &:hover {
+    cursor: pointer;
+  }
   
   &:focus {
-    outline: 3px solid #ffdd00;
-    outline-offset: 0;
+    outline: none;
+    border-top: 2px solid #0b0c0c;
+    border-bottom: 2px solid #0b0c0c;
+    border-left: 3px solid #ffdd00;
+    border-right: 3px solid #ffdd00;
+    box-shadow: 0 0 0 3px #ffdd00;
   }
 `;
 
+// ============================================================================
+// Component Definition
+// ============================================================================
+
 /**
- * Select - A form select component
+ * Select - A form select component with label and dropdown
  * 
  * @param {Object} props - Component props
  * @param {string} props.id - The ID for the select element
@@ -49,7 +86,12 @@ const Select = ({
 }) => {
   return (
     <SelectContainer>
-      <Label htmlFor={id}>{label}{required && ' *'}</Label>
+      {/* Label with optional required indicator */}
+      <Label htmlFor={id}>
+        {label}{required && ' *'}
+      </Label>
+      
+      {/* Select dropdown with options */}
       <StyledSelect 
         id={id} 
         value={value} 
@@ -65,6 +107,10 @@ const Select = ({
     </SelectContainer>
   );
 };
+
+// ============================================================================
+// PropTypes
+// ============================================================================
 
 Select.propTypes = {
   id: PropTypes.string.isRequired,
