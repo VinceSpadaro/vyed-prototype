@@ -6,6 +6,8 @@ import Filters from '../Filters/Filters';
 import { media } from '../../styles/mediaQueries';
 import SupportSection from '../Support/SupportSection';
 import UpdatesSection from '../Common/UpdatesSection';
+import { useUserType } from '../../context/UserTypeContext';
+import { Select } from '../FormElements';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -143,7 +145,30 @@ const StatLabel = styled.div`
   font-size: 0.9rem;
 `;
 
+// School options for Local Authority users
+const schoolOptions = [
+  { value: 'all', label: 'All' },
+  { value: 'demo-school', label: 'Demo School' },
+  { value: 'school-one', label: 'School One' },
+  { value: 'school-two', label: 'School Two' },
+  { value: 'school-three', label: 'School Three' },
+  { value: 'school-four', label: 'School Four' },
+  { value: 'school-five', label: 'School Five' }
+];
+
+// Sample data for multiple schools
+const schoolsMap = {
+  'demo-school': 'Demo School',
+  'school-one': 'School One',
+  'school-two': 'School Two',
+  'school-three': 'School Three',
+  'school-four': 'School Four',
+  'school-five': 'School Five'
+};
+
 const SchoolPage = () => {
+  const { userType } = useUserType();
+  const [selectedSchool, setSelectedSchool] = useState('all');
   const [filteredPupils, setFilteredPupils] = useState([]);
   const [visiblePupils, setVisiblePupils] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -153,14 +178,43 @@ const SchoolPage = () => {
   useEffect(() => {
     // Fetch pupil data
     const data = getAllPupils();
-    setFilteredPupils(data);
+    
+    // For Local Authority users, add school name to each pupil
+    if (userType === 'localAuthority') {
+      // Assign random schools to pupils for demo purposes
+      const dataWithSchools = data.map(pupil => {
+        const schoolKeys = Object.keys(schoolsMap);
+        const randomSchool = schoolKeys[Math.floor(Math.random() * schoolKeys.length)];
+        return {
+          ...pupil,
+          schoolId: randomSchool,
+          schoolName: schoolsMap[randomSchool]
+        };
+      });
+      setFilteredPupils(dataWithSchools);
+    } else {
+      setFilteredPupils(data);
+    }
+    
     setLoading(false);
-  }, []);
+  }, [userType]);
   
   // Update visible pupils when filtered pupils change or visible rows change
   useEffect(() => {
-    setVisiblePupils(filteredPupils.slice(0, visibleRows));
-  }, [filteredPupils, visibleRows]);
+    let pupils = filteredPupils;
+    
+    // Filter by selected school for Local Authority users
+    if (userType === 'localAuthority' && selectedSchool !== 'all') {
+      pupils = filteredPupils.filter(pupil => pupil.schoolId === selectedSchool);
+    }
+    
+    setVisiblePupils(pupils.slice(0, visibleRows));
+  }, [filteredPupils, visibleRows, selectedSchool, userType]);
+  
+  // Handle school selection change
+  const handleSchoolChange = (e) => {
+    setSelectedSchool(e.target.value);
+  };
   
   // Function to handle scroll and load more rows
   const handleScroll = (e) => {
@@ -191,8 +245,26 @@ const SchoolPage = () => {
         <MainContentWrapper>
           <MainContent>
             <SchoolPageContainer>
-              <SchoolName>Demo School</SchoolName>
-              <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
+              {userType === 'localAuthority' ? (
+              <>
+                <SchoolName>{selectedSchool === 'all' ? 'All Schools' : schoolsMap[selectedSchool]}</SchoolName>
+                <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
+                <div style={{ marginBottom: '20px' }}>
+                  <Select
+                    id="school-select"
+                    label="Select School"
+                    options={schoolOptions}
+                    value={selectedSchool}
+                    onChange={handleSchoolChange}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <SchoolName>Demo School</SchoolName>
+                <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
+              </>
+            )}
               
               <StatsContainer>
                 <StatBox color="var(--stat-card-blue)">
@@ -229,6 +301,7 @@ const SchoolPage = () => {
                       <TableHeader>
                         <tr>
                           <th>Pupil name</th>
+                          {userType === 'localAuthority' && <th>School name</th>}
                           <th>UPN</th>
                           <th>Attendance</th>
                           <th>Absence</th>
@@ -243,6 +316,7 @@ const SchoolPage = () => {
                         {visiblePupils.map((pupil) => (
                           <tr key={pupil.id}>
                             <td>{pupil.name}</td>
+                            {userType === 'localAuthority' && <td>{pupil.schoolName}</td>}
                             <td>{pupil.upn}</td>
                             <td>{pupil.attendance}</td>
                             <td>{pupil.absence}</td>
