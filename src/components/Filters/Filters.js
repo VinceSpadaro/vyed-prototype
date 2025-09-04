@@ -281,10 +281,12 @@ const Filters = () => {
         <FilterHeader>
           <div style={{ flex: 1 }}>
             <FilterTitle>
-              SEN type (Rank 1 or 2)
+              <div style={{ fontWeight: 'normal', fontSize: '0.8rem'}}>
+               SEN type (Rank 1 or 2)
+              </div>
             </FilterTitle>
             <div style={{ fontWeight: 'normal', fontSize: '0.9rem', marginTop: '4px', color: '#666' }}>
-              Options being discussed
+              Options not available
             </div>
           </div>
         </FilterHeader>
