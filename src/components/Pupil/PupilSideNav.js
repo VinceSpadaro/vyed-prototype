@@ -94,7 +94,7 @@ const PupilSideNav = ({
   
   return (
     <SideNavContainer>
-      {userType === 'localAuthority' && (
+      {(userType === 'localAuthority' || userType === 'trust') && (
         <PupilSelectionContainer>
           <Select
             id="school-select"
@@ -113,8 +113,8 @@ const PupilSideNav = ({
           options={pupilOptions}
           value={selectedPupil ? selectedPupil.id : ''}
           onChange={handlePupilSelectChange}
-          disabled={userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all')}
-          placeholder={userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all') ? 
+          disabled={(userType === 'localAuthority' || userType === 'trust') && (!selectedSchool || selectedSchool === 'all')}
+          placeholder={(userType === 'localAuthority' || userType === 'trust') && (!selectedSchool || selectedSchool === 'all') ? 
             'Please select a school first' : 'Select a pupil'}
         />
       </PupilSelectionContainer>

@@ -381,8 +381,8 @@ const PupilPage = () => {
     // Fetch pupil data
     const pupilData = getAllPupils();
     
-    // For Local Authority users, add school name to each pupil
-    if (userType === 'localAuthority') {
+    // For Local Authority and Trust users, add school name to each pupil
+    if (userType === 'localAuthority' || userType === 'trust') {
       // Assign random schools to pupils for demo purposes
       const dataWithSchools = pupilData.map(pupil => {
         const schoolKeys = Object.keys(schoolsMap);
@@ -406,8 +406,8 @@ const PupilPage = () => {
     // Filter pupils based on search term and selected school
     let filtered = pupils;
     
-    // For Local Authority users
-    if (userType === 'localAuthority') {
+    // For Local Authority and Trust users
+    if (userType === 'localAuthority' || userType === 'trust') {
       // If no school is selected or 'all' is selected, show no pupils
       if (!selectedSchool || selectedSchool === 'all') {
         filtered = [];
@@ -436,7 +436,7 @@ const PupilPage = () => {
   
   // Separate effect to clear selected pupil when school changes
   useEffect(() => {
-    if (userType === 'localAuthority' && (!selectedSchool || selectedSchool === 'all')) {
+    if ((userType === 'localAuthority' || userType === 'trust') && (!selectedSchool || selectedSchool === 'all')) {
       setSelectedPupil(null);
     }
   }, [selectedSchool, userType, setSelectedPupil]);
