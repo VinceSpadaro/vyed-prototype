@@ -56,7 +56,7 @@ const SideNav = () => {
     <SideNavContainer>
       <NavList>
         <NavItem>
-          <NavLink to="/insights" active={pathname === '/' || pathname === '/insights' ? true : undefined}>Current insights</NavLink>
+          <NavLink to="/insights" active={pathname === '/insights' ? true : undefined}>Current insights</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/data-visualisations" active={pathname === '/data-visualisations' ? true : undefined}>Data visualisations</NavLink>
