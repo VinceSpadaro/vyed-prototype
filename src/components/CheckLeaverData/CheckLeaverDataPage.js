@@ -2,19 +2,13 @@ import React from 'react';
 import PageLayout from '../Dashboard/PageLayout';
 import Filters from '../Filters/Filters';
 import CheckLeaverData from './CheckLeaverData';
+import UpdatesSection from '../Common/UpdatesSection';
 
 const CheckLeaverDataPage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={
-        <>
-          <ul>
-            <li><a href="/help/how-to-use">how to use the tool</a></li>
-            <li><a href="/help/technical-issues">current technical issues</a></li>
-          </ul>
-        </>
-      }
+      updatesBox={<UpdatesSection />}
       contentSideNav={true}
       contentSidebar={<Filters />}
       supportSection={

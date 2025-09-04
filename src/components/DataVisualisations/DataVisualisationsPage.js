@@ -1,21 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import PageLayout from '../Dashboard/PageLayout';
 import DataVisualisations from './DataVisualisations';
 import Filters from '../Filters/Filters';
+import UpdatesSection from '../Common/UpdatesSection';
 
 const DataVisualisationsPage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={
-        <>
-          <ul>
-            <li><a href="#">how to use the tool</a></li>
-            <li><a href="#">current technical issues</a></li>
-          </ul>
-        </>
-      }
+      updatesBox={<UpdatesSection />}
       contentSideNav={true}
       contentSidebar={<Filters />}
     >

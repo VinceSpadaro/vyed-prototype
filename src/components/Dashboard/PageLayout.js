@@ -98,6 +98,8 @@ const PageLayout = ({
       <PageTitle>{title}</PageTitle>
       
       {updatesBox && (
+        typeof updatesBox === 'object' && updatesBox.type && updatesBox.type.name === 'UpdatesSection' ? 
+        updatesBox : 
         <UpdatesBox>
           <h2>Get updates on:</h2>
           {updatesBox}
