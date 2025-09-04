@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaEraser, FaSearch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaSearch} from 'react-icons/fa';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+import { CiEraser } from 'react-icons/ci';
 
 const FilterItemContainer = styled.div`
-  padding: 15px;
+  padding: 5px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   margin-bottom: 15px;
@@ -61,7 +63,7 @@ const FilterTypeSelect = styled.div`
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   padding: 10px 15px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -370,12 +372,12 @@ const FilterItem = ({ title, description, onClear, options = [], onSelect }) => 
         </div>
         <IconsContainer>
           <ExpandIcon>
-            {isOpen ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
+            {isOpen ? <GoChevronUp size={18} /> : <GoChevronDown size={18} />}
           </ExpandIcon>
         </IconsContainer>
         <IconsContainer style={{ marginLeft: '10px' }}>
           <EraserIcon onClick={(e) => { e.stopPropagation(); onClear && onClear(); }}>
-            <FaEraser size={18} />
+            <CiEraser size={18} />
           </EraserIcon>
         </IconsContainer>
       </FilterHeader>
@@ -384,7 +386,7 @@ const FilterItem = ({ title, description, onClear, options = [], onSelect }) => 
         <FilterTypeLabel>Filter type</FilterTypeLabel>
         <FilterTypeSelect onClick={toggleFilterTypeDropdown}>
           {filterType}
-          <FaChevronDown size={14} />
+          <GoChevronDown size={14} />
           <FilterDropdown isOpen={isFilterTypeOpen}>
             <DropdownOption onClick={() => selectFilterType('Advanced filtering')}>Advanced filtering</DropdownOption>
             <DropdownOption onClick={() => selectFilterType('Basic filtering')}>Basic filtering</DropdownOption>
@@ -566,7 +568,7 @@ const FilterItem = ({ title, description, onClear, options = [], onSelect }) => 
             
             <ConditionSelect onClick={toggleConditionDropdown}>
               {condition}
-              <FaChevronDown size={14} />
+              <GoChevronDown size={14} />
               <FilterDropdown isOpen={isConditionOpen}>
                 {conditionOptions.map((option, index) => (
                   <DropdownOption key={index} onClick={() => selectCondition(option)}>
@@ -596,7 +598,7 @@ const FilterItem = ({ title, description, onClear, options = [], onSelect }) => 
             
             <ConditionSelect onClick={toggleSecondConditionDropdown}>
               {secondCondition || 'Select condition'}
-              <FaChevronDown size={14} />
+              <GoChevronDown size={14} />
               <FilterDropdown isOpen={isSecondConditionOpen}>
                 {conditionOptions.map((option, index) => (
                   <DropdownOption key={index} onClick={() => selectSecondCondition(option)}>

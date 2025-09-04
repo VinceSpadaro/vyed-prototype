@@ -27,7 +27,7 @@ const FilterTitle = styled.h3`
 
 const FiltersContainer = styled.div`
   border: 1px solid #b1b4b6;
-  padding: 15px;
+  padding: 5px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   
