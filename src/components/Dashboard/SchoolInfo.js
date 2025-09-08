@@ -51,8 +51,18 @@ const StatLabel = styled.div`
   font-size: 0.9rem;
 `;
 
-const AbsenceSection = styled.div`
+const AbsenceSectionsContainer = styled.div`
+  display: flex;
+  gap: 20px;
   margin-bottom: 30px;
+  
+  ${media.medium`
+    flex-direction: column;
+  `}
+`;
+
+const AbsenceSection = styled.div`
+  flex: 1;
   background-color: #f3f2f1;
   padding: 20px;
 `;
@@ -61,6 +71,7 @@ const AbsenceSectionTitle = styled.h3`
   font-size: 1.2rem;
   margin-bottom: 15px;
   font-weight: bold;
+  text-align: center;
 `;
 
 const AbsenceStatsContainer = styled.div`
@@ -73,14 +84,15 @@ const AbsenceStatsContainer = styled.div`
 `;
 
 const AbsenceStatBox = styled.div`
-  flex: 1;
-  padding: 15px 0;
+  text-align: center;
+  padding: 10px 0;
   background-color: transparent;
 `;
 
 const AbsenceStatTitle = styled.div`
   font-size: 0.9rem;
   margin-bottom: 5px;
+  color: #505a5f;
 `;
 
 const AbsenceStatValue = styled.div`
@@ -159,33 +171,35 @@ const SchoolInfo = () => {
         </StatBox>
       </StatsContainer>
       
-      <AbsenceSection>
-        <AbsenceSectionTitle>Persistently absent</AbsenceSectionTitle>
-        <AbsenceStatsContainer>
-          <AbsenceStatBox>
-            <AbsenceStatTitle>Number of persistently absent pupils</AbsenceStatTitle>
-            <AbsenceStatValue>454</AbsenceStatValue>
-          </AbsenceStatBox>
-          <AbsenceStatBox>
-            <AbsenceStatTitle>Percentage of persistently absent pupils</AbsenceStatTitle>
-            <AbsenceStatValue>26.0%</AbsenceStatValue>
-          </AbsenceStatBox>
-        </AbsenceStatsContainer>
-      </AbsenceSection>
-      
-      <AbsenceSection>
-        <AbsenceSectionTitle>Severely absent</AbsenceSectionTitle>
-        <AbsenceStatsContainer>
-          <AbsenceStatBox>
-            <AbsenceStatTitle>Number of severely absent pupils</AbsenceStatTitle>
-            <AbsenceStatValue>48</AbsenceStatValue>
-          </AbsenceStatBox>
-          <AbsenceStatBox>
-            <AbsenceStatTitle>Percentage of severely absent pupils</AbsenceStatTitle>
-            <AbsenceStatValue>2.8%</AbsenceStatValue>
-          </AbsenceStatBox>
-        </AbsenceStatsContainer>
-      </AbsenceSection>
+      <AbsenceSectionsContainer>
+        <AbsenceSection>
+          <AbsenceSectionTitle>Persistently absent</AbsenceSectionTitle>
+          <AbsenceStatsContainer>
+            <AbsenceStatBox>
+              <AbsenceStatTitle>Number of persistently absent pupils</AbsenceStatTitle>
+              <AbsenceStatValue>454</AbsenceStatValue>
+            </AbsenceStatBox>
+            <AbsenceStatBox>
+              <AbsenceStatTitle>Percentage of persistently absent pupils</AbsenceStatTitle>
+              <AbsenceStatValue>26.0%</AbsenceStatValue>
+            </AbsenceStatBox>
+          </AbsenceStatsContainer>
+        </AbsenceSection>
+        
+        <AbsenceSection>
+          <AbsenceSectionTitle>Severely absent</AbsenceSectionTitle>
+          <AbsenceStatsContainer>
+            <AbsenceStatBox>
+              <AbsenceStatTitle>Number of severely absent pupils</AbsenceStatTitle>
+              <AbsenceStatValue>48</AbsenceStatValue>
+            </AbsenceStatBox>
+            <AbsenceStatBox>
+              <AbsenceStatTitle>Percentage of severely absent pupils</AbsenceStatTitle>
+              <AbsenceStatValue>2.8%</AbsenceStatValue>
+            </AbsenceStatBox>
+          </AbsenceStatsContainer>
+        </AbsenceSection>
+      </AbsenceSectionsContainer>
       
       <LastDaysSection>
         <LastDaysTitle>
