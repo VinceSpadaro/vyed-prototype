@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TabNavigation from './TabNavigation';
 import SideNav from '../Navigation/SideNav';
+import UpdatesSection from '../Common/UpdatesSection';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -15,35 +16,6 @@ const PageTitle = styled.h1`
   margin-bottom: 1rem;
 `;
 
-const UpdatesBox = styled.div`
-  border: 1px solid #b1b4b6;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  
-  h2 {
-    font-size: 1.2rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  ul {
-    margin: 0;
-    padding-left: 1.5rem;
-  }
-  
-  li {
-    margin-bottom: 0.5rem;
-  }
-  
-  a {
-    color: #1d70b8;
-    text-decoration: none;
-    
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -92,7 +64,7 @@ const SupportSection = styled.div`
 
 const PageLayout = ({ 
   title, 
-  updatesBox, 
+  showUpdates = true,
   showTabs = true, 
   contentSideNav = false, 
   contentSidebar = null, 
@@ -103,14 +75,7 @@ const PageLayout = ({
     <PageContainer>
       <PageTitle>{title}</PageTitle>
       
-      {updatesBox && (
-        typeof updatesBox === 'object' && updatesBox.type && updatesBox.type.name === 'UpdatesSection' ? 
-        updatesBox : 
-        <UpdatesBox>
-          <h2>Get updates on:</h2>
-          {updatesBox}
-        </UpdatesBox>
-      )}
+      {showUpdates && <UpdatesSection />}
       
       {showTabs && <TabNavigation />}
       

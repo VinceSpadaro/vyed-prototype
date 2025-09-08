@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PageLayout from '../Dashboard/PageLayout';
-import UpdatesSection from '../Common/UpdatesSection';
 
 // Content styling
 
@@ -155,7 +154,7 @@ const GuidancePage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={<UpdatesSection />}
+      showUpdates={true}
       contentSidebar={filtersSidebar}
       supportSection={supportContent}
     >

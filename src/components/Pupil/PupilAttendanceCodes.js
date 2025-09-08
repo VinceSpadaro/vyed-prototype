@@ -226,7 +226,7 @@ const PupilAttendanceCodes = ({ selectedPupil }) => {
     <Container>
       <PageTitle>Attendance codes</PageTitle>
       <Description>
-        Select an attendance code to see when it has been used. View the <CodeGlossaryLink href="#">attendance code glossary</CodeGlossaryLink>.
+        Select an attendance code to see when it has been used. View the <CodeGlossaryLink href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-user-guide#export-attendance-and-absence-codes">attendance code glossary</CodeGlossaryLink>.
       </Description>
       
       <CodeSelectorContainer>

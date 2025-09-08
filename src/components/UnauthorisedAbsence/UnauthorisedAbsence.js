@@ -75,9 +75,9 @@ const UnauthorisedAbsence = () => {
         Identify pupils with 10 days (calculated as 20 sessions) or more of continuous unauthorised absence. Data is for the current academic year-to-date and is updated daily.
       </Description>
       <InfoText>
-        You can use this page to help you complete attendance returns to your local authority, although further information may still be required. This report is not intended to display pupils who have met the national threshold for penalty notices. Schools and local authorities should continue to follow the <GuidanceLink href="#">statutory guidance on penalty notices</GuidanceLink> (Working together to improve school attendance guidance, page 56)
+        You can use this page to help you complete attendance returns to your local authority, although further information may still be required. This report is not intended to display pupils who have met the national threshold for penalty notices. Schools and local authorities should continue to follow the <GuidanceLink href="https://assets.publishing.service.gov.uk/media/66bf300da44f1c4c23e5bd1b/Working_together_to_improve_school_attendance_-_August_2024.pdf">statutory guidance on penalty notices</GuidanceLink> (Working together to improve school attendance guidance, page 56)
       </InfoText>
-      <GuidanceLink href="#">How to use this report</GuidanceLink>
+      <GuidanceLink href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-user-guide">How to use this report</GuidanceLink>
       
       <TabContainer>
         <Tab 

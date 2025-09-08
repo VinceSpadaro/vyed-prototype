@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import AcademicYearTable from '../Common/AcademicYearTable';
 
 const Container = styled.div`
   padding: 0;
@@ -18,51 +18,6 @@ const Description = styled.p`
   color: #0b0c0c;
 `;
 
-const TableContainer = styled.div`
-  margin-top: 20px;
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-`;
-
-const TableHead = styled.thead`
-  border-bottom: 2px solid #b1b4b6;
-`;
-
-const TableHeader = styled.th`
-  text-align: left;
-  padding: 10px;
-  font-weight: bold;
-  color: #0b0c0c;
-`;
-
-const TableBody = styled.tbody``;
-
-const TermRow = styled.tr`
-  background-color: #f8f8f8;
-  font-weight: bold;
-`;
-
-const DataRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f3f2f1;
-  }
-  border-bottom: 1px solid #e5e5e5;
-`;
-
-const TableCell = styled.td`
-  padding: 10px;
-  color: #0b0c0c;
-`;
-
-const TrendCell = styled.td`
-  color: ${props => props.trend === 'up' ? '#00703c' : '#d4351c'};
-  text-align: left;
-  padding: 10px;
-`;
 
 const PreviousAcademicYear = () => {
   // Data from the screenshot
@@ -89,45 +44,23 @@ const PreviousAcademicYear = () => {
     ]
   };
 
-  const renderTrend = (trend) => {
-    if (trend === 'up') {
-      return <FaArrowUp />;
-    } else if (trend === 'down') {
-      return <FaArrowDown />;
-    }
-    return null;
-  };
-
-  const renderTermSection = (termName, termData) => {
+  const formatTermData = (termName, termData) => {
     const capitalizedTerm = termName.charAt(0).toUpperCase() + termName.slice(1);
     
-    return (
-      <>
-        <TermRow>
-          <TableCell colSpan="4">{capitalizedTerm}</TableCell>
-        </TermRow>
-        {termData.slice(0, 2).map((row, index) => (
-          <DataRow key={index}>
-            <TableCell>{`${capitalizedTerm} ${row.year}`}</TableCell>
-            <TableCell>{row.attendance}</TableCell>
-            <TableCell>{row.absence}</TableCell>
-            <TableCell>{row.unauthorised}</TableCell>
-          </DataRow>
-        ))}
-        <tr>
-          <td></td>
-          <TrendCell trend={termData[2].trends.attendance}>
-            {renderTrend(termData[2].trends.attendance)}
-          </TrendCell>
-          <TrendCell trend={termData[2].trends.absence}>
-            {renderTrend(termData[2].trends.absence)}
-          </TrendCell>
-          <TrendCell trend={termData[2].trends.unauthorised}>
-            {renderTrend(termData[2].trends.unauthorised)}
-          </TrendCell>
-        </tr>
-      </>
-    );
+    return {
+      name: capitalizedTerm,
+      rows: termData.slice(0, 2).map(row => ({
+        term: `${capitalizedTerm} ${row.year}`,
+        attendance: row.attendance,
+        absence: row.absence,
+        unauthorised: row.unauthorised
+      })),
+      trends: {
+        attendance: termData[2].trends.attendance,
+        absence: termData[2].trends.absence,
+        unauthorised: termData[2].trends.unauthorised
+      }
+    };
   };
 
   return (
@@ -137,24 +70,20 @@ const PreviousAcademicYear = () => {
         Use this page to compare previous academic years to the current year. Data is updated daily.
       </Description>
       
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <tr>
-              <TableHeader>Term</TableHeader>
-              <TableHeader>Attendance %</TableHeader>
-              <TableHeader>Absence %</TableHeader>
-              <TableHeader>Unauthorised absence %</TableHeader>
-            </tr>
-          </TableHead>
-          <TableBody>
-            {renderTermSection('autumn', data.autumn)}
-            {renderTermSection('spring', data.spring)}
-            {renderTermSection('summer', data.summer)}
-            {renderTermSection('overall', data.overall)}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <AcademicYearTable 
+        columns={[
+          { key: 'term', header: 'Term' },
+          { key: 'attendance', header: 'Attendance %' },
+          { key: 'absence', header: 'Absence %' },
+          { key: 'unauthorised', header: 'Unauthorised absence %' }
+        ]}
+        terms={[
+          formatTermData('autumn', data.autumn),
+          formatTermData('spring', data.spring),
+          formatTermData('summer', data.summer),
+          formatTermData('overall', data.overall)
+        ]}
+      />
     </Container>
   );
 };
