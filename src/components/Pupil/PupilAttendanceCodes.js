@@ -51,9 +51,7 @@ const TableHeader = styled.th`
 `;
 
 const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f3f2f1;
-  }
+  background-color: white;
 `;
 
 const TableCell = styled.td`
@@ -95,17 +93,17 @@ const FullscreenLink = styled.a`
 const PupilAttendanceCodes = ({ selectedPupil }) => {
   const [selectedCodes, setSelectedCodes] = useState([]);
   
-  // Attendance code data
+  // Attendance code data with session type (AM, PM, or Both)
   const attendanceCodes = [
-    { code: '/', name: 'Present (AM)', description: 'Present in the morning session' },
-    { code: '\\', name: 'Present (PM)', description: 'Present in the afternoon session' },
-    { code: 'B', name: 'Educated off site', description: 'Educated off site (not dual registration)' },
-    { code: 'C', name: 'Other authorised circumstances', description: 'Other authorised circumstances' },
-    { code: 'E', name: 'Excluded', description: 'Excluded but no alternative provision made' },
-    { code: 'I', name: 'Illness', description: 'Not Medical or dental appointments' },
-    { code: 'L', name: 'Late', description: 'Late (before registers closed)' },
-    { code: 'O', name: 'Unauthorised absence', description: 'Unauthorised absence' },
-    { code: 'U', name: 'Late', description: 'Late (after registers closed)' }
+    { code: '/', name: 'Present (AM)', description: 'Present in the morning session', session: 'AM' },
+    { code: '\\', name: 'Present (PM)', description: 'Present in the afternoon session', session: 'PM' },
+    { code: 'B', name: 'Educated off site', description: 'Educated off site (not dual registration)', session: 'Both' },
+    { code: 'C', name: 'Other authorised circumstances', description: 'Other authorised circumstances', session: 'Both' },
+    { code: 'E', name: 'Excluded', description: 'Excluded but no alternative provision made', session: 'Both' },
+    { code: 'I', name: 'Illness', description: 'Not Medical or dental appointments', session: 'Both' },
+    { code: 'L', name: 'Late', description: 'Late (before registers closed)', session: 'Both' },
+    { code: 'O', name: 'Unauthorised absence', description: 'Unauthorised absence', session: 'Both' },
+    { code: 'U', name: 'Late', description: 'Late (after registers closed)', session: 'Both' }
   ];
   
   // Generate random attendance data for the selected pupil
@@ -136,6 +134,50 @@ const PupilAttendanceCodes = ({ selectedPupil }) => {
   
   const attendanceData = generateAttendanceData();
   
+  // Determine which columns to show based on selected codes
+  // Only hide a column if we're specifically filtering for AM or PM codes
+  const onlyAMCodesSelected = selectedCodes.length > 0 && selectedCodes.every(code => {
+    const codeObj = attendanceCodes.find(c => c.code === code);
+    return codeObj && codeObj.session === 'AM';
+  });
+  
+  const onlyPMCodesSelected = selectedCodes.length > 0 && selectedCodes.every(code => {
+    const codeObj = attendanceCodes.find(c => c.code === code);
+    return codeObj && codeObj.session === 'PM';
+  });
+  
+  // Show morning column unless we're only looking at PM codes
+  const showMorningColumn = !onlyPMCodesSelected;
+  
+  // Show afternoon column unless we're only looking at AM codes
+  const showAfternoonColumn = !onlyAMCodesSelected;
+  
+  // Filter data based on selected codes
+  const filteredData = attendanceData.filter(item => {
+    if (selectedCodes.length === 0) return true;
+    
+    // For each selected code, check if it appears in the correct column
+    return selectedCodes.some(code => {
+      const codeObj = attendanceCodes.find(c => c.code === code);
+      if (!codeObj) return false;
+      
+      // For AM-specific codes, only check morning column
+      if (codeObj.session === 'AM') {
+        return item.morningCode === code;
+      }
+      
+      // For PM-specific codes, only check afternoon column
+      if (codeObj.session === 'PM') {
+        return item.afternoonCode === code;
+      }
+      
+      // For general codes (Both), check if the code appears in the exact column the user is interested in
+      // This means if they select 'C', we only show rows where 'C' appears in the morning column
+      // and we don't show other codes in the afternoon column
+      return item.morningCode === code || item.afternoonCode === code;
+    });
+  });
+  
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedCodes(attendanceCodes.map(code => code.code));
@@ -145,9 +187,31 @@ const PupilAttendanceCodes = ({ selectedPupil }) => {
   };
   
   const handleCodeSelect = (code) => {
+    // If code is already selected, remove it
     if (selectedCodes.includes(code)) {
       setSelectedCodes(selectedCodes.filter(c => c !== code));
+      return;
+    }
+    
+    // Get the session type of the selected code
+    const selectedCodeObj = attendanceCodes.find(c => c.code === code);
+    if (!selectedCodeObj) return;
+    
+    // For AM/PM specific codes, we need special handling
+    if (selectedCodeObj.session === 'AM' || selectedCodeObj.session === 'PM') {
+      // If selecting an AM/PM specific code, we can mix it with 'Both' session codes
+      // but not with codes from the opposite session
+      const oppositeSession = selectedCodeObj.session === 'AM' ? 'PM' : 'AM';
+      
+      // Filter out any codes from the opposite session
+      const compatibleCodes = selectedCodes.filter(c => {
+        const codeObj = attendanceCodes.find(item => item.code === c);
+        return codeObj && codeObj.session !== oppositeSession;
+      });
+      
+      setSelectedCodes([...compatibleCodes, code]);
     } else {
+      // For 'Both' session codes, just add the code
       setSelectedCodes([...selectedCodes, code]);
     }
   };
@@ -197,27 +261,43 @@ const PupilAttendanceCodes = ({ selectedPupil }) => {
           <thead>
             <tr>
               <TableHeader>Date</TableHeader>
-              <TableHeader>Morning attendance code</TableHeader>
-              <TableHeader>Afternoon attendance code</TableHeader>
+              {showMorningColumn && <TableHeader>Morning attendance code</TableHeader>}
+              {showAfternoonColumn && <TableHeader>Afternoon attendance code</TableHeader>}
             </tr>
           </thead>
           <tbody>
-            {attendanceData
-              .filter(item => 
-                (selectedCodes.length === 0) || 
-                (selectedCodes.includes(item.morningCode) || selectedCodes.includes(item.afternoonCode))
-              )
-              .map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.date}</TableCell>
-                  <TableCell style={{ backgroundColor: selectedCodes.includes(item.morningCode) ? '#f3f2f1' : 'transparent' }}>
-                    {item.morningCode}
+            {filteredData.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.date}</TableCell>
+                {showMorningColumn && (
+                  <TableCell 
+                    style={{ 
+                      backgroundColor: 'white',
+                      fontWeight: selectedCodes.includes(item.morningCode) ? 'bold' : 'normal'
+                    }}
+                  >
+                    {selectedCodes.length === 0 || selectedCodes.includes(item.morningCode) ? item.morningCode : ''}
                   </TableCell>
-                  <TableCell style={{ backgroundColor: selectedCodes.includes(item.afternoonCode) ? '#f3f2f1' : 'transparent' }}>
-                    {item.afternoonCode}
+                )}
+                {showAfternoonColumn && (
+                  <TableCell 
+                    style={{ 
+                      backgroundColor: 'white',
+                      fontWeight: selectedCodes.includes(item.afternoonCode) ? 'bold' : 'normal'
+                    }}
+                  >
+                    {selectedCodes.length === 0 || selectedCodes.includes(item.afternoonCode) ? item.afternoonCode : ''}
                   </TableCell>
-                </TableRow>
-              ))}
+                )}
+              </TableRow>
+            ))}
+            {filteredData.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={1 + (showMorningColumn ? 1 : 0) + (showAfternoonColumn ? 1 : 0)} style={{ textAlign: 'center' }}>
+                  No data found for the selected attendance codes.
+                </TableCell>
+              </TableRow>
+            )}
           </tbody>
         </Table>
       </TableContainer>
