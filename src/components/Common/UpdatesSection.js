@@ -6,6 +6,7 @@ const UpdatesContainer = styled.div`
   border: 4px solid #005ea5;
   padding: 20px;
   margin: 20px 0;
+  width: 70%;
 `;
 
 const UpdatesTitle = styled.h2`

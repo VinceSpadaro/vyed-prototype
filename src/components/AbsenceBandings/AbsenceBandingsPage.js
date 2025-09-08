@@ -2,13 +2,12 @@ import React from 'react';
 import PageLayout from '../Dashboard/PageLayout';
 import Filters from '../Filters/Filters';
 import AbsenceBandings from './AbsenceBandings';
-import UpdatesSection from '../Common/UpdatesSection';
 
 const AbsenceBandingsPage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={<UpdatesSection />}
+      showUpdates={true}
       contentSideNav={true}
       contentSidebar={<Filters />}
       supportSection={

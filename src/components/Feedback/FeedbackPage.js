@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PageLayout from '../Dashboard/PageLayout';
-import UpdatesSection from '../Common/UpdatesSection';
 
 // Page layout is handled by PageLayout component
 
@@ -135,7 +134,7 @@ const FeedbackPage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={<UpdatesSection />}
+      showUpdates={true}
       supportSection={supportContent}
     >
       {feedbackContent}

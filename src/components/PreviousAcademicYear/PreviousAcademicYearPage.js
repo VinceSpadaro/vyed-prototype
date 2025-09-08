@@ -2,13 +2,12 @@ import React from 'react';
 import PreviousAcademicYear from './PreviousAcademicYear';
 import PageLayout from '../Dashboard/PageLayout';
 import Filters from '../Filters/Filters';
-import UpdatesSection from '../Common/UpdatesSection';
 
 const PreviousAcademicYearPage = () => {
   return (
     <PageLayout
       title="View school attendance data"
-      updatesBox={<UpdatesSection />}
+      showUpdates={true}
       contentSideNav={true}
       contentSidebar={<Filters />}
       supportSection={
