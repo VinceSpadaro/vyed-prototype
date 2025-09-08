@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './App.css';
 import { UserTypeProvider, useUserType } from './context/UserTypeContext';
@@ -61,12 +61,13 @@ function AppRoutes() {
         <MainContent>
           <Breadcrumb />
           <Routes>
-            <Route path="/" element={
+            <Route path="/" element={<UserTypeSelectionPage />} />
+            <Route path="/select-user-type" element={<UserTypeSelectionPage />} />
+            <Route path="/home" element={
               <ProtectedRoute>
                 <IndexPage />
               </ProtectedRoute>
             } />
-            <Route path="/select-user-type" element={<UserTypeSelectionPage />} />
             <Route path="/insights" element={
               <ProtectedRoute>
                 <AttendanceData />

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useUserType } from '../../context/UserTypeContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   background-color: #0b0c0c;
@@ -66,6 +66,8 @@ const Button = styled.button`
   font-size: 0.9rem;
   border-radius: 3px;
   font-weight: ${props => props.primary ? 'bold' : 'normal'};
+  text-decoration: none;
+  display: inline-block;
   
   &:hover {
     background-color: ${props => props.primary ? '#1b5e20' : 'rgba(255, 255, 255, 0.1)'};
@@ -79,9 +81,11 @@ const Button = styled.button`
 
 const Header = () => {
   const { userType, hasUserTypeSelected, clearUserType } = useUserType();
+  const navigate = useNavigate();
   
   const handleSignOut = () => {
     clearUserType();
+    navigate('/select-user-type');
   };
   
   const getUserTypeLabel = (type) => {
@@ -96,7 +100,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Title to="/">View your education data</Title>
+        <Title to="/select-user-type">View your education data</Title>
         {hasUserTypeSelected && (
           <UserInfo>
             <UserType>{getUserTypeLabel(userType)}</UserType>
@@ -108,7 +112,7 @@ const Header = () => {
           {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
         </Button>
         {hasUserTypeSelected && (
-          <Button onClick={handleSignOut}>Sign out</Button>
+          <Button as={Link} to="/select-user-type" onClick={handleSignOut}>Sign out</Button>
         )}
       </ButtonsContainer>
     </HeaderContainer>
