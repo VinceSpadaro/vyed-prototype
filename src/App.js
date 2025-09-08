@@ -55,7 +55,7 @@ const ProtectedRoute = ({ children }) => {
 
 function AppRoutes() {
   return (
-    <Router basename="/">
+    <Router>
       <AppContainer>
         <Header />
         <MainContent>
