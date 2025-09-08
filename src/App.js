@@ -6,7 +6,6 @@ import { UserTypeProvider, useUserType } from './context/UserTypeContext';
 
 // Components
 import Header from './components/Header/Header';
-import Breadcrumb from './components/Navigation/Breadcrumb';
 import AttendanceData from './components/Dashboard/AttendanceData';
 import SchoolPage from './components/School/SchoolPage';
 import PupilPage from './components/Pupil/PupilPage';
