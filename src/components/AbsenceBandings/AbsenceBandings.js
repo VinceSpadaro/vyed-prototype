@@ -37,7 +37,7 @@ const AbsenceBandings = () => {
         Identify pupils with and approaching persistent and severe absence. Select an absence band to get a list of pupils, their overall attendance rate and year group.
       </Description>
       
-      <GuidanceLink href="#">How to use your absence data to target your resources and interventions.</GuidanceLink>
+      <GuidanceLink href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-how-to-use-the-absence-bandings-report">How to use your absence data to target your resources and interventions.</GuidanceLink>
       
       <AbsenceBandingsTable />
     </Container>
