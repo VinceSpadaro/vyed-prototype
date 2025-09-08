@@ -63,21 +63,30 @@ const TabContent = styled.div`
 // These styled components are used in PupilSideNav
 const StyledSelect = styled.div`
   border: 1px solid #b1b4b6;
-  padding: 8px 12px;
+  padding: 10px 12px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: white;
+  font-size: 16px;
 `;
 
 const DropdownIcon = styled.span`
   margin-left: 10px;
 `;
 
-const PupilDetailsContainer = styled.div`
+const ContentLayout = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 20px;
+  
+  ${media.medium`
+    flex-direction: column;
+  `}
+`;
+
+const PupilDetailsContainer = styled.div`
+  flex: 0 0 250px;
   margin-bottom: 20px;
 `;
 
@@ -86,29 +95,21 @@ const PupilName = styled.h2`
   margin-bottom: 20px;
 `;
 
-const DetailsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  
-  ${media.medium`
-    grid-template-columns: 1fr;
-  `}
+const DetailsSection = styled.div`
+  margin-bottom: 20px;
 `;
 
-const DetailsColumn = styled.div``;
-
-const DetailRow = styled.div`
+const DetailItem = styled.div`
+  border-bottom: 1px solid #b1b4b6;
+  padding: 8px 0;
   display: flex;
-  margin-bottom: 10px;
+  justify-content: space-between;
 `;
+
 
 const DetailLabel = styled.div`
-  width: 100px;
-  font-weight: bold;
+  font-weight: normal;
 `;
-
-const DetailValue = styled.div``;
 
 const StatsContainer = styled.div`
   display: grid;
@@ -145,16 +146,20 @@ const SectionTitle = styled.h3`
 
 const SessionsTable = styled.div`
   margin-bottom: 30px;
+  background-color: #f3f2f1;
+  border-radius: 4px;
 `;
 
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-bottom: 1px solid #b1b4b6;
   
   &:first-child {
-    background-color: #f3f2f1;
     font-weight: bold;
+  }
+  
+  &:last-child {
+    border-top: 1px solid #b1b4b6;
   }
 `;
 
@@ -164,16 +169,20 @@ const TableCell = styled.div`
 
 const DaysTable = styled.div`
   margin-bottom: 30px;
+  background-color: #f3f2f1;
+  border-radius: 4px;
 `;
 
 const DaysTableRow = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border-bottom: 1px solid #b1b4b6;
   
   &:first-child {
-    background-color: #f3f2f1;
     font-weight: bold;
+  }
+  
+  &:last-child {
+    border-top: 1px solid #b1b4b6;
   }
 `;
 
@@ -199,8 +208,11 @@ const FullscreenLink = styled.a`
 `;
 
 
+const MainContentArea = styled.div`
+  flex: 1;
+`;
+
 const WeekSelector = styled.div`
-  margin-top: 20px;
   margin-bottom: 20px;
 `;
 
@@ -212,7 +224,7 @@ const WeekSelectorLabel = styled.label`
 
 const WeekSelectorDropdown = styled.div`
   position: relative;
-  width: 200px;
+  width: 300px;
 `;
 
 const SupportSection = styled.div`
@@ -240,135 +252,143 @@ const SupportLink = styled.a`
 `;
 
 const PupilInsights = ({ selectedPupil, formatDate }) => {
-  console.log('PupilInsights received selectedPupil:', selectedPupil);
   return (
     <>
-      
       {selectedPupil && (
         <>
           <PupilName>{selectedPupil.name}</PupilName>
           
-          <PupilDetailsContainer>
-            <DetailsGrid>
-              <DetailsColumn>
-                <DetailRow>
+          <ContentLayout>
+            {/* Left column - Pupil details */}
+            <PupilDetailsContainer>
+              <DetailsSection>
+                <SectionTitle>Pupil details</SectionTitle>
+                
+                <DetailItem>
                   <DetailLabel>UPN</DetailLabel>
-                  <DetailValue>{selectedPupil.upn}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{selectedPupil.upn}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>Year</DetailLabel>
-                  <DetailValue>{Math.floor(Math.random() * 12) + 1}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.floor(Math.random() * 12) + 1}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>Sex</DetailLabel>
-                  <DetailValue>{Math.random() > 0.5 ? 'FEMALE' : 'MALE'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.random() > 0.5 ? 'FEMALE' : 'MALE'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>FSM</DetailLabel>
-                  <DetailValue>{Math.random() > 0.7 ? 'Yes' : 'No'}</DetailValue>
-                </DetailRow>
-              </DetailsColumn>
-              <DetailsColumn>
-                <DetailRow>
+                  <span>{Math.random() > 0.7 ? 'Yes' : 'No'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>SEN support</DetailLabel>
-                  <DetailValue>{Math.random() > 0.8 ? 'Yes' : 'Unknown'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.random() > 0.8 ? 'Yes' : 'Unknown'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>LAC</DetailLabel>
-                  <DetailValue>{Math.random() > 0.9 ? 'Yes' : 'No'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.random() > 0.9 ? 'Yes' : 'No'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>PLAC</DetailLabel>
-                  <DetailValue>{Math.random() > 0.9 ? 'Yes' : 'No'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.random() > 0.9 ? 'Yes' : 'No'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>EHCP</DetailLabel>
-                  <DetailValue>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</DetailValue>
-                </DetailRow>
-              </DetailsColumn>
-            </DetailsGrid>
-            <DetailsGrid>
-              <DetailsColumn>
-                <DetailRow>
+                  <span>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>CIN</DetailLabel>
-                  <DetailValue>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>CPP</DetailLabel>
-                  <DetailValue>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</DetailValue>
-                </DetailRow>
-              </DetailsColumn>
-              <DetailsColumn>
-                <DetailRow>
+                  <span>{Math.random() > 0.9 ? 'Yes' : 'Unknown'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>Days since last absence</DetailLabel>
-                  <DetailValue>{Math.floor(Math.random() * 30)}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{Math.floor(Math.random() * 30)}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>Persistently absent</DetailLabel>
-                  <DetailValue>{parseFloat(selectedPupil.absence) > 10 ? 'Yes' : 'No'}</DetailValue>
-                </DetailRow>
-                <DetailRow>
+                  <span>{parseFloat(selectedPupil.absence) > 10 ? 'Yes' : 'No'}</span>
+                </DetailItem>
+                
+                <DetailItem>
                   <DetailLabel>Severely absent</DetailLabel>
-                  <DetailValue>{parseFloat(selectedPupil.absence) > 50 ? 'Yes' : 'No'}</DetailValue>
-                </DetailRow>
-              </DetailsColumn>
-            </DetailsGrid>
-          </PupilDetailsContainer>
-          
-          <WeekSelector>
-            <WeekSelectorLabel>Select week commencing date</WeekSelectorLabel>
-            <WeekSelectorDropdown>
-              <StyledSelect>
-                All
-                <DropdownIcon>▼</DropdownIcon>
-              </StyledSelect>
-            </WeekSelectorDropdown>
-          </WeekSelector>
-          
-          <StatsContainer>
-            <StatCard>
-              <StatValue>{selectedPupil.attendance}</StatValue>
-              <StatLabel>Overall attendance %</StatLabel>
-            </StatCard>
-            <StatCard>
-              <StatValue>{selectedPupil.absence}</StatValue>
-              <StatLabel>Overall absence %</StatLabel>
-            </StatCard>
-            <StatCard>
-              <StatValue>{selectedPupil.unauthorized}</StatValue>
-              <StatLabel>Unauthorised absence %</StatLabel>
-            </StatCard>
-          </StatsContainer>
-          
-          <SectionTitle>Sessions</SectionTitle>
-          <SessionsTable>
-            <TableRow>
-              <TableCell>Number of sessions missed</TableCell>
-              <TableCell>Number of late sessions</TableCell>
-              <TableCell>Possible sessions</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>{selectedPupil.missedSessions}</TableCell>
-              <TableCell>{Math.floor(Math.random() * 10)}</TableCell>
-              <TableCell>{selectedPupil.possibleSessions}</TableCell>
-            </TableRow>
-          </SessionsTable>
-          
-          <SectionTitle>Days</SectionTitle>
-          <DaysTable>
-            <DaysTableRow>
-              <DaysTableCell>Full day(s) missed</DaysTableCell>
-              <DaysTableCell>Partial day(s) missed</DaysTableCell>
-            </DaysTableRow>
-            <DaysTableRow>
-              <DaysTableCell>{selectedPupil.fullDaysMissed}</DaysTableCell>
-              <DaysTableCell>{Math.floor(Math.random() * 5)}</DaysTableCell>
-            </DaysTableRow>
-          </DaysTable>
-          
-          <DateInfo>Latest session available: {formatDate()}</DateInfo>
-          
-          <FullscreenLink href="#">Present in fullscreen</FullscreenLink>
+                  <span>{parseFloat(selectedPupil.absence) > 50 ? 'Yes' : 'No'}</span>
+                </DetailItem>
+              </DetailsSection>
+            </PupilDetailsContainer>
+            
+            {/* Right column - Main content */}
+            <MainContentArea>
+              <WeekSelector>
+                <WeekSelectorLabel>Select week commencing date</WeekSelectorLabel>
+                <WeekSelectorDropdown>
+                  <StyledSelect>
+                    All
+                    <DropdownIcon>▼</DropdownIcon>
+                  </StyledSelect>
+                </WeekSelectorDropdown>
+              </WeekSelector>
+              
+              <StatsContainer>
+                <StatCard>
+                  <StatValue>{selectedPupil.attendance}</StatValue>
+                  <StatLabel>Overall attendance %</StatLabel>
+                </StatCard>
+                <StatCard>
+                  <StatValue>{selectedPupil.absence}</StatValue>
+                  <StatLabel>Overall absence %</StatLabel>
+                </StatCard>
+                <StatCard>
+                  <StatValue>{selectedPupil.unauthorized}</StatValue>
+                  <StatLabel>Unauthorised absence %</StatLabel>
+                </StatCard>
+              </StatsContainer>
+              
+              <SectionTitle>Sessions</SectionTitle>
+              <SessionsTable>
+                <TableRow>
+                  <TableCell>Number of sessions missed</TableCell>
+                  <TableCell>Number of late sessions</TableCell>
+                  <TableCell>Possible sessions</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>{selectedPupil.missedSessions}</TableCell>
+                  <TableCell>{Math.floor(Math.random() * 10)}</TableCell>
+                  <TableCell>{selectedPupil.possibleSessions}</TableCell>
+                </TableRow>
+              </SessionsTable>
+              
+              <SectionTitle>Days</SectionTitle>
+              <DaysTable>
+                <DaysTableRow>
+                  <DaysTableCell>Full day(s) missed</DaysTableCell>
+                  <DaysTableCell>Partial day(s) missed</DaysTableCell>
+                </DaysTableRow>
+                <DaysTableRow>
+                  <DaysTableCell>{selectedPupil.fullDaysMissed}</DaysTableCell>
+                  <DaysTableCell>{Math.floor(Math.random() * 5)}</DaysTableCell>
+                </DaysTableRow>
+              </DaysTable>
+              
+              <DateInfo>Latest session available: {formatDate()}</DateInfo>
+              
+              <FullscreenLink href="#">Present in fullscreen</FullscreenLink>
+            </MainContentArea>
+          </ContentLayout>
         </>
       )}
     </>
