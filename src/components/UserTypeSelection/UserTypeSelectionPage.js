@@ -64,7 +64,7 @@ const ErrorMessage = styled.div`
 
 const UserTypeSelectionPage = () => {
   const navigate = useNavigate();
-  const { setUserType } = useUserType();
+  const { setUserType, setOrganisationName } = useUserType();
   
   const [selectedType, setSelectedType] = useState('');
   const [errors, setErrors] = useState({ userType: false });
@@ -86,7 +86,18 @@ const UserTypeSelectionPage = () => {
     
     // If no errors, save and redirect to insights page
     if (!newErrors.userType) {
+      // Set default organization name based on user type
+      let orgName = '';
+      if (selectedType === 'school') {
+        orgName = 'VYED TEAM (UKPRN 90000218)';
+      } else if (selectedType === 'localAuthority') {
+        orgName = 'Example Local Authority';
+      } else if (selectedType === 'trust') {
+        orgName = 'Example Trust';
+      }
+      
       setUserType(selectedType);
+      setOrganisationName(orgName);
       navigate('/insights');
     }
   };
@@ -128,6 +139,7 @@ const UserTypeSelectionPage = () => {
             />
           </RadioGroup>
         </FieldsetStyled>
+        
         
         <Button type="submit">Continue</Button>
       </form>
