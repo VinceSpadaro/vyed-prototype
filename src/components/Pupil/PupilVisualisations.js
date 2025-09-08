@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -19,6 +20,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -164,7 +166,8 @@ const PupilVisualisations = ({ selectedPupil }) => {
     return Array.from({ length: 20 }, () => Math.floor(Math.random() * 10) + 85);
   };
   
-  const chartData = {
+  // Data for line charts (attendance, absence, unauthorised)
+  const lineChartData = {
     labels: generateDates(),
     datasets: [
       {
@@ -187,7 +190,39 @@ const PupilVisualisations = ({ selectedPupil }) => {
     ],
   };
   
-  const chartOptions = {
+  // Data for weekly bar chart
+  const weeklyChartData = {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    datasets: [
+      {
+        label: 'Present',
+        data: [80, 78, 75, 77, 76],
+        backgroundColor: '#1d70b8',
+        barPercentage: 1,
+        categoryPercentage: 0.9,
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Authorised absence',
+        data: [15, 17, 15, 18, 19],
+        backgroundColor: '#b1b4b6',
+        barPercentage: 1,
+        categoryPercentage: 0.9,
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Unauthorised absence',
+        data: [5, 5, 10, 5, 5],
+        backgroundColor: '#d4351c',
+        barPercentage: 1,
+        categoryPercentage: 0.9,
+        stack: 'Stack 0',
+      },
+    ],
+  };
+  
+  // Options for line charts
+  const lineChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -205,6 +240,48 @@ const PupilVisualisations = ({ selectedPupil }) => {
       legend: {
         display: false,
       },
+    },
+  };
+  
+  // Options for weekly bar chart
+  const weeklyChartOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        stacked: true,
+        min: 0,
+        max: 100,
+        title: {
+          display: true,
+          text: 'Percentage %'
+        },
+        ticks: {
+          callback: function(value) {
+            return value + '%';
+          }
+        }
+      },
+      y: {
+        stacked: true,
+        title: {
+          display: true,
+          text: 'Day of the week'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${context.dataset.label}: ${context.raw}%`;
+          }
+        }
+      }
     },
   };
   
@@ -255,24 +332,53 @@ const PupilVisualisations = ({ selectedPupil }) => {
       </TabsContainer>
       
       <ChartContainer>
-        <ChartDescription>
-          Graph showing attendance % for selected pupil and overall school. Use the slider on the left to zoom in and out.
-        </ChartDescription>
-        
-        <div style={{ height: '400px' }}>
-          <Line data={chartData} options={chartOptions} />
-        </div>
-        
-        <ChartLegend>
-          <LegendItem>
-            <LegendColor color="#1d70b8" />
-            <LegendText>Selected pupil</LegendText>
-          </LegendItem>
-          <LegendItem>
-            <LegendColor color="#d4351c" />
-            <LegendText>Overall School</LegendText>
-          </LegendItem>
-        </ChartLegend>
+        {activeTab !== 'weekly' ? (
+          <>
+            <ChartDescription>
+              Graph showing {activeTab === 'attendance' ? 'attendance' : activeTab === 'absence' ? 'absence' : 'unauthorised absence'} % for selected pupil and overall school. Use the slider on the left to zoom in and out.
+            </ChartDescription>
+            
+            <div style={{ height: '400px' }}>
+              <Line data={lineChartData} options={lineChartOptions} />
+            </div>
+            
+            <ChartLegend>
+              <LegendItem>
+                <LegendColor color="#1d70b8" />
+                <LegendText>Selected pupil</LegendText>
+              </LegendItem>
+              <LegendItem>
+                <LegendColor color="#d4351c" />
+                <LegendText>Overall School</LegendText>
+              </LegendItem>
+            </ChartLegend>
+          </>
+        ) : (
+          <>
+            <ChartDescription>
+              Chart showing number of sessions and % of present, authorised absence and unauthorised absence per day.
+            </ChartDescription>
+            
+            <div style={{ height: '400px' }}>
+              <Bar data={weeklyChartData} options={weeklyChartOptions} />
+            </div>
+            
+            <ChartLegend>
+              <LegendItem>
+                <LegendColor color="#1d70b8" />
+                <LegendText>Present</LegendText>
+              </LegendItem>
+              <LegendItem>
+                <LegendColor color="#b1b4b6" />
+                <LegendText>Authorised absence</LegendText>
+              </LegendItem>
+              <LegendItem>
+                <LegendColor color="#d4351c" />
+                <LegendText>Unauthorised absence</LegendText>
+              </LegendItem>
+            </ChartLegend>
+          </>
+        )}
       </ChartContainer>
       
       <DateInfo>Latest session available: 07/03/2025</DateInfo>
