@@ -6,7 +6,6 @@ import { UserTypeProvider, useUserType } from './context/UserTypeContext';
 
 // Components
 import Header from './components/Header/Header';
-import Breadcrumb from './components/Navigation/Breadcrumb';
 import AttendanceData from './components/Dashboard/AttendanceData';
 import SchoolPage from './components/School/SchoolPage';
 import PupilPage from './components/Pupil/PupilPage';
@@ -36,7 +35,7 @@ const AppContainer = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  padding: 0;
+  padding: 40px 0;
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
@@ -59,7 +58,6 @@ function AppRoutes() {
       <AppContainer>
         <Header />
         <MainContent>
-          <Breadcrumb />
           <Routes>
             <Route path="/" element={<UserTypeSelectionPage />} />
             <Route path="/select-user-type" element={<UserTypeSelectionPage />} />
