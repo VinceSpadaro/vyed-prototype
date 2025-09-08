@@ -81,7 +81,7 @@ const CheckLeaverData = () => {
         Review a list of pupils with session data recorded after their leaving date. We exclude these sessions when calculating results in your school attendance reports. This page is updated daily based on changes in your management information system (MIS).
       </Description>
       
-      <GuidanceLink href="#">How to record accurate leaver data in your MIS or update leaving dates.</GuidanceLink>
+      <GuidanceLink href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-user-guide#check-your-leaver-data-report">How to record accurate leaver data in your MIS or update leaving dates.</GuidanceLink>
       
       <TableContainer>
         <Table>
