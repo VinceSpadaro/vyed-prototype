@@ -2,7 +2,7 @@
   "name": "vyed-prototype",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://vincespadaro.github.io/vyed-prototype/",
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
     "@testing-library/dom": "^10.4.1",
