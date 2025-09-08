@@ -36,7 +36,7 @@ const AppContainer = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  padding: 0;
+  padding: 30px 0;
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
@@ -59,7 +59,7 @@ function AppRoutes() {
       <AppContainer>
         <Header />
         <MainContent>
-          <Breadcrumb />
+          {/* <Breadcrumb /> */}
           <Routes>
             <Route path="/" element={<UserTypeSelectionPage />} />
             <Route path="/select-user-type" element={<UserTypeSelectionPage />} />
