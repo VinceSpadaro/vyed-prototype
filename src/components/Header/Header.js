@@ -108,11 +108,13 @@ const Header = () => {
         )}
       </div>
       <ButtonsContainer>
-        <Button as={Link} to="/select-user-type" primary>
-          {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
-        </Button>
+        <Link to="/select-user-type">
+          <Button primary>
+            {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
+          </Button>
+        </Link>
         {hasUserTypeSelected && (
-          <Button as={Link} to="/select-user-type" onClick={handleSignOut}>Sign out</Button>
+          <Button onClick={handleSignOut}>Sign out</Button>
         )}
       </ButtonsContainer>
     </HeaderContainer>
