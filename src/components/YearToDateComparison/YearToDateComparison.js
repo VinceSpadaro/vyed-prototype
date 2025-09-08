@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import AttendanceLineChart from './AttendanceLineChart';
+import AbsenceLineChart from './AbsenceLineChart';
+import UnauthorisedAbsenceLineChart from './UnauthorisedAbsenceLineChart';
 
 // Styled components for the school stats dashboard
 const Container = styled.div`
@@ -130,7 +132,11 @@ const YearToDateComparison = () => {
         <Tab active={activeTab === 'unauthorised'} onClick={() => setActiveTab('unauthorised')}>Unauthorised absence %</Tab>
       </TabContainer>
       
-      <AttendanceLineChart />
+      {activeTab === 'attendance' && <AttendanceLineChart />}
+      
+      {activeTab === 'absence' && <AbsenceLineChart />}
+      
+      {activeTab === 'unauthorised' && <UnauthorisedAbsenceLineChart />}
       
       <FullscreenLink href="#">Present in fullscreen</FullscreenLink>
     </Container>
