@@ -27,6 +27,7 @@ import UserTypeSelectionPage from './components/UserTypeSelection/UserTypeSelect
 import SignOutPage from './components/SignOut/SignOutPage';
 import LocalAuthorityPage from './components/LocalAuthority/LocalAuthorityPage';
 import TrustPage from './components/Trust/TrustPage';
+import ToolsPage from './components/Tools/ToolsPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -151,6 +152,11 @@ function AppRoutes() {
             <Route path="/sign-out" element={
               <ProtectedRoute>
                 <SignOutPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/tools" element={
+              <ProtectedRoute>
+                <ToolsPage />
               </ProtectedRoute>
             } />
           </Routes>

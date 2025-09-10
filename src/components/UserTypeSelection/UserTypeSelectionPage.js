@@ -183,7 +183,7 @@ const UserTypeSelectionPage = () => {
     
     setErrors(newErrors);
     
-    // If no errors, save and redirect to insights page
+    // If no errors, save and redirect to tools page
     if (!newErrors.userType && (!newErrors.userId || !showTrackingOptions || isInternalTeam)) {
       // Set default organization name based on user type
       let orgName = '';
@@ -214,14 +214,14 @@ const UserTypeSelectionPage = () => {
       }
       // If already tracking and changing organization, maintain the tracking session
       
-      navigate('/insights');
+      navigate('/tools');
     }
   };
 
   const handleBackClick = () => {
-    // Navigate back to the insights page if user has a selected type
+    // Navigate back to the tools page if user has a selected type
     if (hasUserTypeSelected) {
-      navigate('/insights');
+      navigate('/tools');
     }
   };
   

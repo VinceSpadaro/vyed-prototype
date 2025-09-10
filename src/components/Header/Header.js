@@ -139,7 +139,6 @@ const Header = () => {
         )}
       </div>
       <ButtonsContainer>
-        
         <Link to="/select-user-type">
           <Button primary>
             {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
