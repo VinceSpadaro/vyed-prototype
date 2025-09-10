@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Accordion from '../Common/Accordion';
 import Details from '../Common/Details';
+import InputField from '../FormElements/InputField';
+import Button from '../FormElements/Button';
 
 // Main container for the page
 const Container = styled.div`
@@ -22,38 +24,12 @@ const SearchForm = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  align-items: flex-end;
 `;
 
-const SearchInput = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  width: 300px;
-  font-size: 16px;
-`;
-
-const SearchButton = styled.button`
-  background-color: #00703c;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: bold;
-  
-  &:hover {
-    background-color: #005a30;
-  }
-`;
-
-const ClearButton = styled.button`
-  background-color: #f3f2f1;
-  color: #0b0c0c;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #dbdad9;
-  }
+const SearchInputWrapper = styled.div`
+  flex: 1;
+  max-width: 300px;
 `;
 
 const LinkItem = styled.div`
@@ -185,14 +161,18 @@ const ToolsPage = () => {
     <>
       <SearchContainer>
         <SearchForm>
-          <SearchInput 
-            type="text" 
-            value={searchQuery} 
-            onChange={handleSearchChange} 
-            placeholder="Search for tools and resources"
-          />
-          <SearchButton onClick={handleSearch}>Search</SearchButton>
-          <ClearButton onClick={handleClearSearch}>Clear search</ClearButton>
+          <SearchInputWrapper>
+            <InputField 
+              id="search-query"
+              label="Find a product:"
+              type="text" 
+              value={searchQuery} 
+              onChange={handleSearchChange}
+              noMargin
+            />
+          </SearchInputWrapper>
+          <Button variant="primary" onClick={handleSearch}>Search</Button>
+          <Button variant="secondary" onClick={handleClearSearch}>Clear search</Button>
         </SearchForm>
       </SearchContainer>
       
@@ -202,7 +182,6 @@ const ToolsPage = () => {
 
   return (
     <Container>
-      <h2>Find a product:</h2>
       {toolsContent}
     </Container>
   );

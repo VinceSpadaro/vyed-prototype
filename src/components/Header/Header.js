@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useUserType } from '../../context/UserTypeContext';
 import { useTracking } from '../../context/TrackingContext';
 import { Link, useNavigate } from 'react-router-dom';
+import Button from '../FormElements/Button';
 
 const HeaderContainer = styled.header`
   background-color: #0b0c0c;
@@ -77,25 +78,15 @@ const ButtonsContainer = styled.div`
   gap: 10px;
 `;
 
-const Button = styled.button`
-  background-color: ${props => props.primary ? '#2e7d32' : 'transparent'};
+const HeaderButton = styled(Button)`
   color: white;
-  border: ${props => props.primary ? 'none' : '1px solid white'};
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  border-radius: 3px;
-  font-weight: ${props => props.primary ? 'bold' : 'normal'};
-  text-decoration: none;
-  display: inline-block;
+  border: ${props => props.variant === 'primary' ? 'none' : '2px solid white'};
+  border-radius: 0;
+  background-color: ${props => props.variant === 'primary' ? '#2e7d32' : 'transparent'};
   
   &:hover {
-    background-color: ${props => props.primary ? '#1b5e20' : 'rgba(255, 255, 255, 0.1)'};
-  }
-  
-  &:focus {
-    outline: 3px solid #ffdd00;
-    outline-offset: 0;
+    background-color: ${props => props.variant === 'primary' ? '#1b5e20' : 'transparent'};
+    border-color: white;
   }
 `;
 
@@ -140,13 +131,27 @@ const Header = () => {
       </div>
       <ButtonsContainer>
         <Link to="/select-user-type">
-          <Button primary>
+          <HeaderButton variant="primary">
             {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
-          </Button>
+          </HeaderButton>
         </Link>
         
         {hasUserTypeSelected && (
-          <Button onClick={handleSignOut}>Sign out</Button>
+          <button 
+            onClick={handleSignOut} 
+            style={{
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '2px solid white',
+              padding: '8px 16px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              height: '40px',
+              boxSizing: 'border-box'
+            }}
+          >
+            Sign out
+          </button>
         )}
       </ButtonsContainer>
     </HeaderContainer>

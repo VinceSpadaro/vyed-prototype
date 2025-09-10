@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { BiSolidRightArrow } from "react-icons/bi";
+import { BiSolidDownArrow } from "react-icons/bi";
 
 // Styled components for the Details component
 const DetailsContainer = styled.div`
@@ -35,15 +37,12 @@ const DetailsSummary = styled.summary`
 `;
 
 const DetailsIcon = styled.span`
-  display: inline-block;
-  width: 0;
-  height: 0;
+  display: inline-flex;
   margin-right: 10px;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 10px solid #1d70b8;
-  transform: ${props => props.expanded ? 'rotate(0)' : 'rotate(-90deg)'};
-  transition: transform 0.2s;
+  color: #1d70b8;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DetailsContent = styled.div`
@@ -60,11 +59,19 @@ const Details = ({ summary, children }) => {
     setExpanded(!expanded);
   };
   
+  // Prevent default behavior of details element
+  const handleClick = (e) => {
+    e.preventDefault();
+    toggleExpanded();
+  };
+  
   return (
     <DetailsContainer>
-      <details open={expanded} onClick={toggleExpanded}>
-        <DetailsSummary>
-          <DetailsIcon expanded={expanded} />
+      <details open={expanded}>
+        <DetailsSummary onClick={handleClick}>
+          <DetailsIcon>
+            {expanded ? <BiSolidDownArrow /> : <BiSolidRightArrow />}
+          </DetailsIcon>
           {summary}
         </DetailsSummary>
         <DetailsContent>

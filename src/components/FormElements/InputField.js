@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const InputContainer = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: ${props => props.noMargin ? '0' : '20px'};
 `;
 
 const StyledLabel = styled.label`
@@ -16,16 +16,17 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input`
   width: 100%;
   max-width: 500px;
-  padding: 10px;
-  font-size: 19px;
+  padding: 8px 10px;
+  font-size: 16px;
   border: 2px solid #0b0c0c;
-  border-radius: 4px;
+  border-radius: 0;
+  height: 40px;
+  box-sizing: border-box;
   
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px #ffdd00;
     border-color: #0b0c0c;
-    border-radius: 4px;
   }
 `;
 
@@ -45,10 +46,11 @@ const InputField = ({
   placeholder,
   error,
   required = false,
+  noMargin = false,
   ...props
 }) => {
   return (
-    <InputContainer>
+    <InputContainer noMargin={noMargin}>
       {label && (
         <StyledLabel htmlFor={id}>
           {label}
