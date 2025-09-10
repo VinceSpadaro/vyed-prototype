@@ -90,7 +90,7 @@ const NoFiltersText = styled.p`
 const GuidancePage = () => {
   const guidanceContent = (
     <>
-      <BackLink to="/">Back</BackLink>
+      <BackLink to="/insights">Back</BackLink>
       
       <GuidanceTitle>Guidance</GuidanceTitle>
       
