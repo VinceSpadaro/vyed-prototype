@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import styled from 'styled-components';
 import './App.css';
 import { UserTypeProvider, useUserType } from './context/UserTypeContext';
+import { TrackingProvider } from './context/TrackingContext';
 
 // Components
 import Header from './components/Header/Header';
@@ -157,7 +158,9 @@ function AppRoutes() {
 function App() {
   return (
     <UserTypeProvider>
-      <AppRoutes />
+      <TrackingProvider>
+        <AppRoutes />
+      </TrackingProvider>
     </UserTypeProvider>
   );
 }

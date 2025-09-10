@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useUserType } from '../../context/UserTypeContext';
+import { useTracking } from '../../context/TrackingContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
@@ -50,6 +51,25 @@ const UserType = styled.span`
   text-transform: uppercase;
 `;
 
+const TrackingStatus = styled.span`
+  background-color: ${props => props.active ? '#2e7d32' : '#d32f2f'};
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-right: 10px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+`;
+
+const TrackingDot = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  margin-right: 5px;
+`;
+
 // Removed unused OrgName styled component
 
 const ButtonsContainer = styled.div`
@@ -81,6 +101,7 @@ const Button = styled.button`
 
 const Header = () => {
   const { userType, hasUserTypeSelected, clearUserType } = useUserType();
+  const { isTracking, userId, isInternalTeam, stopTracking } = useTracking();
   const navigate = useNavigate();
   
   const handleSignOut = () => {
@@ -108,11 +129,29 @@ const Header = () => {
         )}
       </div>
       <ButtonsContainer>
+        {isTracking && !isInternalTeam && (
+          <TrackingStatus active={true}>
+            <TrackingDot /> Recording: User {userId}
+          </TrackingStatus>
+        )}
+        {isTracking && isInternalTeam && (
+          <TrackingStatus active={false}>
+            <TrackingDot /> Internal (No tracking)
+          </TrackingStatus>
+        )}
+        
+        {isTracking && (
+          <Button onClick={stopTracking}>
+            Stop tracking
+          </Button>
+        )}
+        
         <Link to="/select-user-type">
           <Button primary>
             {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
           </Button>
         </Link>
+        
         {hasUserTypeSelected && (
           <Button onClick={handleSignOut}>Sign out</Button>
         )}

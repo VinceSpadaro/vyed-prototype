@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
+import { useTracking } from '../../context/TrackingContext';
 import RadioButton from '../FormElements/RadioButton';
 
 const Container = styled.div`
@@ -37,6 +38,46 @@ const RadioGroup = styled.div`
   margin-bottom: 20px;
 `;
 
+const InputGroup = styled.div`
+  margin-bottom: 20px;
+`;
+
+const InputLabel = styled.label`
+  display: block;
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const TextInput = styled.input`
+  width: 100%;
+  max-width: 400px;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #0b0c0c;
+  &:focus {
+    outline: 3px solid #ffdd00;
+    outline-offset: 0;
+  }
+`;
+
+const Checkbox = styled.input`
+  margin-right: 10px;
+`;
+
+const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+`;
+
+const TrackingSection = styled.div`
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #b1b4b6;
+`;
+
 const Button = styled.button`
   background-color: #00703c;
   color: white;
@@ -65,13 +106,25 @@ const ErrorMessage = styled.div`
 const UserTypeSelectionPage = () => {
   const navigate = useNavigate();
   const { setUserType, setOrganisationName } = useUserType();
+  const { startTracking } = useTracking();
   
   const [selectedType, setSelectedType] = useState('');
-  const [errors, setErrors] = useState({ userType: false });
+  const [userId, setUserId] = useState('');
+  const [isInternalTeam, setIsInternalTeam] = useState(false);
+  const [errors, setErrors] = useState({ userType: false, userId: false });
 
   const handleTypeChange = (e) => {
     setSelectedType(e.target.value);
-    setErrors({ userType: false });
+    setErrors({ ...errors, userType: false });
+  };
+  
+  const handleUserIdChange = (e) => {
+    setUserId(e.target.value);
+    setErrors({ ...errors, userId: false });
+  };
+  
+  const handleInternalTeamChange = (e) => {
+    setIsInternalTeam(e.target.checked);
   };
 
   const handleSubmit = (e) => {
@@ -79,13 +132,14 @@ const UserTypeSelectionPage = () => {
     
     // Validate form
     const newErrors = {
-      userType: !selectedType
+      userType: !selectedType,
+      userId: !isInternalTeam && !userId
     };
     
     setErrors(newErrors);
     
     // If no errors, save and redirect to insights page
-    if (!newErrors.userType) {
+    if (!newErrors.userType && (!newErrors.userId || isInternalTeam)) {
       // Set default organization name based on user type
       let orgName = '';
       if (selectedType === 'school') {
@@ -98,6 +152,15 @@ const UserTypeSelectionPage = () => {
       
       setUserType(selectedType);
       setOrganisationName(orgName);
+      
+      // Start tracking if user ID is provided and not internal team
+      if (userId && !isInternalTeam) {
+        startTracking(userId, false);
+      } else if (isInternalTeam) {
+        // For internal team, we still track the session but mark it as internal
+        startTracking('internal-team', true);
+      }
+      
       navigate('/insights');
     }
   };
@@ -140,6 +203,35 @@ const UserTypeSelectionPage = () => {
           </RadioGroup>
         </FieldsetStyled>
         
+        <TrackingSection>
+          <Legend>Usability testing session</Legend>
+          
+          <InputGroup>
+            <InputLabel htmlFor="userId">User ID for tracking (required for usability testing)</InputLabel>
+            <TextInput 
+              id="userId" 
+              name="userId" 
+              value={userId} 
+              onChange={handleUserIdChange} 
+              placeholder="Enter user ID for this session"
+              disabled={isInternalTeam}
+            />
+            {errors.userId && (
+              <ErrorMessage>Please enter a user ID for tracking or select internal team</ErrorMessage>
+            )}
+          </InputGroup>
+          
+          <CheckboxLabel>
+            <Checkbox 
+              type="checkbox" 
+              id="internalTeam" 
+              name="internalTeam" 
+              checked={isInternalTeam} 
+              onChange={handleInternalTeamChange} 
+            />
+            I am an internal team member (no tracking)
+          </CheckboxLabel>
+        </TrackingSection>
         
         <Button type="submit">Continue</Button>
       </form>
