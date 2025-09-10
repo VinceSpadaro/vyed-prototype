@@ -7,6 +7,10 @@ const TrackingContext = createContext();
 const CLARITY_SCRIPT_ID = 'microsoft-clarity-script';
 const CLARITY_PROJECT_ID = 't8je7rez7x';
 
+// Cookie name for Clarity session
+const CLARITY_COOKIE_PREFIX = '_clck';
+const CLARITY_STORAGE_PREFIX = '_clsk';
+
 // Create provider component
 export const TrackingProvider = ({ children }) => {
   // Initialize tracking state from localStorage if available
@@ -60,7 +64,7 @@ export const TrackingProvider = ({ children }) => {
       }
 
       try {
-        // Create and load the script
+        // Create and load the Clarity script
         const script = document.createElement('script');
         script.id = CLARITY_SCRIPT_ID;
         script.type = 'text/javascript';
@@ -83,18 +87,18 @@ export const TrackingProvider = ({ children }) => {
               console.log('Setting Clarity user ID:', userId);
               // Only call identify if clarity is properly initialized
               if (typeof window.clarity === 'function') {
-                // Set the user ID as the session ID to make it easier to find in the dashboard
+                // Set the user ID for Clarity
                 window.clarity('identify', userId);
                 
-                // Set custom tags to make filtering easier
+                // Set custom tag to make filtering easier
                 window.clarity('set', 'userId', userId);
                 
-                // Set session metadata
+                // Set basic session metadata
                 window.clarity('metadata', { 'session_user_id': userId });
                 
-                // Override the default session ID with our user ID
+                // Try to set the session ID directly if available
                 if (window.clarity.sessionId) {
-                  console.log('Overriding default Clarity session ID with user ID');
+                  console.log('Setting Clarity session ID:', userId);
                   window.clarity.sessionId = userId;
                 }
               }
@@ -129,38 +133,75 @@ export const TrackingProvider = ({ children }) => {
     }
   }, [isTracking, isInternalTeam, userId]);
 
-  // Functions for loading and removing the Clarity script are now defined inline in the useEffect hook
-
   // Function to start tracking
   const startTracking = (newUserId, internalTeam = false) => {
-    // Format the user ID to ensure it's consistent
-    const formattedUserId = newUserId.trim();
+    // First, ensure any previous session is completely cleared
+    clearClarityData();
+    
+    // Use exactly the user ID entered in the UI, just trim whitespace
+    const exactUserId = newUserId.trim();
     
     // Set state
-    setUserId(formattedUserId);
+    setUserId(exactUserId);
     setIsInternalTeam(internalTeam);
     setIsTracking(true);
     
-    // If Clarity is already loaded, update the user ID immediately
-    if (window.clarity && typeof window.clarity === 'function' && !internalTeam) {
-      try {
-        // Set the user ID as the session ID
-        window.clarity('identify', formattedUserId);
-        window.clarity('set', 'userId', formattedUserId);
-        window.clarity('metadata', { 'session_user_id': formattedUserId });
-        
-        // Try to override the session ID directly
-        if (window.clarity.sessionId) {
-          window.clarity.sessionId = formattedUserId;
-        }
-        
-        console.log('Updated Clarity with user ID:', formattedUserId);
-      } catch (err) {
-        console.error('Error updating Clarity with user ID:', err);
-      }
+    // Store the values in localStorage
+    localStorage.setItem('clarityTracking', 'true');
+    localStorage.setItem('clarityUserId', exactUserId);
+    if (internalTeam) {
+      localStorage.setItem('isInternalTeam', 'true');
     }
+    
+    // Force a reload to ensure a clean state for the new session
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
+  // Helper function to clear Clarity cookies and storage
+  const clearClarityData = () => {
+    try {
+      // Clear Clarity cookies
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(CLARITY_COOKIE_PREFIX)) {
+          const cookieName = cookie.split('=')[0];
+          document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          console.log('Cleared Clarity cookie:', cookieName);
+        }
+      }
+      
+      // Clear Clarity local storage items
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(CLARITY_STORAGE_PREFIX)) {
+          localStorage.removeItem(key);
+          console.log('Cleared Clarity storage item:', key);
+        }
+      }
+      
+      // Reset Clarity global variables if they exist
+      if (window.clarity) {
+        try {
+          // Try to stop any ongoing tracking
+          if (typeof window.clarity === 'function') {
+            window.clarity('stop');
+          }
+          
+          delete window.clarity;
+        } catch (e) {
+          window.clarity = undefined;
+        }
+      }
+      
+      console.log('Cleared Clarity data');
+    } catch (err) {
+      console.error('Error clearing Clarity data:', err);
+    }
+  };
+  
   // Function to stop tracking
   const stopTracking = () => {
     try {
@@ -171,6 +212,20 @@ export const TrackingProvider = ({ children }) => {
       // Clear from localStorage
       localStorage.removeItem('clarityTracking');
       localStorage.removeItem('clarityUserId');
+      localStorage.removeItem('isInternalTeam');
+      
+      // Try to stop Clarity tracking if it's active
+      if (window.clarity && typeof window.clarity === 'function') {
+        try {
+          window.clarity('stop');
+          console.log('Clarity tracking stopped via API');
+        } catch (e) {
+          console.error('Error stopping Clarity via API:', e);
+        }
+      }
+      
+      // Clear Clarity cookies and storage
+      clearClarityData();
       
       // Remove the script element
       const script = document.getElementById(CLARITY_SCRIPT_ID);
@@ -180,6 +235,11 @@ export const TrackingProvider = ({ children }) => {
       }
       
       console.log('Clarity tracking stopped');
+      
+      // Force a page reload to ensure a clean state
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (err) {
       console.error('Error stopping Clarity tracking:', err);
     }
