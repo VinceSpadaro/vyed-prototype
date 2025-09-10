@@ -24,6 +24,7 @@ import IndexPage from './components/Home/IndexPage';
 import ReportsPage from './components/Reports/ReportsPage';
 import ComparePage from './components/Compare/ComparePage';
 import UserTypeSelectionPage from './components/UserTypeSelection/UserTypeSelectionPage';
+import SignOutPage from './components/SignOut/SignOutPage';
 import LocalAuthorityPage from './components/LocalAuthority/LocalAuthorityPage';
 import TrustPage from './components/Trust/TrustPage';
 
@@ -145,6 +146,11 @@ function AppRoutes() {
             <Route path="/trust" element={
               <ProtectedRoute>
                 <TrustPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/sign-out" element={
+              <ProtectedRoute>
+                <SignOutPage />
               </ProtectedRoute>
             } />
           </Routes>

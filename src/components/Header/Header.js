@@ -52,7 +52,7 @@ const UserType = styled.span`
 `;
 
 const TrackingStatus = styled.span`
-  background-color: ${props => props.active ? '#2e7d32' : '#d32f2f'};
+  background-color: ${props => props.active ? '#1d70b8' : '#505a5f'};
   padding: 3px 8px;
   border-radius: 3px;
   margin-right: 10px;
@@ -100,13 +100,13 @@ const Button = styled.button`
 `;
 
 const Header = () => {
-  const { userType, hasUserTypeSelected, clearUserType } = useUserType();
-  const { isTracking, userId, isInternalTeam, stopTracking } = useTracking();
+  const { userType, hasUserTypeSelected } = useUserType();
+  const { isTracking, isInternalTeam } = useTracking();
   const navigate = useNavigate();
   
+  // Navigate to sign out page instead of handling sign out directly
   const handleSignOut = () => {
-    clearUserType();
-    navigate('/select-user-type');
+    navigate('/sign-out');
   };
   
   const getUserTypeLabel = (type) => {
@@ -125,26 +125,20 @@ const Header = () => {
         {hasUserTypeSelected && (
           <UserInfo>
             <UserType>{getUserTypeLabel(userType)}</UserType>
+            {isTracking && !isInternalTeam && (
+              <TrackingStatus active={true}>
+                <TrackingDot /> Recording
+              </TrackingStatus>
+            )}
+            {isTracking && isInternalTeam && (
+              <TrackingStatus active={false}>
+                <TrackingDot /> Internal
+              </TrackingStatus>
+            )}
           </UserInfo>
         )}
       </div>
       <ButtonsContainer>
-        {isTracking && !isInternalTeam && (
-          <TrackingStatus active={true}>
-            <TrackingDot /> Recording: User {userId}
-          </TrackingStatus>
-        )}
-        {isTracking && isInternalTeam && (
-          <TrackingStatus active={false}>
-            <TrackingDot /> Internal (No tracking)
-          </TrackingStatus>
-        )}
-        
-        {isTracking && (
-          <Button onClick={stopTracking}>
-            Stop tracking
-          </Button>
-        )}
         
         <Link to="/select-user-type">
           <Button primary>

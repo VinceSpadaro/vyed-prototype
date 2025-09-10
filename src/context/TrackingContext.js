@@ -55,33 +55,57 @@ export const TrackingProvider = ({ children }) => {
     const loadScript = () => {
       // Check if script already exists
       if (document.getElementById(CLARITY_SCRIPT_ID)) {
+        console.log('Clarity script already exists');
         return;
       }
 
-      const script = document.createElement('script');
-      script.id = CLARITY_SCRIPT_ID;
-      script.type = 'text/javascript';
-      script.async = true;
-      script.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
-      
-      // Add the script to the document
-      document.head.appendChild(script);
-      
-      // Initialize Clarity with user ID if available
-      if (userId) {
-        window.clarity = window.clarity || function() { (window.clarity.q = window.clarity.q || []).push(arguments) };
-        window.clarity('identify', userId);
+      try {
+        // Create and load the script
+        const script = document.createElement('script');
+        script.id = CLARITY_SCRIPT_ID;
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
+        
+        // Add the script to the document
+        document.head.appendChild(script);
+        console.log('Clarity script added to page');
+        
+        // Define clarity function if it doesn't exist
+        window.clarity = window.clarity || function() { 
+          (window.clarity.q = window.clarity.q || []).push(arguments);
+        };
+        
+        // Set user ID after a delay to ensure Clarity is loaded
+        if (userId) {
+          setTimeout(() => {
+            try {
+              console.log('Setting Clarity user ID:', userId);
+              // Only call identify if clarity is properly initialized
+              if (typeof window.clarity === 'function') {
+                window.clarity('identify', userId);
+              }
+            } catch (err) {
+              console.error('Error setting Clarity user ID:', err);
+            }
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('Error loading Clarity script:', err);
       }
-      
-      console.log('Clarity tracking started');
     };
 
     // Function to remove the Clarity script
     const removeScript = () => {
-      const script = document.getElementById(CLARITY_SCRIPT_ID);
-      if (script) {
-        script.remove();
-        console.log('Clarity tracking stopped');
+      try {
+        // Remove the script element
+        const script = document.getElementById(CLARITY_SCRIPT_ID);
+        if (script) {
+          script.remove();
+          console.log('Clarity script removed');
+        }
+      } catch (err) {
+        console.error('Error removing Clarity script:', err);
       }
     };
 
@@ -103,7 +127,26 @@ export const TrackingProvider = ({ children }) => {
 
   // Function to stop tracking
   const stopTracking = () => {
-    setIsTracking(false);
+    try {
+      // Update state first
+      setIsTracking(false);
+      setUserId('');
+      
+      // Clear from localStorage
+      localStorage.removeItem('clarityTracking');
+      localStorage.removeItem('clarityUserId');
+      
+      // Remove the script element
+      const script = document.getElementById(CLARITY_SCRIPT_ID);
+      if (script) {
+        script.remove();
+        console.log('Clarity script removed');
+      }
+      
+      console.log('Clarity tracking stopped');
+    } catch (err) {
+      console.error('Error stopping Clarity tracking:', err);
+    }
   };
 
   // Value object to be provided to consumers

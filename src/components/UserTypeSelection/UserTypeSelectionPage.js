@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
@@ -10,6 +10,28 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 40px 20px;
+`;
+
+const BackLink = styled.button`
+  background: none;
+  border: none;
+  color: #1d70b8;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  
+  &:hover {
+    color: #003078;
+  }
+  
+  &:before {
+    content: '←';
+    margin-right: 5px;
+  }
 `;
 
 const Title = styled.h1`
@@ -105,13 +127,35 @@ const ErrorMessage = styled.div`
 
 const UserTypeSelectionPage = () => {
   const navigate = useNavigate();
-  const { setUserType, setOrganisationName } = useUserType();
-  const { startTracking } = useTracking();
+  const { userType, setUserType, setOrganisationName, hasUserTypeSelected } = useUserType();
+  const { startTracking, isTracking } = useTracking();
   
+  // Track if user is changing organization - used in useEffect and handleSubmit
+  
+  // Only show tracking options for new users, not when changing organization
+  const [showTrackingOptions, setShowTrackingOptions] = useState(false);
+  
+  // Initialize selected type with current user type if available
   const [selectedType, setSelectedType] = useState('');
   const [userId, setUserId] = useState('');
   const [isInternalTeam, setIsInternalTeam] = useState(false);
   const [errors, setErrors] = useState({ userType: false, userId: false });
+  
+  // Check if user is changing organization or a new user
+  useEffect(() => {
+    if (hasUserTypeSelected) {
+      // User is changing organization
+      // Pre-select the current user type
+      setSelectedType(userType);
+      
+      // Never show tracking options when changing organization
+      setShowTrackingOptions(false);
+    } else {
+      // New user, not changing organization
+      // Show tracking options for new users
+      setShowTrackingOptions(true);
+    }
+  }, [hasUserTypeSelected, userType]);
 
   const handleTypeChange = (e) => {
     setSelectedType(e.target.value);
@@ -133,13 +177,14 @@ const UserTypeSelectionPage = () => {
     // Validate form
     const newErrors = {
       userType: !selectedType,
-      userId: !isInternalTeam && !userId
+      // Only validate userId if showing tracking options
+      userId: showTrackingOptions && !isInternalTeam && !userId
     };
     
     setErrors(newErrors);
     
     // If no errors, save and redirect to insights page
-    if (!newErrors.userType && (!newErrors.userId || isInternalTeam)) {
+    if (!newErrors.userType && (!newErrors.userId || !showTrackingOptions || isInternalTeam)) {
       // Set default organization name based on user type
       let orgName = '';
       if (selectedType === 'school') {
@@ -153,20 +198,40 @@ const UserTypeSelectionPage = () => {
       setUserType(selectedType);
       setOrganisationName(orgName);
       
-      // Start tracking if user ID is provided and not internal team
-      if (userId && !isInternalTeam) {
-        startTracking(userId, false);
-      } else if (isInternalTeam) {
-        // For internal team, we still track the session but mark it as internal
-        startTracking('internal-team', true);
+      // Only start tracking for new users with tracking options enabled
+      if (showTrackingOptions) {
+        // Start tracking if user ID is provided and not internal team
+        if (!isInternalTeam && userId) {
+          // Format the user ID to ensure it's properly tracked
+          const formattedUserId = userId.trim();
+          console.log('Starting tracking with user ID:', formattedUserId);
+          startTracking(formattedUserId, false);
+        } else if (isInternalTeam) {
+          // For internal team, we still initialize tracking but mark it as internal
+          console.log('Starting internal team session (no tracking)');
+          startTracking('internal-team', true);
+        }
       }
+      // If already tracking and changing organization, maintain the tracking session
       
       navigate('/insights');
     }
   };
 
+  const handleBackClick = () => {
+    // Navigate back to the insights page if user has a selected type
+    if (hasUserTypeSelected) {
+      navigate('/insights');
+    }
+  };
+  
   return (
     <Container>
+      {/* Only show back link when changing organization during an active session */}
+      {hasUserTypeSelected && isTracking && (
+        <BackLink onClick={handleBackClick}>Back to dashboard</BackLink>
+      )}
+      
       <Title>Select your organisation type</Title>
       
       <form onSubmit={handleSubmit}>
@@ -203,35 +268,37 @@ const UserTypeSelectionPage = () => {
           </RadioGroup>
         </FieldsetStyled>
         
-        <TrackingSection>
-          <Legend>Usability testing session</Legend>
-          
-          <InputGroup>
-            <InputLabel htmlFor="userId">User ID for tracking (required for usability testing)</InputLabel>
-            <TextInput 
-              id="userId" 
-              name="userId" 
-              value={userId} 
-              onChange={handleUserIdChange} 
-              placeholder="Enter user ID for this session"
-              disabled={isInternalTeam}
-            />
-            {errors.userId && (
-              <ErrorMessage>Please enter a user ID for tracking or select internal team</ErrorMessage>
-            )}
-          </InputGroup>
-          
-          <CheckboxLabel>
-            <Checkbox 
-              type="checkbox" 
-              id="internalTeam" 
-              name="internalTeam" 
-              checked={isInternalTeam} 
-              onChange={handleInternalTeamChange} 
-            />
-            I am an internal team member (no tracking)
-          </CheckboxLabel>
-        </TrackingSection>
+        {showTrackingOptions && (
+          <TrackingSection>
+            <Legend>Usability testing session</Legend>
+            
+            <InputGroup>
+              <InputLabel htmlFor="userId">User ID for tracking (required for usability testing)</InputLabel>
+              <TextInput 
+                id="userId" 
+                name="userId" 
+                value={userId} 
+                onChange={handleUserIdChange} 
+                placeholder="Enter user ID for this session"
+                disabled={isInternalTeam}
+              />
+              {errors.userId && (
+                <ErrorMessage>Please enter a user ID for tracking or select internal team</ErrorMessage>
+              )}
+            </InputGroup>
+            
+            <CheckboxLabel>
+              <Checkbox 
+                type="checkbox" 
+                id="internalTeam" 
+                name="internalTeam" 
+                checked={isInternalTeam} 
+                onChange={handleInternalTeamChange} 
+              />
+              I am an internal team member (no tracking)
+            </CheckboxLabel>
+          </TrackingSection>
+        )}
         
         <Button type="submit">Continue</Button>
       </form>
