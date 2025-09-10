@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PageLayout from '../Dashboard/PageLayout';
+import SupportSection from '../Support/SupportSection';
 
 // Content styling
 
@@ -145,18 +146,14 @@ const GuidancePage = () => {
     </FiltersSidebar>
   );
 
-  const supportContent = (
-    <Paragraph>
-      If you need help with anything, you can <BlueLink href="/submit-enquiry">submit an enquiry</BlueLink>.
-    </Paragraph>
-  );
+  // Using global SupportSection component
 
   return (
     <PageLayout
       title="View school attendance data"
       showUpdates={true}
       contentSidebar={filtersSidebar}
-      supportSection={supportContent}
+      supportSection={<SupportSection />}
     >
       {guidanceContent}
     </PageLayout>

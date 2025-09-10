@@ -38,7 +38,7 @@ const SidebarContainer = styled.div`
   flex: 0 0 300px;
 `;
 
-const SupportSection = styled.div`
+const SupportSectionWrapper = styled.div`
   margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid #b1b4b6;
@@ -50,6 +50,7 @@ const SupportSection = styled.div`
   
   p {
     margin-bottom: 0.5rem;
+    font-size: 0.95rem;
   }
   
   a {
@@ -98,10 +99,16 @@ const PageLayout = ({
       </ContentContainer>
       
       {supportSection && (
-        <SupportSection>
-          <h2>Further support</h2>
-          {supportSection}
-        </SupportSection>
+        React.isValidElement(supportSection) && supportSection.type?.name === 'SupportSection' ? (
+          /* If it's a SupportSection component, render it directly without wrapper */
+          supportSection
+        ) : (
+          /* Otherwise, it's inline content, so wrap it with our styled container */
+          <SupportSectionWrapper>
+            <h2>Further support</h2>
+            {supportSection}
+          </SupportSectionWrapper>
+        )
       )}
     </PageContainer>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import PageLayout from '../Dashboard/PageLayout';
 import Filters from '../Filters/Filters';
 import YearToDateComparison from './YearToDateComparison';
+import SupportSection from '../Support/SupportSection';
 
 const YearToDateComparisonPage = () => {
   return (
@@ -10,11 +11,7 @@ const YearToDateComparisonPage = () => {
       showUpdates={true}
       contentSideNav={true}
       contentSidebar={<Filters />}
-      supportSection={
-        <>
-          <p>If you need help with anything, you can <a href="/submit-enquiry">submit an enquiry</a>.</p>
-        </>
-      }
+      supportSection={<SupportSection />}
     >
       <YearToDateComparison />
     </PageLayout>

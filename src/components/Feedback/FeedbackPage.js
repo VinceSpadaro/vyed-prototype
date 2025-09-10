@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PageLayout from '../Dashboard/PageLayout';
+import SupportSection from '../Support/SupportSection';
 
 // Page layout is handled by PageLayout component
 
@@ -125,17 +126,13 @@ const FeedbackPage = () => {
     </FeedbackContainer>
   );
 
-  const supportContent = (
-    <p>
-      If you need help with anything, you can <a href="/submit-enquiry">submit an enquiry</a>.
-    </p>
-  );
+  // Using global SupportSection component
 
   return (
     <PageLayout
       title="View school attendance data"
       showUpdates={true}
-      supportSection={supportContent}
+      supportSection={<SupportSection />}
     >
       {feedbackContent}
     </PageLayout>

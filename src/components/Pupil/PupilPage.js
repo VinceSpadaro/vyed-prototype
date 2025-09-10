@@ -9,6 +9,7 @@ import PupilPreviousYear from './PupilPreviousYear';
 import PupilYearToDateComparison from './PupilYearToDateComparison';
 import PupilAttendanceCodes from './PupilAttendanceCodes';
 import UpdatesSection from '../Common/UpdatesSection';
+import SupportSection from '../Support/SupportSection';
 import { media } from '../../styles/mediaQueries';
 import { useUserType } from '../../context/UserTypeContext';
 
@@ -227,29 +228,7 @@ const WeekSelectorDropdown = styled.div`
   width: 300px;
 `;
 
-const SupportSection = styled.div`
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #b1b4b6;
-`;
-
-const SupportTitle = styled.h2`
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-`;
-
-const SupportText = styled.p`
-  margin-bottom: 10px;
-`;
-
-const SupportLink = styled.a`
-  color: #1d70b8;
-  text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+// Support section styling removed as we're using the global SupportSection component
 
 const PupilInsights = ({ selectedPupil, formatDate }) => {
   return (
@@ -582,12 +561,7 @@ const PupilPage = () => {
         </MainContentWrapper>
       </ContentContainer>
       
-      <SupportSection>
-        <SupportTitle>Further support</SupportTitle>
-        <SupportText>
-          If you need help with anything, you can <SupportLink href="#">submit an enquiry</SupportLink>.
-        </SupportText>
-      </SupportSection>
+      <SupportSection />
     </Container>
   );
 };

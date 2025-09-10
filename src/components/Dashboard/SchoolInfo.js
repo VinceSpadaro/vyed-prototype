@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { media } from './ResponsiveStyles';
 
 const SchoolInfoContainer = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 0;
 `;
 
 const SchoolName = styled.h2`

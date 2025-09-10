@@ -8,7 +8,7 @@ const SupportContainer = styled.div`
 `;
 
 const SupportTitle = styled.h2`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 15px;
 `;
 
