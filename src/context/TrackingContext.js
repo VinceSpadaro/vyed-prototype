@@ -83,7 +83,20 @@ export const TrackingProvider = ({ children }) => {
               console.log('Setting Clarity user ID:', userId);
               // Only call identify if clarity is properly initialized
               if (typeof window.clarity === 'function') {
+                // Set the user ID as the session ID to make it easier to find in the dashboard
                 window.clarity('identify', userId);
+                
+                // Set custom tags to make filtering easier
+                window.clarity('set', 'userId', userId);
+                
+                // Set session metadata
+                window.clarity('metadata', { 'session_user_id': userId });
+                
+                // Override the default session ID with our user ID
+                if (window.clarity.sessionId) {
+                  console.log('Overriding default Clarity session ID with user ID');
+                  window.clarity.sessionId = userId;
+                }
               }
             } catch (err) {
               console.error('Error setting Clarity user ID:', err);
@@ -120,9 +133,32 @@ export const TrackingProvider = ({ children }) => {
 
   // Function to start tracking
   const startTracking = (newUserId, internalTeam = false) => {
-    setUserId(newUserId);
+    // Format the user ID to ensure it's consistent
+    const formattedUserId = newUserId.trim();
+    
+    // Set state
+    setUserId(formattedUserId);
     setIsInternalTeam(internalTeam);
     setIsTracking(true);
+    
+    // If Clarity is already loaded, update the user ID immediately
+    if (window.clarity && typeof window.clarity === 'function' && !internalTeam) {
+      try {
+        // Set the user ID as the session ID
+        window.clarity('identify', formattedUserId);
+        window.clarity('set', 'userId', formattedUserId);
+        window.clarity('metadata', { 'session_user_id': formattedUserId });
+        
+        // Try to override the session ID directly
+        if (window.clarity.sessionId) {
+          window.clarity.sessionId = formattedUserId;
+        }
+        
+        console.log('Updated Clarity with user ID:', formattedUserId);
+      } catch (err) {
+        console.error('Error updating Clarity with user ID:', err);
+      }
+    }
   };
 
   // Function to stop tracking
