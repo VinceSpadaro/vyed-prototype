@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TabNavigation from '../Dashboard/TabNavigation';
 import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
@@ -11,34 +10,10 @@ import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
 import PageLayout from '../Dashboard/PageLayout';
 
-// Removed unused styled components
+// Styled components for the page
 
-const ContentContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-  width: 100%;
-  overflow-x: hidden;
-  
-  ${media.medium`
-    flex-direction: column;
-  `}
-`;
-
-const MainContent = styled.div`
-  flex: 1;
-  overflow-x: hidden;
-  width: 100%;
-`;
-
-
-const SidebarContent = styled.div`
-  width: 300px;
-  
-  ${media.medium`
-    width: 100%;
-    margin-top: 20px;
-  `}
+const ContentWrapper = styled.div`
+  padding-left: 20px;
 `;
 
 const SectionTitle = styled.h2`
@@ -135,71 +110,63 @@ const TrustPage = () => {
   };
   
   const trustContent = (
-    <>
-      <TabNavigation />
+    <ContentWrapper>
+      <SectionTitle>Trust Overview: {organisationName || 'Your Trust'}</SectionTitle>
       
-      <ContentContainer>
-        <MainContent>
-          <SectionTitle>Trust Overview: {organisationName || 'Your Trust'}</SectionTitle>
-          
-          <Description>
-            Get attendance and absence figures for the whole trust, school and pupil characteristic groups. 
-            Use filter panel on the right hand side of the screen to select pupil characteristics. 
-            Data is updated daily.
-          </Description>
-          
-          <Select
-            id="school-select"
-            label="Select School"
-            options={schoolOptions}
-            value={selectedSchool}
-            onChange={handleSchoolChange}
-          />
-          
-          <StatsContainer>
-            <StatBox color="#1d70b8">
-              <StatValue>{trustOverviewData.numberOfSchools}</StatValue>
-              <StatLabel>Number of schools</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{trustOverviewData.numberOfPupils}</StatValue>
-              <StatLabel>Number of pupils</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{trustOverviewData.overallAttendance}</StatValue>
-              <StatLabel>Overall attendance</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{trustOverviewData.persistentlyAbsentPupils}</StatValue>
-              <StatLabel>Persistently absent pupils</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{trustOverviewData.severelyAbsentPupils}</StatValue>
-              <StatLabel>Severely absent pupils</StatLabel>
-            </StatBox>
-          </StatsContainer>
-          
-          <TableContainer>
-            <DataTable 
-              columns={columns} 
-              data={filteredSchools} 
-            />
-          </TableContainer>
-          
-          <LastUpdated>Last updated: 4 September 2025</LastUpdated>
-        </MainContent>
-        
-        <SidebarContent>
-          <Filters />
-        </SidebarContent>
-      </ContentContainer>
-    </>
+      <Description>
+        Get attendance and absence figures for the whole trust, school and pupil characteristic groups. 
+        Use filter panel on the right hand side of the screen to select pupil characteristics. 
+        Data is updated daily.
+      </Description>
+      
+      <Select
+        id="school-select"
+        label="Select School"
+        options={schoolOptions}
+        value={selectedSchool}
+        onChange={handleSchoolChange}
+      />
+      
+      <StatsContainer>
+        <StatBox color="#1d70b8">
+          <StatValue>{trustOverviewData.numberOfSchools}</StatValue>
+          <StatLabel>Number of schools</StatLabel>
+        </StatBox>
+        <StatBox color="#1d70b8">
+          <StatValue>{trustOverviewData.numberOfPupils}</StatValue>
+          <StatLabel>Number of pupils</StatLabel>
+        </StatBox>
+        <StatBox color="#1d70b8">
+          <StatValue>{trustOverviewData.overallAttendance}</StatValue>
+          <StatLabel>Overall attendance</StatLabel>
+        </StatBox>
+        <StatBox color="#1d70b8">
+          <StatValue>{trustOverviewData.persistentlyAbsentPupils}</StatValue>
+          <StatLabel>Persistently absent pupils</StatLabel>
+        </StatBox>
+        <StatBox color="#1d70b8">
+          <StatValue>{trustOverviewData.severelyAbsentPupils}</StatValue>
+          <StatLabel>Severely absent pupils</StatLabel>
+        </StatBox>
+      </StatsContainer>
+      
+      <TableContainer>
+        <DataTable 
+          columns={columns} 
+          data={filteredSchools} 
+        />
+      </TableContainer>
+      
+      <LastUpdated>Last updated: 4 September 2025</LastUpdated>
+    </ContentWrapper>
   );
 
   return (
     <PageLayout
       title="Trust attendance data"
       showUpdates={true}
+      contentSideNav={false}
+      contentSidebar={<Filters />}
       supportSection={<SupportSection />}
     >
       {trustContent}

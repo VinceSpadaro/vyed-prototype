@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import AcademicYearTable from '../Common/AcademicYearTable';
 
 const Container = styled.div`
-  padding: 0;
+  padding: 0 0 0 20px;
   margin-bottom: 30px;
 `;
 

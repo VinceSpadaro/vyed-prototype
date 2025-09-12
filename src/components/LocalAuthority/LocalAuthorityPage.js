@@ -39,6 +39,7 @@ const MainContent = styled.div`
   flex: 1;
   overflow-x: hidden;
   width: 100%;
+  padding-left: 20px;
 `;
 
 const SectionTitle = styled.h2`

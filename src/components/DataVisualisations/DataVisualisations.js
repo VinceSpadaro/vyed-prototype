@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LineChart from './LineChart';
 
 const Container = styled.div`
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
 `;
 
 const Title = styled.h2`

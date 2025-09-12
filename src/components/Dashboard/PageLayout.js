@@ -21,6 +21,7 @@ const ContentContainer = styled.div`
   display: flex;
   width: 100%;
   max-width: 100%;
+  height: 850px;
 `;
 
 const SideNavContainer = styled.div`
@@ -29,13 +30,17 @@ const SideNavContainer = styled.div`
 
 const MainContentContainer = styled.div`
   flex: 1;
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   min-width: 0; /* This prevents flex items from overflowing */
   overflow-x: auto;
+  overflow-y: auto;
+  height: 100%;
 `;
 
 const SidebarContainer = styled.div`
   flex: 0 0 300px;
+  height: 100%;
+  overflow-y: hidden; /* Let the child components handle scrolling */
 `;
 
 const SupportSectionWrapper = styled.div`

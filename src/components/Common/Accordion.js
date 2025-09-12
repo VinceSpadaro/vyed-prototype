@@ -78,8 +78,18 @@ const ShowAllIconWrapper = styled.span`
 `;
 
 // Main Accordion component
-const Accordion = ({ sections }) => {
-  const [expandedSections, setExpandedSections] = useState({});
+const Accordion = ({ sections, defaultExpanded = false }) => {
+  // Initialize with all sections expanded if defaultExpanded is true
+  const [expandedSections, setExpandedSections] = useState(() => {
+    if (defaultExpanded) {
+      const initialState = {};
+      sections.forEach(section => {
+        initialState[section.id] = true;
+      });
+      return initialState;
+    }
+    return {};
+  });
 
   const toggleSection = (id) => {
     setExpandedSections(prev => ({

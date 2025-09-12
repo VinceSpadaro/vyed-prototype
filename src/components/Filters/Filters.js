@@ -30,6 +30,8 @@ const FiltersContainer = styled.div`
   padding: 5px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  overflow-y: auto;
   
   ${media.small`
     padding: 10px;

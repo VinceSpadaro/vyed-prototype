@@ -38,6 +38,7 @@ const MainContent = styled.div`
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
+  padding-left: 20px;
 `;
 
 const SidebarContent = styled.div`
