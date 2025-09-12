@@ -99,15 +99,15 @@ const PageLayout = ({
       </ContentContainer>
       
       {supportSection && (
-        React.isValidElement(supportSection) && supportSection.type?.name === 'SupportSection' ? (
-          /* If it's a SupportSection component, render it directly without wrapper */
-          supportSection
-        ) : (
-          /* Otherwise, it's inline content, so wrap it with our styled container */
+        typeof supportSection === 'string' || typeof supportSection === 'number' ? (
+          /* If it's a simple string or number, wrap it with our styled container */
           <SupportSectionWrapper>
             <h2>Further support</h2>
             {supportSection}
           </SupportSectionWrapper>
+        ) : (
+          /* Otherwise, it's a component or element, render it directly */
+          supportSection
         )
       )}
     </PageContainer>

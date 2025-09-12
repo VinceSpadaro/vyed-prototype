@@ -10,6 +10,7 @@ import { Select } from '../FormElements';
 // Using custom StatBox instead of StatCard to match School page
 import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
+import PageLayout from '../Dashboard/PageLayout';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -145,12 +146,8 @@ const TrustPage = () => {
     setSelectedSchool(e.target.value);
   };
   
-  return (
-    <Container>
-      <PageTitle>Trust attendance data</PageTitle>
-      
-      <UpdatesSection />
-      
+  const trustContent = (
+    <>
       <TabNavigation />
       
       <ContentContainer>
@@ -208,9 +205,17 @@ const TrustPage = () => {
           <Filters />
         </SidebarContent>
       </ContentContainer>
-      
-      <SupportSection />
-    </Container>
+    </>
+  );
+
+  return (
+    <PageLayout
+      title="Trust attendance data"
+      showUpdates={true}
+      supportSection={<SupportSection />}
+    >
+      {trustContent}
+    </PageLayout>
   );
 };
 

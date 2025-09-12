@@ -44,4 +44,7 @@ const SupportSection = () => {
   );
 };
 
+// Add displayName to help with component identification in production
+SupportSection.displayName = 'SupportSection';
+
 export default SupportSection;
