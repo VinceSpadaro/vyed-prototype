@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import './App.css';
 import { UserTypeProvider, useUserType } from './context/UserTypeContext';
 import { TrackingProvider } from './context/TrackingContext';
+import ClarityPageTracker from './components/Analytics/ClarityPageTracker';
 
 // Components
 import Header from './components/Header/Header';
@@ -58,6 +59,7 @@ const ProtectedRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Router>
+      <ClarityPageTracker />
       <AppContainer>
         <Header />
         <MainContent>
