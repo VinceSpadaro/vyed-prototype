@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TabNavigation from '../Dashboard/TabNavigation';
-import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
@@ -12,18 +11,7 @@ import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
 import PageLayout from '../Dashboard/PageLayout';
 
-const Container = styled.div`
-  padding: 0 20px;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
-  overflow-x: hidden;
-`;
-
-const PageTitle = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 20px;
-`;
+// Removed unused styled components
 
 const ContentContainer = styled.div`
   display: flex;
