@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 const TableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
-  margin-bottom: 30px;
+  flex: 1; /* Take all available space */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 `;
 
 const Table = styled.table`

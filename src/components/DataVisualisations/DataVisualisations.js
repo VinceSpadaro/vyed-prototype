@@ -4,6 +4,7 @@ import LineChart from './LineChart';
 
 const Container = styled.div`
   padding: 20px 20px 20px 20px;
+  overflow: hidden;
 `;
 
 const Title = styled.h2`

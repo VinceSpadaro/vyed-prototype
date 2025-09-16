@@ -6,6 +6,9 @@ const Container = styled.div`
   padding: 0;
   margin-bottom: 30px;
   width: 100%;
+  height: calc(100vh - 250px); /* Take full height of viewport minus header space */
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h2`
@@ -29,6 +32,13 @@ const GuidanceLink = styled.a`
   }
 `;
 
+const TableWrapper = styled.div`
+  flex: 1; /* Take remaining space */
+  min-height: 0; /* Important for flex child to be able to shrink */
+  display: flex;
+  flex-direction: column;
+`;
+
 const AbsenceBandings = () => {
   return (
     <Container>
@@ -39,7 +49,9 @@ const AbsenceBandings = () => {
       
       <GuidanceLink href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-how-to-use-the-absence-bandings-report">How to use your absence data to target your resources and interventions.</GuidanceLink>
       
-      <AbsenceBandingsTable />
+      <TableWrapper>
+        <AbsenceBandingsTable />
+      </TableWrapper>
     </Container>
   );
 };

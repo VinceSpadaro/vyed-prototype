@@ -3,17 +3,14 @@ import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
-import { media } from '../Dashboard/ResponsiveStyles';
+import { media } from '../../styles/mediaQueries';
 import { Select } from '../FormElements';
-// Using custom StatBox instead of StatCard to match School page
 import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
 import PageLayout from '../Dashboard/PageLayout';
 
-// Styled components for the page
-
-const ContentWrapper = styled.div`
-  padding-left: 20px;
+const TrustPageContainer = styled.div`
+  margin-bottom: 30px;
 `;
 
 const SectionTitle = styled.h2`
@@ -42,7 +39,7 @@ const StatsContainer = styled.div`
 `;
 
 const StatBox = styled.div`
-  background-color: ${props => props.color || '#1d70b8'};  
+  background-color: ${props => props.color || 'var(--stat-card-blue)'};  
   color: white;
   padding: 15px;
   flex: 1;
@@ -62,19 +59,20 @@ const StatLabel = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin-top: 30px;
-  width: 100%;
+  margin-bottom: 20px;
   border: 1px solid #b1b4b6;
-  max-height: 500px;
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  max-height: 400px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 `;
 
 const LastUpdated = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #666;
-  margin-top: 10px;
-  text-align: right;
+  margin-bottom: 15px;
 `;
 
 
@@ -109,8 +107,16 @@ const TrustPage = () => {
     setSelectedSchool(e.target.value);
   };
   
+  // Format today's date
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
   const trustContent = (
-    <ContentWrapper>
+    <TrustPageContainer>
       <SectionTitle>Trust Overview: {organisationName || 'Your Trust'}</SectionTitle>
       
       <Description>
@@ -128,27 +134,29 @@ const TrustPage = () => {
       />
       
       <StatsContainer>
-        <StatBox color="#1d70b8">
+        <StatBox color="var(--stat-card-blue)">
           <StatValue>{trustOverviewData.numberOfSchools}</StatValue>
           <StatLabel>Number of schools</StatLabel>
         </StatBox>
-        <StatBox color="#1d70b8">
+        <StatBox color="var(--stat-card-blue)">
           <StatValue>{trustOverviewData.numberOfPupils}</StatValue>
           <StatLabel>Number of pupils</StatLabel>
         </StatBox>
-        <StatBox color="#1d70b8">
+        <StatBox color="var(--stat-card-blue)">
           <StatValue>{trustOverviewData.overallAttendance}</StatValue>
           <StatLabel>Overall attendance</StatLabel>
         </StatBox>
-        <StatBox color="#1d70b8">
+        <StatBox color="var(--stat-card-blue)">
           <StatValue>{trustOverviewData.persistentlyAbsentPupils}</StatValue>
           <StatLabel>Persistently absent pupils</StatLabel>
         </StatBox>
-        <StatBox color="#1d70b8">
+        <StatBox color="var(--stat-card-blue)">
           <StatValue>{trustOverviewData.severelyAbsentPupils}</StatValue>
           <StatLabel>Severely absent pupils</StatLabel>
         </StatBox>
       </StatsContainer>
+      
+      <LastUpdated>Latest session available: {formattedDate}</LastUpdated>
       
       <TableContainer>
         <DataTable 
@@ -156,15 +164,14 @@ const TrustPage = () => {
           data={filteredSchools} 
         />
       </TableContainer>
-      
-      <LastUpdated>Last updated: 4 September 2025</LastUpdated>
-    </ContentWrapper>
+    </TrustPageContainer>
   );
 
   return (
     <PageLayout
       title="Trust attendance data"
       showUpdates={true}
+      showTabs={true}
       contentSideNav={false}
       contentSidebar={<Filters />}
       supportSection={<SupportSection />}

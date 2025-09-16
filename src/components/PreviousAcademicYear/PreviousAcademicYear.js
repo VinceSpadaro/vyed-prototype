@@ -5,6 +5,9 @@ import AcademicYearTable from '../Common/AcademicYearTable';
 const Container = styled.div`
   padding: 0 0 0 20px;
   margin-bottom: 30px;
+  height: calc(100vh - 250px); /* Take full height of viewport minus header space */
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h2`
@@ -63,6 +66,13 @@ const PreviousAcademicYear = () => {
     };
   };
 
+const TableWrapper = styled.div`
+  flex: 1; /* Take remaining space */
+  min-height: 0; /* Important for flex child to be able to shrink */
+  display: flex;
+  flex-direction: column;
+`;
+
   return (
     <Container>
       <Title>Previous academic year</Title>
@@ -70,7 +80,8 @@ const PreviousAcademicYear = () => {
         Use this page to compare previous academic years to the current year. Data is updated daily.
       </Description>
       
-      <AcademicYearTable 
+      <TableWrapper>
+        <AcademicYearTable 
         columns={[
           { key: 'term', header: 'Term' },
           { key: 'attendance', header: 'Attendance %' },
@@ -84,6 +95,7 @@ const PreviousAcademicYear = () => {
           formatTermData('overall', data.overall)
         ]}
       />
+      </TableWrapper>
     </Container>
   );
 };

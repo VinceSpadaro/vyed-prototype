@@ -6,12 +6,17 @@ const TableContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 30px;
   overflow-x: auto;
+  flex: 1; /* Take all available space */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  flex: 1;
 `;
 
 const TableHead = styled.thead`

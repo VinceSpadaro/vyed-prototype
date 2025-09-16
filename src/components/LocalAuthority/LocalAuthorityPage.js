@@ -1,46 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TabNavigation from '../Dashboard/TabNavigation';
-import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
-import { media } from '../Dashboard/ResponsiveStyles';
+import { media } from '../../styles/mediaQueries';
 import { Select } from '../FormElements';
 import DataTable from '../Common/DataTable';
 import { localAuthorityOverviewData, schoolOptions, schoolsData } from '../../data/localAuthorityData';
+import PageLayout from '../Dashboard/PageLayout';
 
-const Container = styled.div`
-  padding: 0 20px;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
-  overflow-x: hidden;
+const LocalAuthorityPageContainer = styled.div`
+  margin-bottom: 30px;
 `;
 
-const PageTitle = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 20px;
-`;
 
-const ContentContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-  width: 100%;
-  overflow-x: hidden;
-  
-  ${media.medium`
-    flex-direction: column;
-  `}
-`;
 
-const MainContent = styled.div`
-  flex: 1;
-  overflow-x: hidden;
-  width: 100%;
-  padding-left: 20px;
-`;
 
 const SectionTitle = styled.h2`
   font-size: 1.5rem;
@@ -68,7 +42,7 @@ const StatsContainer = styled.div`
 `;
 
 const StatBox = styled.div`
-  background-color: ${props => props.color || '#1d70b8'};  
+  background-color: ${props => props.color || 'var(--stat-card-blue)'};  
   color: white;
   padding: 15px;
   flex: 1;
@@ -88,30 +62,23 @@ const StatLabel = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin-top: 30px;
-  width: 100%;
+  margin-bottom: 20px;
   border: 1px solid #b1b4b6;
-  max-height: 500px;
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  max-height: 400px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 `;
 
 const LastUpdated = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #666;
-  margin-top: 10px;
-  text-align: right;
+  margin-bottom: 15px;
 `;
 
 
-const SidebarContent = styled.div`
-  width: 300px;
-  
-  ${media.medium`
-    width: 100%;
-    margin-top: 20px;
-  `}
-`;
 
 
 const LocalAuthorityPage = () => {
@@ -148,72 +115,77 @@ const LocalAuthorityPage = () => {
     setSelectedSchool(e.target.value);
   };
   
+  // Format today's date
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  const localAuthorityContent = (
+    <LocalAuthorityPageContainer>
+      <SectionTitle>Local Authority Overview: {organisationName || 'Your Local Authority'}</SectionTitle>
+      
+      <Description>
+        Get attendance and absence figures for the whole LA, school and pupil characteristic groups. 
+        Use filter panel on the right hand side of the screen to select pupil characteristics. 
+        Data is updated daily.
+      </Description>
+      
+      <Select
+        id="school-select"
+        label="Select School"
+        options={schoolOptions}
+        value={selectedSchool}
+        onChange={handleSchoolChange}
+      />
+      
+      <StatsContainer>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>{localAuthorityOverviewData.numberOfSchools}</StatValue>
+          <StatLabel>Number of schools</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>{localAuthorityOverviewData.numberOfPupils}</StatValue>
+          <StatLabel>Number of pupils</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>{localAuthorityOverviewData.overallAttendance}</StatValue>
+          <StatLabel>Overall attendance</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>{localAuthorityOverviewData.persistentlyAbsentPupils}</StatValue>
+          <StatLabel>Persistently absent pupils</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>{localAuthorityOverviewData.severelyAbsentPupils}</StatValue>
+          <StatLabel>Severely absent pupils</StatLabel>
+        </StatBox>
+      </StatsContainer>
+      
+      <LastUpdated>Latest session available: {formattedDate}</LastUpdated>
+      
+      <TableContainer>
+        <DataTable 
+          columns={columns} 
+          data={filteredSchools} 
+        />
+      </TableContainer>
+    </LocalAuthorityPageContainer>
+  );
+
   return (
-    <Container>
-      <PageTitle>Local authority attendance data</PageTitle>
-      
-      <UpdatesSection />
-      
-      <TabNavigation />
-      
-      <ContentContainer>
-        <MainContent>
-          <SectionTitle>Local Authority Overview: {organisationName || 'Your Local Authority'}</SectionTitle>
-          
-          <Description>
-            Get attendance and absence figures for the whole LA, school and pupil characteristic groups. 
-            Use filter panel on the right hand side of the screen to select pupil characteristics. 
-            Data is updated daily.
-          </Description>
-          
-          <Select
-            id="school-select"
-            label="Select School"
-            options={schoolOptions}
-            value={selectedSchool}
-            onChange={handleSchoolChange}
-          />
-          
-          <StatsContainer>
-            <StatBox color="#1d70b8">
-              <StatValue>{localAuthorityOverviewData.numberOfSchools}</StatValue>
-              <StatLabel>Number of schools</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{localAuthorityOverviewData.numberOfPupils}</StatValue>
-              <StatLabel>Number of pupils</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{localAuthorityOverviewData.overallAttendance}</StatValue>
-              <StatLabel>Overall attendance</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{localAuthorityOverviewData.persistentlyAbsentPupils}</StatValue>
-              <StatLabel>Persistently absent pupils</StatLabel>
-            </StatBox>
-            <StatBox color="#1d70b8">
-              <StatValue>{localAuthorityOverviewData.severelyAbsentPupils}</StatValue>
-              <StatLabel>Severely absent pupils</StatLabel>
-            </StatBox>
-          </StatsContainer>
-          
-          <TableContainer>
-            <DataTable 
-              columns={columns} 
-              data={filteredSchools} 
-            />
-          </TableContainer>
-          
-          <LastUpdated>Last updated: 4 September 2025</LastUpdated>
-        </MainContent>
-        
-        <SidebarContent>
-          <Filters />
-        </SidebarContent>
-      </ContentContainer>
-      
-      <SupportSection />
-    </Container>
+    <PageLayout
+      title="Local authority attendance data"
+      showUpdates={true}
+      showTabs={true}
+      contentSideNav={false}
+      contentSidebar={<Filters />}
+      supportSection={<SupportSection />}
+    >
+      {localAuthorityContent}
+    </PageLayout>
   );
 };
 

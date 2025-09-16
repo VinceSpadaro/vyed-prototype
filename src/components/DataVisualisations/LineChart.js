@@ -7,6 +7,7 @@ const ChartContainer = styled.div`
   height: 400px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
+  overflow: hidden;
 `;
 
 const YAxisLabels = styled.div`
@@ -214,7 +215,7 @@ const LineChart = ({ chartType = 'attendance' }) => {
   };
   
   return (
-    <div>
+    <div style={{ overflow: 'hidden' }}>
       <ChartContainer>
         <YAxisLabels>
           {yAxisLabels.map((label, index) => (

@@ -1,12 +1,12 @@
 import React from 'react';
-import PageLayout from '../Dashboard/PageLayout';
+import DataVisualisationsPageLayout from './DataVisualisationsPageLayout';
 import DataVisualisations from './DataVisualisations';
 import Filters from '../Filters/Filters';
 import SupportSection from '../Support/SupportSection';
 
 const DataVisualisationsPage = () => {
   return (
-    <PageLayout
+    <DataVisualisationsPageLayout
       title="View school attendance data"
       showUpdates={true}
       contentSideNav={true}
@@ -14,7 +14,7 @@ const DataVisualisationsPage = () => {
       supportSection={<SupportSection />}
     >
       <DataVisualisations />
-    </PageLayout>
+    </DataVisualisationsPageLayout>
   );
 };
 

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { getAllPupils } from '../../services/pupilDataService';
-import TabNavigation from '../Dashboard/TabNavigation';
 import Filters from '../Filters/Filters';
 import { media } from '../../styles/mediaQueries';
 import SupportSection from '../Support/SupportSection';
-import UpdatesSection from '../Common/UpdatesSection';
 import { useUserType } from '../../context/UserTypeContext';
 import { Select } from '../FormElements';
+import PageLayout from '../Dashboard/PageLayout';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -52,12 +51,7 @@ const SidebarContent = styled.div`
   `}
 `;
 
-const PageContainer = styled.div`
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
+// PageContainer is no longer needed as PageLayout handles this
 
 const SchoolPageContainer = styled.div`
   margin-bottom: 30px;
@@ -69,12 +63,14 @@ const PageTitle = styled.h1`
 `;
 
 const TableContainer = styled.div`
-  overflow-x: auto;
   margin-bottom: 20px;
   border: 1px solid #b1b4b6;
   width: 100%;
   max-width: 100%;
   display: block;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
 `;
 
 const StyledTable = styled.table`
@@ -241,14 +237,19 @@ const SchoolPage = () => {
     setSelectedSchool(e.target.value);
   };
   
-  // Function to handle scroll and load more rows
-  const handleScroll = (e) => {
+  // Function to load more rows (previously used with scroll)
+  const loadMoreRows = useCallback(() => {
+    setVisibleRows(prevRows => Math.min(prevRows + 10, filteredPupils.length));
+  }, [filteredPupils.length]);
+  
+  // We'll use handleScroll again since we're making the table scrollable
+  const handleScroll = useCallback((e) => {
     const { scrollTop, clientHeight, scrollHeight } = e.target;
     if (scrollHeight - scrollTop <= clientHeight * 1.5) {
       // When user scrolls to near bottom, load more rows
-      setVisibleRows(prevRows => Math.min(prevRows + 10, filteredPupils.length));
+      loadMoreRows();
     }
-  };
+  }, [loadMoreRows]);
   
   // Format today's date
   const today = new Date();
@@ -258,118 +259,112 @@ const SchoolPage = () => {
     year: 'numeric'
   });
   
-  return (
-    <PageContainer>
-      <PageTitle>School attendance data</PageTitle>
+  // Create the school content component
+  const schoolContent = (
+    <SchoolPageContainer>
+      {userType === 'localAuthority' || userType === 'trust' ? (
+        <>
+          <SchoolName>{selectedSchool === 'all' ? 'All Schools' : schoolsMap[selectedSchool]}</SchoolName>
+          <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
+          <div style={{ marginBottom: '20px' }}>
+            <Select
+              id="school-select"
+              label="Select School"
+              options={schoolOptions}
+              value={selectedSchool}
+              onChange={handleSchoolChange}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <SchoolName>Demo School</SchoolName>
+          <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
+        </>
+      )}
       
-      <UpdatesSection />
+      <StatsContainer>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>1,744</StatValue>
+          <StatLabel>Number of pupils</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>91.4%</StatValue>
+          <StatLabel>Overall attendance %</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>454</StatValue>
+          <StatLabel>Persistently absent pupils</StatLabel>
+        </StatBox>
+        <StatBox color="var(--stat-card-blue)">
+          <StatValue>48</StatValue>
+          <StatLabel>Severely absent pupils</StatLabel>
+        </StatBox>
+      </StatsContainer>
       
-      <TabNavigation />
+      <LastUpdated>Latest session available: {formattedDate}</LastUpdated>
       
-      <ContentContainer>
-        <MainContentWrapper>
-          <MainContent>
-            <SchoolPageContainer>
-              {userType === 'localAuthority' || userType === 'trust' ? (
-              <>
-                <SchoolName>{selectedSchool === 'all' ? 'All Schools' : schoolsMap[selectedSchool]}</SchoolName>
-                <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
-                <div style={{ marginBottom: '20px' }}>
-                  <Select
-                    id="school-select"
-                    label="Select School"
-                    options={schoolOptions}
-                    value={selectedSchool}
-                    onChange={handleSchoolChange}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <SchoolName>Demo School</SchoolName>
-                <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
-              </>
-            )}
-              
-              <StatsContainer>
-                <StatBox color="var(--stat-card-blue)">
-                  <StatValue>1,744</StatValue>
-                  <StatLabel>Number of pupils</StatLabel>
-                </StatBox>
-                <StatBox color="var(--stat-card-blue)">
-                  <StatValue>91.4%</StatValue>
-                  <StatLabel>Overall attendance %</StatLabel>
-                </StatBox>
-                <StatBox color="var(--stat-card-blue)">
-                  <StatValue>454</StatValue>
-                  <StatLabel>Persistently absent pupils</StatLabel>
-                </StatBox>
-                <StatBox color="var(--stat-card-blue)">
-                  <StatValue>48</StatValue>
-                  <StatLabel>Severely absent pupils</StatLabel>
-                </StatBox>
-              </StatsContainer>
-              
-              <LastUpdated>Latest session available: {formattedDate}</LastUpdated>
-              
-              <InfoText>
-                Get attendance and absence figures for the whole school and pupil characteristic groups. 
-                Use the filter pane on the right hand side to select pupil characteristics.
-              </InfoText>
-              
-              {loading ? (
-                <div>Loading pupil data...</div>
-              ) : (
-                <>
-                  <TableContainer onScroll={handleScroll} style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'auto', width: '100%', display: 'block' }}>
-                    <StyledTable>
-                      <TableHeader>
-                        <tr>
-                          <th style={{ minWidth: '150px' }}>Pupil name</th>
-                          {(userType === 'localAuthority' || userType === 'trust') && <th style={{ minWidth: '150px' }}>School name</th>}
-                          <th style={{ minWidth: '120px' }}>UPN</th>
-                          <th style={{ minWidth: '100px' }}>Attendance</th>
-                          <th style={{ minWidth: '100px' }}>Absence</th>
-                          <th style={{ minWidth: '100px' }}>Authorized</th>
-                          <th style={{ minWidth: '100px' }}>Unauthorized</th>
-                          <th style={{ minWidth: '120px' }}>Full days missed</th>
-                          <th style={{ minWidth: '140px' }}>Possible sessions</th>
-                          <th style={{ minWidth: '120px' }}>Missed sessions</th>
-                        </tr>
-                      </TableHeader>
-                      <TableBody>
-                        {visiblePupils.map((pupil) => (
-                          <tr key={pupil.id}>
-                            <td>{pupil.name}</td>
-                            {(userType === 'localAuthority' || userType === 'trust') && <td>{pupil.schoolName}</td>}
-                            <td>{pupil.upn}</td>
-                            <td>{pupil.attendance}</td>
-                            <td>{pupil.absence}</td>
-                            <td>{pupil.authorized}</td>
-                            <td>{pupil.unauthorized}</td>
-                            <td>{pupil.fullDaysMissed}</td>
-                            <td>{pupil.possibleSessions}</td>
-                            <td>{pupil.missedSessions}</td>
-                          </tr>
-                        ))}
-                      </TableBody>
-                    </StyledTable>
-                  </TableContainer>
-                  
-                  {/* Infinite scroll implemented - no pagination needed */}
-                </>
-              )}
-            </SchoolPageContainer>
-          </MainContent>
+      <InfoText>
+        Get attendance and absence figures for the whole school and pupil characteristic groups. 
+        Use the filter pane on the right hand side to select pupil characteristics.
+      </InfoText>
+      
+      {loading ? (
+        <div>Loading pupil data...</div>
+      ) : (
+        <>
+          <TableContainer onScroll={handleScroll}>
+            <StyledTable>
+              <TableHeader>
+                <tr>
+                  <th style={{ minWidth: '150px' }}>Pupil name</th>
+                  {(userType === 'localAuthority' || userType === 'trust') && <th style={{ minWidth: '150px' }}>School name</th>}
+                  <th style={{ minWidth: '120px' }}>UPN</th>
+                  <th style={{ minWidth: '100px' }}>Attendance</th>
+                  <th style={{ minWidth: '100px' }}>Absence</th>
+                  <th style={{ minWidth: '100px' }}>Authorized</th>
+                  <th style={{ minWidth: '100px' }}>Unauthorized</th>
+                  <th style={{ minWidth: '120px' }}>Full days missed</th>
+                  <th style={{ minWidth: '140px' }}>Possible sessions</th>
+                  <th style={{ minWidth: '120px' }}>Missed sessions</th>
+                </tr>
+              </TableHeader>
+              <TableBody>
+                {visiblePupils.map((pupil) => (
+                  <tr key={pupil.id}>
+                    <td>{pupil.name}</td>
+                    {(userType === 'localAuthority' || userType === 'trust') && <td>{pupil.schoolName}</td>}
+                    <td>{pupil.upn}</td>
+                    <td>{pupil.attendance}</td>
+                    <td>{pupil.absence}</td>
+                    <td>{pupil.authorized}</td>
+                    <td>{pupil.unauthorized}</td>
+                    <td>{pupil.fullDaysMissed}</td>
+                    <td>{pupil.possibleSessions}</td>
+                    <td>{pupil.missedSessions}</td>
+                  </tr>
+                ))}
+              </TableBody>
+            </StyledTable>
+          </TableContainer>
           
-          <SidebarContent>
-            <Filters />
-          </SidebarContent>
-        </MainContentWrapper>
-      </ContentContainer>
-      
-      <SupportSection />
-    </PageContainer>
+          {/* Infinite scroll implemented - no pagination needed */}
+        </>
+      )}
+    </SchoolPageContainer>
+  );
+
+  return (
+    <PageLayout
+      title="School attendance data"
+      showUpdates={true}
+      showTabs={true}
+      contentSideNav={false}
+      contentSidebar={<Filters />}
+      supportSection={<SupportSection />}
+    >
+      {schoolContent}
+    </PageLayout>
   );
 };
 
