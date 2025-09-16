@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
 import { useTracking } from '../../context/TrackingContext';
 import RadioButton from '../FormElements/RadioButton';
+import { Checkbox } from '../FormElements';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -83,16 +84,6 @@ const TextInput = styled.input`
   }
 `;
 
-const Checkbox = styled.input`
-  margin-right: 10px;
-`;
-
-const CheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  margin-bottom: 10px;
-`;
 
 const TrackingSection = styled.div`
   margin-top: 30px;
@@ -287,16 +278,13 @@ const UserTypeSelectionPage = () => {
               )}
             </InputGroup>
             
-            <CheckboxLabel>
-              <Checkbox 
-                type="checkbox" 
-                id="internalTeam" 
-                name="internalTeam" 
-                checked={isInternalTeam} 
-                onChange={handleInternalTeamChange} 
-              />
-              I am an internal team member (no tracking)
-            </CheckboxLabel>
+            <Checkbox
+              id="internalTeam"
+              name="internalTeam"
+              checked={isInternalTeam}
+              onChange={handleInternalTeamChange}
+              label="I am an internal team member (no tracking)"
+            />
           </TrackingSection>
         )}
         
