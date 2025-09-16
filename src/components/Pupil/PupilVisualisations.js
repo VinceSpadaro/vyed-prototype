@@ -13,6 +13,7 @@ import {
   Legend
 } from 'chart.js';
 import { media } from '../../styles/mediaQueries';
+import Dropdown from '../Common/Dropdown';
 
 // Register ChartJS components
 ChartJS.register(
@@ -41,26 +42,6 @@ const Description = styled.p`
 
 const DateRangeContainer = styled.div`
   margin-bottom: 20px;
-`;
-
-const DateRangeLabel = styled.label`
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const DateRangeSelect = styled.div`
-  position: relative;
-  width: 200px;
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #b1b4b6;
-  background-color: white;
-  appearance: none;
-  cursor: pointer;
 `;
 
 const TabsContainer = styled.div`
@@ -141,6 +122,7 @@ const FullscreenLink = styled.a`
 
 const PupilVisualisations = ({ selectedPupil }) => {
   const [activeTab, setActiveTab] = useState('attendance');
+  const [dateRange, setDateRange] = useState('all');
   
   // Generate dates for the chart (last 20 weeks)
   const generateDates = () => {
@@ -293,15 +275,17 @@ const PupilVisualisations = ({ selectedPupil }) => {
       </Description>
       
       <DateRangeContainer>
-        <DateRangeLabel>Select a date range</DateRangeLabel>
-        <DateRangeSelect>
-          <StyledSelect>
-            <option>All</option>
-            <option>Autumn term</option>
-            <option>Spring term</option>
-            <option>Summer term</option>
-          </StyledSelect>
-        </DateRangeSelect>
+        <Dropdown
+          label="Select a date range"
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'autumn', label: 'Autumn term' },
+            { value: 'spring', label: 'Spring term' },
+            { value: 'summer', label: 'Summer term' }
+          ]}
+          value={dateRange}
+          onChange={(value) => setDateRange(value)}
+        />
       </DateRangeContainer>
       
       <TabsContainer>

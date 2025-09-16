@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import LineChart from './LineChart';
+import Dropdown from '../Common/Dropdown';
 
 const Container = styled.div`
   padding: 20px 20px 20px 20px;
@@ -19,18 +20,6 @@ const Description = styled.p`
 
 const DateRangeContainer = styled.div`
   margin-bottom: 20px;
-`;
-
-const DateRangeLabel = styled.div`
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
-const Select = styled.select`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 250px;
 `;
 
 const TabsContainer = styled.div`
@@ -79,7 +68,6 @@ const LatestSession = styled.div`
 const DataVisualisations = () => {
   const [activeTab, setActiveTab] = useState('attendance');
   const [dateRange, setDateRange] = useState('all');
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -107,45 +95,16 @@ const DataVisualisations = () => {
       </Description>
       
       <DateRangeContainer>
-        <DateRangeLabel>Select a date range</DateRangeLabel>
-        <div style={{ position: 'relative' }}>
-          <Select onClick={() => setDropdownOpen(!dropdownOpen)}>
-            {dateRange === 'all' && 'All'}
-            {dateRange === 'autumn' && 'Autumn 2024-2025'}
-            {dateRange === 'spring' && 'Spring 2024-2025'}
-            <span style={{ float: 'right', marginRight: '5px' }}>▼</span>
-          </Select>
-          
-          {dropdownOpen && (
-            <div style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              width: '250px',
-              backgroundColor: 'white',
-              border: '1px solid #ccc',
-              borderTop: 'none',
-              zIndex: 10,
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
-                <input type="checkbox" id="all" checked={dateRange === 'all'} 
-                  onChange={() => { setDateRange('all'); setDropdownOpen(false); }} />
-                <label htmlFor="all" style={{ marginLeft: '8px' }}>Select all</label>
-              </div>
-              <div style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
-                <input type="checkbox" id="autumn" checked={dateRange === 'autumn'} 
-                  onChange={() => { setDateRange('autumn'); setDropdownOpen(false); }} />
-                <label htmlFor="autumn" style={{ marginLeft: '8px' }}>Autumn 2024-2025</label>
-              </div>
-              <div style={{ padding: '8px' }}>
-                <input type="checkbox" id="spring" checked={dateRange === 'spring'} 
-                  onChange={() => { setDateRange('spring'); setDropdownOpen(false); }} />
-                <label htmlFor="spring" style={{ marginLeft: '8px' }}>Spring 2024-2025</label>
-              </div>
-            </div>
-          )}
-        </div>
+        <Dropdown
+          label="Select a date range"
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'autumn', label: 'Autumn 2024-2025' },
+            { value: 'spring', label: 'Spring 2024-2025' }
+          ]}
+          value={dateRange}
+          onChange={(value) => setDateRange(value)}
+        />
       </DateRangeContainer>
       
       <TabsContainer>

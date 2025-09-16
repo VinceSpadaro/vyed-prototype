@@ -4,10 +4,10 @@ import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
-import { Select } from '../FormElements';
 import DataTable from '../Common/DataTable';
 import { localAuthorityOverviewData, schoolOptions, schoolsData } from '../../data/localAuthorityData';
 import PageLayout from '../Dashboard/PageLayout';
+import Dropdown from '../Common/Dropdown';
 
 const LocalAuthorityPageContainer = styled.div`
   margin-bottom: 30px;
@@ -111,9 +111,7 @@ const LocalAuthorityPage = () => {
     ? schoolsData 
     : schoolsData.filter(school => school.name.toLowerCase().replace(' ', '-') === selectedSchool);
   
-  const handleSchoolChange = (e) => {
-    setSelectedSchool(e.target.value);
-  };
+  // School selection is now handled directly in the Dropdown component
   
   // Format today's date
   const today = new Date();
@@ -133,12 +131,11 @@ const LocalAuthorityPage = () => {
         Data is updated daily.
       </Description>
       
-      <Select
-        id="school-select"
+      <Dropdown
         label="Select School"
-        options={schoolOptions}
+        options={schoolOptions.map(option => ({ value: option.value, label: option.label }))}
         value={selectedSchool}
-        onChange={handleSchoolChange}
+        onChange={(value) => setSelectedSchool(value)}
       />
       
       <StatsContainer>

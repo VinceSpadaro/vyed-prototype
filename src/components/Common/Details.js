@@ -17,6 +17,7 @@ const DetailsSummary = styled.summary`
   cursor: pointer;
   position: relative;
   padding: 10px 0;
+  font-weight: normal;
   
   &:hover {
     color: #003078;

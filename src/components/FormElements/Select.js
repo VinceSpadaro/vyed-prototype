@@ -18,42 +18,38 @@ const SelectContainer = styled.div`
  */
 const Label = styled.label`
   display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
+  font-weight: normal;
+  margin-bottom: 10px;
   font-size: 16px;
 `;
 
 /**
  * Custom styled select dropdown
- * - Has black borders on all sides
  * - Shows hand cursor on hover
- * - Yellow highlight on left/right borders when focused
+ * - Yellow outline when focused (matching Dropdown component)
  */
 const StyledSelect = styled.select`
   /* Base styling */
   width: 100%;
-  padding: 10px;
-  padding-right: 20px; /* Extra padding for the chevron */
+  padding: 8px 12px;
   font-size: 16px;
   line-height: 1.25;
   background-color: #ffffff;
   cursor: pointer;
+  color: #1d70b8;
   
   /* Border styling */
-  border: solid 2px #0b0c0c;
+  border: 1px solid #b1b4b6;
   
   /* Interactive states */
   &:hover {
     cursor: pointer;
+    color: #003078;
   }
   
   &:focus {
-    outline: none;
-    border-top: 2px solid #0b0c0c;
-    border-bottom: 2px solid #0b0c0c;
-    border-left: 3px solid #ffdd00;
-    border-right: 3px solid #ffdd00;
-    box-shadow: 0 0 0 3px #ffdd00;
+    outline: 3px solid #ffdd00;
+    outline-offset: 0;
   }
 `;
 

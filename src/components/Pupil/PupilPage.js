@@ -12,6 +12,7 @@ import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
 import { media } from '../../styles/mediaQueries';
 import { useUserType } from '../../context/UserTypeContext';
+import Dropdown from '../Common/Dropdown';
 
 // Styled components
 const Container = styled.div`
@@ -61,21 +62,7 @@ const TabContent = styled.div`
   overflow-x: auto;
 `;
 
-// These styled components are used in PupilSideNav
-const StyledSelect = styled.div`
-  border: 1px solid #b1b4b6;
-  padding: 10px 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  font-size: 16px;
-`;
-
-const DropdownIcon = styled.span`
-  margin-left: 10px;
-`;
+// These styled components are no longer used - using Dropdown component instead
 
 const ContentLayout = styled.div`
   display: flex;
@@ -217,20 +204,10 @@ const WeekSelector = styled.div`
   margin-bottom: 20px;
 `;
 
-const WeekSelectorLabel = styled.label`
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const WeekSelectorDropdown = styled.div`
-  position: relative;
-  width: 300px;
-`;
-
 // Support section styling removed as we're using the global SupportSection component
 
 const PupilInsights = ({ selectedPupil, formatDate }) => {
+  const [selectedWeek, setSelectedWeek] = useState('all');
   return (
     <>
       {selectedPupil && (
@@ -313,13 +290,17 @@ const PupilInsights = ({ selectedPupil, formatDate }) => {
             {/* Right column - Main content */}
             <MainContentArea>
               <WeekSelector>
-                <WeekSelectorLabel>Select week commencing date</WeekSelectorLabel>
-                <WeekSelectorDropdown>
-                  <StyledSelect>
-                    All
-                    <DropdownIcon>▼</DropdownIcon>
-                  </StyledSelect>
-                </WeekSelectorDropdown>
+                <Dropdown
+                  label="Select week commencing date"
+                  options={[
+                    { value: 'all', label: 'All' },
+                    { value: 'week1', label: '01/09/2025' },
+                    { value: 'week2', label: '08/09/2025' },
+                    { value: 'week3', label: '15/09/2025' }
+                  ]}
+                  value={selectedWeek}
+                  onChange={(value) => setSelectedWeek(value)}
+                />
               </WeekSelector>
               
               <StatsContainer>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import AttendanceLineChart from './AttendanceLineChart';
 import AbsenceLineChart from './AbsenceLineChart';
 import UnauthorisedAbsenceLineChart from './UnauthorisedAbsenceLineChart';
+import Dropdown from '../Common/Dropdown';
 
 // Styled components for the school stats dashboard
 const Container = styled.div`
@@ -39,38 +40,6 @@ const HowFiltersDescription = styled.p`
 
 const TermSelectorContainer = styled.div`
   margin: 20px 0;
-  display: flex;
-  align-items: center;
-`;
-
-const TermSelectorLabel = styled.label`
-  margin-right: 10px;
-  font-weight: bold;
-`;
-
-const TermSelect = styled.div`
-  position: relative;
-  display: inline-block;
-  min-width: 200px;
-`;
-
-const SelectBox = styled.div`
-  border: 1px solid #b1b4b6;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  background-color: white;
-`;
-
-const SelectArrow = styled.span`
-  border: solid black;
-  border-width: 0 2px 2px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(45deg);
-  margin-left: 10px;
 `;
 
 const TabContainer = styled.div`
@@ -101,6 +70,7 @@ const FullscreenLink = styled.a`
 
 const YearToDateComparison = () => {
   const [activeTab, setActiveTab] = useState('attendance');
+  const [selectedTerm, setSelectedTerm] = useState('all');
   
   return (
     <Container>
@@ -117,13 +87,17 @@ const YearToDateComparison = () => {
       </HowFiltersWork>
       
       <TermSelectorContainer>
-        <TermSelectorLabel>Select a term</TermSelectorLabel>
-        <TermSelect>
-          <SelectBox>
-            All
-            <SelectArrow />
-          </SelectBox>
-        </TermSelect>
+        <Dropdown
+          label="Select a term"
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'autumn', label: 'Autumn 2024-2025' },
+            { value: 'spring', label: 'Spring 2024-2025' },
+            { value: 'summer', label: 'Summer 2024-2025' }
+          ]}
+          value={selectedTerm}
+          onChange={(value) => setSelectedTerm(value)}
+        />
       </TermSelectorContainer>
       
       <TabContainer>

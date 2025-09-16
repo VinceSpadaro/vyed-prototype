@@ -4,10 +4,10 @@ import SupportSection from '../Support/SupportSection';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
-import { Select } from '../FormElements';
 import DataTable from '../Common/DataTable';
 import { trustOverviewData, schoolOptions, schoolsData } from '../../data/trustData';
 import PageLayout from '../Dashboard/PageLayout';
+import Dropdown from '../Common/Dropdown';
 
 const TrustPageContainer = styled.div`
   margin-bottom: 30px;
@@ -103,9 +103,7 @@ const TrustPage = () => {
     ? schoolsData 
     : schoolsData.filter(school => school.name.toLowerCase().replace(' ', '-') === selectedSchool);
   
-  const handleSchoolChange = (e) => {
-    setSelectedSchool(e.target.value);
-  };
+  // School selection is now handled directly in the Dropdown component
   
   // Format today's date
   const today = new Date();
@@ -125,12 +123,11 @@ const TrustPage = () => {
         Data is updated daily.
       </Description>
       
-      <Select
-        id="school-select"
+      <Dropdown
         label="Select School"
-        options={schoolOptions}
+        options={schoolOptions.map(option => ({ value: option.value, label: option.label }))}
         value={selectedSchool}
-        onChange={handleSchoolChange}
+        onChange={(value) => setSelectedSchool(value)}
       />
       
       <StatsContainer>

@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import Dropdown from '../Common/Dropdown';
 
 // Register ChartJS components
 ChartJS.register(
@@ -38,21 +39,6 @@ const Description = styled.p`
 
 const TermSelectorContainer = styled.div`
   margin-bottom: 20px;
-`;
-
-const TermSelectorLabel = styled.label`
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
-
-const TermSelect = styled.select`
-  width: 200px;
-  padding: 8px 12px;
-  border: 1px solid #b1b4b6;
-  background-color: white;
-  appearance: none;
-  cursor: pointer;
 `;
 
 const TabsContainer = styled.div`
@@ -199,8 +185,8 @@ const PupilYearToDateComparison = ({ selectedPupil }) => {
     return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
   
-  const handleTermChange = (e) => {
-    setSelectedTerm(e.target.value);
+  const handleTermChange = (value) => {
+    setSelectedTerm(value);
   };
   
   return (
@@ -211,13 +197,17 @@ const PupilYearToDateComparison = ({ selectedPupil }) => {
       </Description>
       
       <TermSelectorContainer>
-        <TermSelectorLabel>Select a term</TermSelectorLabel>
-        <TermSelect value={selectedTerm} onChange={handleTermChange}>
-          <option value="all">All</option>
-          <option value="autumn">Autumn</option>
-          <option value="spring">Spring</option>
-          <option value="summer">Summer</option>
-        </TermSelect>
+        <Dropdown
+          label="Select a term"
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'autumn', label: 'Autumn' },
+            { value: 'spring', label: 'Spring' },
+            { value: 'summer', label: 'Summer' }
+          ]}
+          value={selectedTerm}
+          onChange={handleTermChange}
+        />
       </TermSelectorContainer>
       
       <TabsContainer>

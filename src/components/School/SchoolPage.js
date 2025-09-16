@@ -5,8 +5,8 @@ import Filters from '../Filters/Filters';
 import { media } from '../../styles/mediaQueries';
 import SupportSection from '../Support/SupportSection';
 import { useUserType } from '../../context/UserTypeContext';
-import { Select } from '../FormElements';
 import PageLayout from '../Dashboard/PageLayout';
+import Dropdown from '../Common/Dropdown';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -232,10 +232,7 @@ const SchoolPage = () => {
     setVisiblePupils(pupils.slice(0, visibleRows));
   }, [filteredPupils, visibleRows, selectedSchool, userType]);
   
-  // Handle school selection change
-  const handleSchoolChange = (e) => {
-    setSelectedSchool(e.target.value);
-  };
+  // School selection is now handled directly in the Dropdown component
   
   // Function to load more rows (previously used with scroll)
   const loadMoreRows = useCallback(() => {
@@ -267,12 +264,11 @@ const SchoolPage = () => {
           <SchoolName>{selectedSchool === 'all' ? 'All Schools' : schoolsMap[selectedSchool]}</SchoolName>
           <SchoolYear>Current academic year up to {formattedDate}</SchoolYear>
           <div style={{ marginBottom: '20px' }}>
-            <Select
-              id="school-select"
+            <Dropdown
               label="Select School"
-              options={schoolOptions}
+              options={schoolOptions.map(option => ({ value: option.value, label: option.label }))}
               value={selectedSchool}
-              onChange={handleSchoolChange}
+              onChange={(value) => setSelectedSchool(value)}
             />
           </div>
         </>
