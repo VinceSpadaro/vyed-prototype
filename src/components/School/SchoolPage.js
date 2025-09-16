@@ -8,48 +8,13 @@ import { useUserType } from '../../context/UserTypeContext';
 import PageLayout from '../Dashboard/PageLayout';
 import Dropdown from '../Common/Dropdown';
 
-const ContentContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-  width: 100%;
-  max-width: 100%;
-  
-  ${media.medium`
-    flex-direction: column;
-  `}
-`;
+// Removed unused ContentContainer
 
-const MainContentWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-  flex: 1;
-  width: 100%;
-  max-width: 100%;
-  
-  ${media.medium`
-    flex-direction: column;
-  `}
-`;
+// Removed unused MainContentWrapper
 
-const MainContent = styled.div`
-  flex: 1;
-  overflow-x: hidden;
-  width: 100%;
-  max-width: 100%;
-  padding-left: 20px;
-`;
+// Removed unused MainContent
 
-const SidebarContent = styled.div`
-  width: 300px;
-  min-width: 300px;
-  flex-shrink: 0;
-  
-  ${media.medium`
-    width: 100%;
-    margin-top: 20px;
-  `}
-`;
+// Removed unused SidebarContent
 
 // PageContainer is no longer needed as PageLayout handles this
 
@@ -57,10 +22,7 @@ const SchoolPageContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-const PageTitle = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 20px;
-`;
+// Removed unused PageTitle
 
 const TableContainer = styled.div`
   margin-bottom: 20px;
