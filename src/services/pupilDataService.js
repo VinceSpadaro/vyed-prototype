@@ -2,11 +2,14 @@
 import { faker } from '@faker-js/faker';
 
 // Generate random UPN (Unique Pupil Number)
+// Using fictional LA code 100 to ensure no real UPNs are generated
+// Real LA codes start from 201 (English), 660 (Welsh), or special codes
 const generateUPN = () => {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const letter = letters[Math.floor(Math.random() * letters.length)];
-  const numbers = Math.floor(Math.random() * 9000000000) + 1000000000;
-  return letter + numbers.toString();
+  const laCode = '100'; // Fictional LA code - not used by any real authority
+  const uniqueId = Math.floor(Math.random() * 900000000) + 100000000; // 9-digit number
+  return letter + laCode + uniqueId.toString();
 };
 
 // Generate random attendance data
