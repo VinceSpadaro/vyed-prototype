@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import FilterItem from './FilterItem';
 import { media } from '../Dashboard/ResponsiveStyles';
+import { useUserType } from '../../context/UserTypeContext';
+import { schoolOptions as laSchoolOptions } from '../../data/localAuthorityData';
+import { schoolOptions as trustSchoolOptions } from '../../data/trustData';
 
 const FilterItemContainer = styled.div`
   padding: 15px;
@@ -76,8 +79,11 @@ const FiltersOnPage = styled.div`
 `;
 
 const Filters = () => {
+  const { userType } = useUserType();
   const [activeFilters, setActiveFilters] = useState({
     compulsorySchoolAge: [],
+    school: [],
+    phase: [],
     sex: [],
     ethnicity: [],
     yearGroup: [],
@@ -96,9 +102,26 @@ const Filters = () => {
     eal: []
   });
   
+  // Show School and Phase filters whenever user is logged in as Trust or Local Authority
+  const isLocalAuthorityUser = userType === 'localAuthority';
+  const isTrustUser = userType === 'trust';
+  const showSchoolAndPhaseFilters = isLocalAuthorityUser || isTrustUser;
+  
+  // Get appropriate school options based on user type
+  const getSchoolOptions = () => {
+    if (isLocalAuthorityUser) {
+      return laSchoolOptions.map(option => option.label);
+    } else if (isTrustUser) {
+      return trustSchoolOptions.map(option => option.label);
+    }
+    return [];
+  };
+  
   // Filter options for each category
   const filterOptions = {
     compulsorySchoolAge: ['Select all', 'No', 'Yes'],
+    school: ['Select all', ...getSchoolOptions().filter(option => option !== 'All')],
+    phase: ['Select all'],
     sex: ['Select all', 'Female', 'Male'],
     ethnicity: [
       'Select all', '(Blank)', 'Any other asian background', 'Any other black background',
@@ -230,6 +253,24 @@ const Filters = () => {
         onClear={() => handleClearFilter('compulsorySchoolAge')}
         onSelect={(option, isAdvanced) => handleFilterChange('compulsorySchoolAge', option, isAdvanced)}
       />
+      {showSchoolAndPhaseFilters && (
+        <>
+          <FilterItem
+            title="School"
+            description={getFilterDescription('school')}
+            options={filterOptions.school}
+            onClear={() => handleClearFilter('school')}
+            onSelect={(option, isAdvanced) => handleFilterChange('school', option, isAdvanced)}
+          />
+          <FilterItem
+            title="Phase"
+            description={getFilterDescription('phase')}
+            options={filterOptions.phase}
+            onClear={() => handleClearFilter('phase')}
+            onSelect={(option, isAdvanced) => handleFilterChange('phase', option, isAdvanced)}
+          />
+        </>
+      )}
       <FilterItem
         title="Sex"
         description={getFilterDescription('sex')}
