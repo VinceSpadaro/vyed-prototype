@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import './App.css';
@@ -7,6 +7,7 @@ import { TrackingProvider } from './context/TrackingContext';
 import ClarityPageTracker from './components/Analytics/ClarityPageTracker';
 
 // Components
+import PasswordGate from './components/Auth/PasswordGate';
 import Header from './components/Header/Header';
 import AttendanceData from './components/Dashboard/AttendanceData';
 import SchoolPage from './components/School/SchoolPage';
@@ -170,6 +171,24 @@ function AppRoutes() {
 }
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check if user is already authenticated in this session
+    const authenticated = sessionStorage.getItem('vyed_authenticated');
+    if (authenticated === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true);
+  };
+
+  if (!isAuthenticated) {
+    return <PasswordGate onAuthenticated={handleAuthenticated} />;
+  }
+
   return (
     <UserTypeProvider>
       <TrackingProvider>
