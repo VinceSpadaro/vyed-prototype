@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { media } from './ResponsiveStyles';
+import { useUserType } from '../../context/UserTypeContext';
 
 const SchoolInfoContainer = styled.div`
   margin-bottom: 0;
@@ -147,9 +148,21 @@ const PresentFullscreenLink = styled.a`
 `;
 
 const SchoolInfo = () => {
+  const { userType } = useUserType();
+  
+  // Determine the heading based on user type
+  const getHeading = () => {
+    if (userType === 'localAuthority') {
+      return 'Demo Local Authority';
+    } else if (userType === 'trust') {
+      return 'Demo Trust';
+    }
+    return 'Demo School';
+  };
+  
   return (
     <SchoolInfoContainer>
-      <SchoolName>Demo School</SchoolName>
+      <SchoolName>{getHeading()}</SchoolName>
       <SchoolYear>Current academic year up to Tuesday 11 March 2025</SchoolYear>
       
       <StatsContainer>
