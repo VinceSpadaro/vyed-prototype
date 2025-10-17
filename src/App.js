@@ -30,6 +30,7 @@ import SignOutPage from './components/SignOut/SignOutPage';
 import LocalAuthorityPage from './components/LocalAuthority/LocalAuthorityPage';
 import TrustPage from './components/Trust/TrustPage';
 import ToolsPage from './components/Tools/ToolsPage';
+import DownloadsPage from './components/Downloads/DownloadsPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -160,6 +161,11 @@ function AppRoutes() {
             <Route path="/tools" element={
               <ProtectedRoute>
                 <ToolsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/downloads" element={
+              <ProtectedRoute>
+                <DownloadsPage />
               </ProtectedRoute>
             } />
           </Routes>
