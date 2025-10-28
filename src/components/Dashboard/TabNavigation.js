@@ -60,7 +60,12 @@ const TabNavigation = () => {
         <Tab to="/codes" active={pathname === '/codes' ? true : undefined}>
           Export attendance and absence codes
         </Tab>
-        <Tab to="/codes/user-guide" active={pathname === '/codes/user-guide' ? true : undefined}>
+        <Tab 
+          as="a" 
+          href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-user-guide#export-attendance-and-absence-codes"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           User Guide
         </Tab>
         <Tab to="/feedback" active={pathname === '/feedback' ? true : undefined}>
