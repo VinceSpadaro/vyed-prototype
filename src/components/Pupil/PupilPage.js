@@ -366,7 +366,8 @@ const schoolsMap = {
 };
 
 const PupilPage = () => {
-  const { userType } = useUserType();
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   const [pupils, setPupils] = useState([]);
   const [selectedPupil, setSelectedPupil] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);

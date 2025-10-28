@@ -205,7 +205,12 @@ const UserTypeSelectionPage = () => {
       }
       // If already tracking and changing organization, maintain the tracking session
       
-      navigate('/tools');
+      // Redirect based on user type
+      if (selectedType === 'localAuthority' || selectedType === 'trust') {
+        navigate('/schools-list');
+      } else {
+        navigate('/tools');
+      }
     }
   };
 

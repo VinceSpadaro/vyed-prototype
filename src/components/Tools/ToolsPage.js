@@ -40,8 +40,9 @@ const LinkItem = styled.div`
 
 
 const ToolsPage = () => {
-  // Get user type from context
-  const { userType } = useUserType();
+  // Get user type from context - use effective user type which respects viewing context
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   
   // State for search functionality
   const [searchQuery, setSearchQuery] = useState('');

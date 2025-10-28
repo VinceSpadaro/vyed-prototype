@@ -16,6 +16,18 @@ export const UserTypeProvider = ({ children }) => {
     return savedOrgName || '';
   });
 
+  // Add viewing context to track if user is viewing school or LA/Trust level
+  const [viewingContext, setViewingContext] = useState(() => {
+    const savedContext = sessionStorage.getItem('viewingContext');
+    return savedContext || '';
+  });
+
+  // Add selected school name for when LA/Trust users view a specific school
+  const [selectedSchoolName, setSelectedSchoolName] = useState(() => {
+    const savedSchoolName = sessionStorage.getItem('selectedSchoolName');
+    return savedSchoolName || '';
+  });
+
   // Update localStorage when state changes
   useEffect(() => {
     if (userType) {
@@ -33,12 +45,37 @@ export const UserTypeProvider = ({ children }) => {
     }
   }, [organisationName]);
 
+  useEffect(() => {
+    if (viewingContext) {
+      sessionStorage.setItem('viewingContext', viewingContext);
+    } else {
+      sessionStorage.removeItem('viewingContext');
+    }
+  }, [viewingContext]);
+
+  useEffect(() => {
+    if (selectedSchoolName) {
+      sessionStorage.setItem('selectedSchoolName', selectedSchoolName);
+    } else {
+      sessionStorage.removeItem('selectedSchoolName');
+    }
+  }, [selectedSchoolName]);
+
   // Function to clear user type selection
   const clearUserType = () => {
     setUserType('');
     setOrganisationName('');
+    setViewingContext('');
+    setSelectedSchoolName('');
     localStorage.removeItem('userType');
     localStorage.removeItem('organisationName');
+    sessionStorage.removeItem('viewingContext');
+    sessionStorage.removeItem('selectedSchoolName');
+  };
+
+  // Get the effective user type for display (viewing context overrides actual user type)
+  const getEffectiveUserType = () => {
+    return viewingContext || userType;
   };
 
   // Value object to be provided to consumers
@@ -47,7 +84,12 @@ export const UserTypeProvider = ({ children }) => {
     setUserType,
     organisationName,
     setOrganisationName,
+    viewingContext,
+    setViewingContext,
+    selectedSchoolName,
+    setSelectedSchoolName,
     clearUserType,
+    getEffectiveUserType,
     hasUserTypeSelected: !!userType && !!organisationName
   };
 

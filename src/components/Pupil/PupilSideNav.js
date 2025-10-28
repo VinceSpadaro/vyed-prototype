@@ -66,7 +66,8 @@ const PupilSideNav = ({
 }) => {
   const location = useLocation();
   const path = location.pathname;
-  const { userType } = useUserType();
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   
   // Handle school selection change
   const handleSchoolChange = (e) => {

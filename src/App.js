@@ -31,6 +31,7 @@ import LocalAuthorityPage from './components/LocalAuthority/LocalAuthorityPage';
 import TrustPage from './components/Trust/TrustPage';
 import ToolsPage from './components/Tools/ToolsPage';
 import DownloadsPage from './components/Downloads/DownloadsPage';
+import SchoolsListPage from './components/SchoolsList/SchoolsListPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -166,6 +167,11 @@ function AppRoutes() {
             <Route path="/downloads" element={
               <ProtectedRoute>
                 <DownloadsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/schools-list" element={
+              <ProtectedRoute>
+                <SchoolsListPage />
               </ProtectedRoute>
             } />
           </Routes>

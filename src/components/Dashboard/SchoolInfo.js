@@ -148,7 +148,8 @@ const PresentFullscreenLink = styled.a`
 `;
 
 const SchoolInfo = () => {
-  const { userType } = useUserType();
+  const { getEffectiveUserType, selectedSchoolName, userType: actualUserType } = useUserType();
+  const userType = getEffectiveUserType();
   
   // Determine the heading based on user type
   const getHeading = () => {
@@ -156,6 +157,11 @@ const SchoolInfo = () => {
       return 'Demo Local Authority';
     } else if (userType === 'trust') {
       return 'Demo Trust';
+    }
+    // If viewing a school from LA/Trust, use the selected school name
+    // Otherwise use 'Demo School' for direct school users
+    if (selectedSchoolName && (actualUserType === 'localAuthority' || actualUserType === 'trust')) {
+      return selectedSchoolName;
     }
     return 'Demo School';
   };

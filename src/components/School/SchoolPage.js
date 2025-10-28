@@ -150,7 +150,8 @@ const schoolsMap = {
 };
 
 const SchoolPage = () => {
-  const { userType } = useUserType();
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   const [selectedSchool, setSelectedSchool] = useState('all');
   const [filteredPupils, setFilteredPupils] = useState([]);
   const [visiblePupils, setVisiblePupils] = useState([]);

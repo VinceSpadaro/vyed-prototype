@@ -81,7 +81,8 @@ const CurrentPage = styled.span`
 `;
 
 const DownloadsPage = () => {
-  const { userType } = useUserType();
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   
   // Generate synthetic UKPRN based on user type
   const getUKPRN = () => {

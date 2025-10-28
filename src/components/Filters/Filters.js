@@ -79,7 +79,8 @@ const FiltersOnPage = styled.div`
 `;
 
 const Filters = () => {
-  const { userType } = useUserType();
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   const [activeFilters, setActiveFilters] = useState({
     compulsorySchoolAge: [],
     school: [],
