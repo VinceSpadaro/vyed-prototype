@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import PageLayout from '../Dashboard/PageLayout';
-import SupportSection from '../Support/SupportSection';
 
-// Page layout is handled by PageLayout component
+const PageContainer = styled.div`
+  min-height: 100vh;
+  background-color: #e5f5f5;
+  padding: 40px 20px;
+`;
 
 const FeedbackContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const FeedbackCard = styled.div`
@@ -99,43 +102,33 @@ const FeedbackPage = () => {
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
   const formattedDate = currentDate.toLocaleDateString('en-GB', options);
   
-  const feedbackContent = (
-    <FeedbackContainer>
-      <FeedbackCard>
-        <CardHeader>
-          <OptionsIcon>...</OptionsIcon>
-          <CardTitle>Give feedback about Monitor your school attendance</CardTitle>
-          <DateText>{formattedDate}</DateText>
-        </CardHeader>
-        
-        <CardContent>
-          <CardText>
-            This form is to give feedback only. Do not use this form to report a problem, or if you need a response.
-          </CardText>
-        </CardContent>
-        
-        <CardFooter>
-          <StartButton>Start now</StartButton>
-        </CardFooter>
-      </FeedbackCard>
-      
-      <FooterNote>
-        This content is created by the owner of the form. The data you submit will be sent to the form owner. Microsoft is not responsible for the privacy or security practices of its customers, including those of this form owner. Never give out your password.
-        <FooterLink href="#"> Report abuse</FooterLink>
-      </FooterNote>
-    </FeedbackContainer>
-  );
-
-  // Using global SupportSection component
-
   return (
-    <PageLayout
-      title="View school attendance data"
-      showUpdates={true}
-      supportSection={<SupportSection />}
-    >
-      {feedbackContent}
-    </PageLayout>
+    <PageContainer>
+      <FeedbackContainer>
+        <FeedbackCard>
+          <CardHeader>
+            <OptionsIcon>...</OptionsIcon>
+            <CardTitle>Give feedback about Monitor your school attendance</CardTitle>
+            <DateText>{formattedDate}</DateText>
+          </CardHeader>
+          
+          <CardContent>
+            <CardText>
+              This form is to give feedback only. Do not use this form to report a problem, or if you need a response.
+            </CardText>
+          </CardContent>
+          
+          <CardFooter>
+            <StartButton>Start now</StartButton>
+          </CardFooter>
+        </FeedbackCard>
+        
+        <FooterNote>
+          This content is created by the owner of the form. The data you submit will be sent to the form owner. Microsoft is not responsible for the privacy or security practices of its customers, including those of this form owner. Never give out your password.
+          <FooterLink href="#"> Report abuse</FooterLink>
+        </FooterNote>
+      </FeedbackContainer>
+    </PageContainer>
   );
 };
 
