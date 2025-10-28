@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
 import { Link } from 'react-router-dom';
+import { useUserType } from '../../context/UserTypeContext';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -80,14 +81,48 @@ const CurrentPage = styled.span`
 `;
 
 const ReportsPage = () => {
+  const { getEffectiveUserType, selectedSchoolName, userType: actualUserType } = useUserType();
+  const userType = getEffectiveUserType();
+
+  // Get UKPRN based on user type
+  const getUKPRN = () => {
+    if (userType === 'localAuthority') {
+      return '10012345'; // Synthetic UKPRN for Demo Local Authority
+    } else if (userType === 'trust') {
+      return '10067890'; // Synthetic UKPRN for Demo Trust
+    }
+    return '10000045'; // Default school UKPRN
+  };
+
+  // Get school name for display
+  const getSchoolName = () => {
+    if (selectedSchoolName && (actualUserType === 'localAuthority' || actualUserType === 'trust')) {
+      return selectedSchoolName.toUpperCase();
+    }
+    return 'OAK WOOD SCHOOL';
+  };
+
+  const ukprn = getUKPRN();
+  const schoolName = getSchoolName();
+
+  // Generate report files
+  const reportFiles = [
+    `Official_Sensitive_${ukprn}_School_Attendance_Summary_First_Half_Autumn_Term_04112024.docx`,
+    `Official_Sensitive_${ukprn}_School_Attendance_Summary_Full_Autumn_Term_08012025.docx`,
+    `Official_Sensitive_${ukprn}_Secondary_School_Attendance_Summary_First_Spring_Term_27022025.docx`,
+    `Official_Sensitive_${ukprn}_Secondary_School_Attendance_Summary_First_Summer_Term_10062025.docx`,
+    `Official_Sensitive_${ukprn}_Secondary_School_Attendance_Summary_Full_Spring_Term_22042025.docx`,
+    `Official_Sensitive_${ukprn}_Secondary_School_Attendance_Summary_Full_Summer_Term_01092025.docx`
+  ];
+
   return (
     <Container>
       <BreadcrumbNav>
         <BreadcrumbLink to="/">Home</BreadcrumbLink>
         <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">Monitor your school attendance</BreadcrumbLink>
+        <BreadcrumbLink to="/tools">Monitor your school attendance</BreadcrumbLink>
         <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">View school attendance data (demo)</BreadcrumbLink>
+        <BreadcrumbLink to="/insights">View school attendance data</BreadcrumbLink>
         <BreadcrumbSeparator>›</BreadcrumbSeparator>
         <CurrentPage>Your attendance summary reports</CurrentPage>
       </BreadcrumbNav>
@@ -95,13 +130,15 @@ const ReportsPage = () => {
       <PageTitle>School attendance downloads</PageTitle>
       
       <ReportsSection>
-        <ReportsHeading>Your attendance summary reports file available for VYED TEAM (UKPRN 90240218)</ReportsHeading>
+        <ReportsHeading>Your attendance summary reports files available for {schoolName} (UKPRN {ukprn})</ReportsHeading>
         
         <FileTable>
           <TableHeader>File</TableHeader>
-          <FileRow>
-            <FileLink href="#" download>Official_Sensitive_90240218_Secondary_School_Attendance_Summary_First_Spring_Term_27342025.docx</FileLink>
-          </FileRow>
+          {reportFiles.map((file, index) => (
+            <FileRow key={index}>
+              <FileLink href="#" download>{file}</FileLink>
+            </FileRow>
+          ))}
         </FileTable>
       </ReportsSection>
       
