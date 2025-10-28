@@ -43,11 +43,31 @@ const DropdownMenu = styled.div`
   top: 100%;
   left: 0;
   width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
   background-color: white;
   border: 1px solid #b1b4b6;
   border-top: none;
   z-index: 10;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f3f2f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #b1b4b6;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #6f777b;
+  }
 `;
 
 const DropdownItem = styled.div`
@@ -91,16 +111,18 @@ const LabelContainer = styled.div`
  * @param {Object} props
  * @param {string} props.label - Label for the dropdown
  * @param {Array} props.options - Array of options [{value: string, label: string}]
- * @param {string} props.value - Currently selected value
+ * @param {string|Array} props.value - Currently selected value (string) or values (array for multi-select)
  * @param {Function} props.onChange - Function to call when selection changes
  * @param {boolean} props.showLabel - Whether to show the label next to the dropdown
+ * @param {boolean} props.multiSelect - Enable multi-select mode
  */
 const Dropdown = ({ 
   label, 
   options, 
   value, 
   onChange, 
-  showLabel = true 
+  showLabel = true,
+  multiSelect = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   
@@ -109,11 +131,60 @@ const Dropdown = ({
   };
   
   const handleSelect = (optionValue) => {
-    onChange(optionValue);
-    setIsOpen(false);
+    if (multiSelect) {
+      // Multi-select logic
+      const currentValues = Array.isArray(value) ? value : [value];
+      
+      if (optionValue === 'all') {
+        // Toggle all: if all are selected, deselect all; otherwise select all
+        const allValues = options.filter(opt => opt.value !== 'all').map(opt => opt.value);
+        const allSelected = allValues.every(val => currentValues.includes(val));
+        onChange(allSelected ? [] : allValues);
+      } else {
+        // Toggle individual option
+        const newValues = currentValues.includes(optionValue)
+          ? currentValues.filter(v => v !== optionValue)
+          : [...currentValues, optionValue];
+        onChange(newValues);
+      }
+    } else {
+      // Single select logic
+      onChange(optionValue);
+      setIsOpen(false);
+    }
   };
   
-  const selectedOption = options.find(option => option.value === value) || options[0];
+  // Get display text for multi-select
+  const getDisplayText = () => {
+    if (multiSelect) {
+      const currentValues = Array.isArray(value) ? value : [value];
+      const allValues = options.filter(opt => opt.value !== 'all').map(opt => opt.value);
+      
+      if (currentValues.length === 0) {
+        return 'None selected';
+      } else if (currentValues.length === allValues.length) {
+        return 'All';
+      } else {
+        return 'Multiple selections';
+      }
+    } else {
+      const selectedOption = options.find(option => option.value === value) || options[0];
+      return selectedOption.label;
+    }
+  };
+  
+  // Check if option is selected
+  const isOptionSelected = (optionValue) => {
+    if (multiSelect) {
+      const currentValues = Array.isArray(value) ? value : [value];
+      if (optionValue === 'all') {
+        const allValues = options.filter(opt => opt.value !== 'all').map(opt => opt.value);
+        return allValues.every(val => currentValues.includes(val));
+      }
+      return currentValues.includes(optionValue);
+    }
+    return value === optionValue;
+  };
   
   return (
     <div style={{ marginBottom: '20px' }}>
@@ -130,7 +201,7 @@ const Dropdown = ({
             }
           }}
         >
-          {selectedOption.label}
+          {getDisplayText()}
           <SelectArrow />
         </SelectBox>
         
@@ -151,7 +222,7 @@ const Dropdown = ({
                 <Checkbox 
                   type="checkbox" 
                   id={`option-${option.value}`} 
-                  checked={value === option.value} 
+                  checked={isOptionSelected(option.value)} 
                   readOnly 
                 />
                 <Label htmlFor={`option-${option.value}`}>{option.label}</Label>
@@ -172,9 +243,13 @@ Dropdown.propTypes = {
       label: PropTypes.string.isRequired
     })
   ).isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]).isRequired,
   onChange: PropTypes.func.isRequired,
-  showLabel: PropTypes.bool
+  showLabel: PropTypes.bool,
+  multiSelect: PropTypes.bool
 };
 
 export default Dropdown;

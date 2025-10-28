@@ -50,6 +50,27 @@ const TabNavigation = () => {
   const { getEffectiveUserType } = useUserType();
   const userType = getEffectiveUserType();
   
+  // Check if we're on the codes page
+  const isCodesPage = pathname === '/codes' || pathname.startsWith('/codes/');
+  
+  // If on codes page, show codes-specific tabs
+  if (isCodesPage) {
+    return (
+      <TabsContainer>
+        <Tab to="/codes" active={pathname === '/codes' ? true : undefined}>
+          Export attendance and absence codes
+        </Tab>
+        <Tab to="/codes/user-guide" active={pathname === '/codes/user-guide' ? true : undefined}>
+          User Guide
+        </Tab>
+        <Tab to="/feedback" active={pathname === '/feedback' ? true : undefined}>
+          Feedback
+        </Tab>
+        <div style={{ flexGrow: 1 }}></div>
+      </TabsContainer>
+    );
+  }
+  
   // Consider insights, data-visualisations, previous-academic-year, year-to-date-comparison, absence-bandings, unauthorised-absence, and check-leaver-data as part of insights dashboard
   const isInsightsDashboardActive = pathname === '/' || pathname === '/insights' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings' || pathname === '/unauthorised-absence' || pathname === '/check-leaver-data';
   const isLocalAuthorityActive = pathname === '/local-authority';

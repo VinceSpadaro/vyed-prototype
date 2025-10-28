@@ -33,8 +33,26 @@ const FiltersContainer = styled.div`
   padding: 5px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  height: 100%;
+  max-height: 600px;
   overflow-y: auto;
+  
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f3f2f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #b1b4b6;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #6f777b;
+  }
   
   ${media.small`
     padding: 10px;

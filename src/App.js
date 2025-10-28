@@ -32,6 +32,7 @@ import TrustPage from './components/Trust/TrustPage';
 import ToolsPage from './components/Tools/ToolsPage';
 import DownloadsPage from './components/Downloads/DownloadsPage';
 import SchoolsListPage from './components/SchoolsList/SchoolsListPage';
+import CodesPage from './components/Codes/CodesPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -172,6 +173,11 @@ function AppRoutes() {
             <Route path="/schools-list" element={
               <ProtectedRoute>
                 <SchoolsListPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/codes" element={
+              <ProtectedRoute>
+                <CodesPage />
               </ProtectedRoute>
             } />
           </Routes>
