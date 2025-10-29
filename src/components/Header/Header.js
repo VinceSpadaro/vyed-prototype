@@ -105,7 +105,7 @@ const Header = () => {
     <HeaderContainer>
       <HeaderInner>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Title to="/select-user-type">View your education data</Title>
+          <Title to="/tools">View your education data</Title>
           {hasUserTypeSelected && (
             <UserInfo>
               <UserType>{getUserTypeLabel(userType)}</UserType>
