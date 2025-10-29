@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import SupportSection from '../Support/SupportSection';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -517,15 +518,10 @@ const ComparePage = () => {
   
   return (
     <Container>
-      <BreadcrumbNav>
-        <BreadcrumbLink to="/">Home</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">Monitor your school attendance</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/compare">Compare your attendance (demo)</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <CurrentPage>Compare your attendance</CurrentPage>
-      </BreadcrumbNav>
+      <ToolsBreadcrumbs 
+        items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
+        currentPage="Compare your attendance" 
+      />
       
       <PageTitle>Compare your attendance</PageTitle>
       

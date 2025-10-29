@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
 import { Link } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -117,15 +118,10 @@ const ReportsPage = () => {
 
   return (
     <Container>
-      <BreadcrumbNav>
-        <BreadcrumbLink to="/">Home</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/tools">Monitor your school attendance</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">View school attendance data</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <CurrentPage>Your attendance summary reports</CurrentPage>
-      </BreadcrumbNav>
+      <ToolsBreadcrumbs 
+        items={[{ label: 'Monitor your school attendance', to: '/tools' }, { label: 'View school attendance data', to: '/insights' }]} 
+        currentPage="Your attendance summary reports" 
+      />
       
       <PageTitle>School attendance downloads</PageTitle>
       

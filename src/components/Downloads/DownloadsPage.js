@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
 import { Link } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -130,15 +131,10 @@ const DownloadsPage = () => {
 
   return (
     <Container>
-      <BreadcrumbNav>
-        <BreadcrumbLink to="/home">Home</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">{breadcrumbText}</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <BreadcrumbLink to="/insights">View attendance data</BreadcrumbLink>
-        <BreadcrumbSeparator>›</BreadcrumbSeparator>
-        <CurrentPage>Attendance data downloads</CurrentPage>
-      </BreadcrumbNav>
+      <ToolsBreadcrumbs 
+        items={[{ label: 'Monitor your school attendance', to: '/tools' }, { label: 'View attendance data', to: '/insights' }]} 
+        currentPage="Attendance data downloads" 
+      />
       
       <PageTitle>{getPageTitle()}</PageTitle>
       

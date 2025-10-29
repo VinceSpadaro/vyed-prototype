@@ -70,6 +70,7 @@ const SupportSectionWrapper = styled.div`
 
 const PageLayout = ({ 
   title, 
+  breadcrumbs = null,
   showUpdates = true,
   showTabs = true, 
   contentSideNav = false, 
@@ -79,6 +80,8 @@ const PageLayout = ({
 }) => {
   return (
     <PageContainer>
+      {breadcrumbs}
+      
       <PageTitle>{title}</PageTitle>
       
       {showUpdates && <UpdatesSection />}

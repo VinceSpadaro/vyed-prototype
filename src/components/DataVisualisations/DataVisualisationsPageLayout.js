@@ -69,6 +69,7 @@ const SupportSectionWrapper = styled.div`
 
 const DataVisualisationsPageLayout = ({ 
   title, 
+  breadcrumbs = null,
   showUpdates = true,
   showTabs = true, 
   contentSideNav = false, 
@@ -78,6 +79,8 @@ const DataVisualisationsPageLayout = ({
 }) => {
   return (
     <PageContainer>
+      {breadcrumbs}
+      
       <PageTitle>{title}</PageTitle>
       
       {showUpdates && <UpdatesSection />}

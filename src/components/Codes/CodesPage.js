@@ -9,6 +9,7 @@ import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
 import { FiInfo } from 'react-icons/fi';
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -467,6 +468,10 @@ const CodesPage = () => {
       <PageTitle>Export attendance and absence codes</PageTitle>
       
       <TabNavigation />
+      <ToolsBreadcrumbs 
+        items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
+        currentPage="Export attendance and absence codes" 
+      />
       
       <ContentContainer>
         <MainContentWrapper>
