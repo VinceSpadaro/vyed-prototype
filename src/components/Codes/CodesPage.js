@@ -8,7 +8,7 @@ import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
 import { FiInfo } from 'react-icons/fi';
-import { HiEllipsisHorizontal } from 'react-icons/hi2';
+import { HiEllipsisVertical } from 'react-icons/hi2';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -124,7 +124,7 @@ const IconsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 84px;
+  width: 60px;
 `;
 
 const InfoIconContainer = styled.div`
@@ -139,14 +139,14 @@ const InfoIconButton = styled.button`
   color: #505a5f;
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  font-size: 20px;
+  font-size: 32px;
   line-height: 1;
   transition: color 0.2s ease;
   
@@ -231,14 +231,14 @@ const MenuIconButton = styled.button`
   color: #505a5f;
   border: none;
   border-radius: 4px;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  font-size: 24px;
+  font-size: 18px;
   line-height: 1;
   transition: color 0.2s ease;
   
@@ -515,7 +515,7 @@ const CodesPage = () => {
               onMouseLeave={() => setShowInfoOverlay(false)}
             >
               <InfoIconButton>
-                <FiInfo size={24} />
+                <FiInfo size={14} />
               </InfoIconButton>
               {showInfoOverlay && (
                 <InfoOverlay>
@@ -539,7 +539,7 @@ const CodesPage = () => {
             {isTableHovered && (
               <MenuIconContainer ref={menuRef}>
                 <MenuIconButton onClick={handleMenuToggle}>
-                  <HiEllipsisHorizontal size={28} />
+                  <HiEllipsisVertical size={18} />
                 </MenuIconButton>
                 {showMenuOverlay && (
                   <MenuOverlay>
