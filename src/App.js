@@ -33,6 +33,7 @@ import ToolsPage from './components/Tools/ToolsPage';
 import DownloadsPage from './components/Downloads/DownloadsPage';
 import SchoolsListPage from './components/SchoolsList/SchoolsListPage';
 import CodesPage from './components/Codes/CodesPage';
+import SixYearsTransitionPage from './components/6yearsTransition/6yearsTransition';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -178,6 +179,11 @@ function AppRoutes() {
             <Route path="/codes" element={
               <ProtectedRoute>
                 <CodesPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/6yearsTransition" element={
+              <ProtectedRoute>
+                <SixYearsTransitionPage />
               </ProtectedRoute>
             } />
           </Routes>

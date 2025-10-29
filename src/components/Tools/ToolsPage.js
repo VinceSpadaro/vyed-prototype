@@ -134,11 +134,19 @@ const ToolsPage = () => {
       <Details summary="Year 6 transition data download">
         <BulletList>
           <BulletItem>
-            <a href="https://www.gov.uk/government/publications/school-attendance" target="_blank" rel="noopener noreferrer">
+            <Link to="/6yearsTransition">
               Year 6 transition data
-            </a>
+            </Link>
             <BulletDescription>
               Download absence data for year 6 pupils offered a place at your school in the 2025 to 2026 academic year. This is only available to secondary schools.
+            </BulletDescription>
+          </BulletItem>
+          <BulletItem>
+            <a href="https://www.gov.uk/government/publications/school-attendance" target="_blank" rel="noopener noreferrer">
+              User guide on GOV.UK (opens in a new tab)
+            </a>
+            <BulletDescription>
+              Find out more about the data an how to use it.
             </BulletDescription>
           </BulletItem>
         </BulletList>
