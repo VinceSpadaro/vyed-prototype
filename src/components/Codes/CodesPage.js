@@ -8,7 +8,7 @@ import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
 import { FiInfo } from 'react-icons/fi';
-import { HiEllipsisVertical } from 'react-icons/hi2';
+import { HiEllipsisHorizontal } from 'react-icons/hi2';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -539,7 +539,7 @@ const CodesPage = () => {
             {isTableHovered && (
               <MenuIconContainer ref={menuRef}>
                 <MenuIconButton onClick={handleMenuToggle}>
-                  <HiEllipsisVertical size={28} />
+                  <HiEllipsisHorizontal size={28} />
                 </MenuIconButton>
                 {showMenuOverlay && (
                   <MenuOverlay>
