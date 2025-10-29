@@ -2,13 +2,24 @@
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: 'GDS Transport', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #0b0c0c;
   line-height: 1.5;
+  background: transparent;
+  min-height: 100vh;
+  width: 100%;
 }
 
 /* GDS Transport font - similar to the one used in the screenshot */

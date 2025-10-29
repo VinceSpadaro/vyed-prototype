@@ -7,38 +7,36 @@ import RadioButton from '../FormElements/RadioButton';
 import { Checkbox } from '../FormElements';
 
 const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 `;
 
-const BackLink = styled.button`
-  background: none;
-  border: none;
-  color: #1d70b8;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-  font-size: 16px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  
-  &:hover {
-    color: #003078;
-  }
-  
-  &:before {
-    content: '←';
-    margin-right: 5px;
-  }
+const ContentCard = styled.div`
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
 `;
+
 
 const Title = styled.h1`
-  font-size: 36px;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   color: #0b0c0c;
+  font-size: 28px;
+  text-align: left;
 `;
 
 // Removed unused styled components
@@ -47,17 +45,23 @@ const FieldsetStyled = styled.fieldset`
   border: none;
   padding: 0;
   margin: 0 0 30px 0;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const Legend = styled.legend`
-  font-size: 24px;
+  font-size: 19px;
   font-weight: bold;
   margin-bottom: 15px;
   color: #0b0c0c;
+  display: block;
+  width: 100%;
+  padding: 0;
 `;
 
 const RadioGroup = styled.div`
-  padding-left: 5px;
   margin-bottom: 20px;
 `;
 
@@ -65,11 +69,12 @@ const InputGroup = styled.div`
   margin-bottom: 20px;
 `;
 
-const InputLabel = styled.label`
+const StyledLabel = styled.label`
   display: block;
   font-size: 19px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #0b0c0c;
 `;
 
 const TextInput = styled.input`
@@ -84,36 +89,52 @@ const TextInput = styled.input`
   }
 `;
 
-
 const TrackingSection = styled.div`
   margin-top: 30px;
   padding-top: 20px;
   border-top: 1px solid #b1b4b6;
 `;
 
-const Button = styled.button`
-  background-color: #00703c;
+const SubmitButton = styled.button`
+  padding: 14px 24px;
+  background: #667eea;
   color: white;
-  font-size: 19px;
-  font-weight: bold;
-  padding: 10px 20px;
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 20px;
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background 0.3s;
+
   &:hover {
-    background-color: #005a30;
+    background: #5568d3;
   }
-  &:focus {
-    outline: 3px solid #ffdd00;
-    outline-offset: 0;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background: #b1b4b6;
+    cursor: not-allowed;
+    transform: none;
   }
 `;
 
 const ErrorMessage = styled.div`
   color: #d4351c;
+  background-color: #fef7f6;
   font-weight: bold;
-  margin-top: 10px;
+  margin: 10px 0 15px 0;
   font-size: 16px;
+  padding: 12px 15px;
+  border-radius: 4px;
+  border-left: 4px solid #d4351c;
 `;
 
 const UserTypeSelectionPage = () => {
@@ -223,44 +244,43 @@ const UserTypeSelectionPage = () => {
   
   return (
     <Container>
-      {/* Only show back link when changing organization during an active session */}
-      {hasUserTypeSelected && isTracking && (
-        <BackLink onClick={handleBackClick}>Back to dashboard</BackLink>
-      )}
-      
-      <Title>Select your organisation type</Title>
-      
-      <form onSubmit={handleSubmit}>
-        <FieldsetStyled>
-          <Legend>What type of organisation are you?</Legend>
+      <ContentCard>
+        <Title>Select your organisation type</Title>
+        
+        <form onSubmit={handleSubmit}>
+          <FieldsetStyled>
+            <Legend>What type of organisation are you?</Legend>
           {errors.userType && (
             <ErrorMessage>Please select an organisation type</ErrorMessage>
           )}
           <RadioGroup>
             <RadioButton
-              id="school"
-              name="userType"
-              value="school"
-              checked={selectedType === 'school'}
-              onChange={handleTypeChange}
-              label="School"
-            />
+                id="user-type-school"
+                name="user-type"
+                value="school"
+                checked={selectedType === 'school'}
+                onChange={handleTypeChange}
+                label="School"
+                labelStyle={{ color: 'black' }}
+              />
             <RadioButton
-              id="localAuthority"
-              name="userType"
-              value="localAuthority"
-              checked={selectedType === 'localAuthority'}
-              onChange={handleTypeChange}
-              label="Local Authority"
-            />
+                id="user-type-la"
+                name="user-type"
+                value="localAuthority"
+                checked={selectedType === 'localAuthority'}
+                onChange={handleTypeChange}
+                label="Local Authority"
+                labelStyle={{ color: 'black' }}
+              />
             <RadioButton
-              id="trust"
-              name="userType"
-              value="trust"
-              checked={selectedType === 'trust'}
-              onChange={handleTypeChange}
-              label="Trust"
-            />
+                id="user-type-trust"
+                name="user-type"
+                value="trust"
+                checked={selectedType === 'trust'}
+                onChange={handleTypeChange}
+                label="Trust"
+                labelStyle={{ color: 'black' }}
+              />
           </RadioGroup>
         </FieldsetStyled>
         
@@ -269,7 +289,7 @@ const UserTypeSelectionPage = () => {
             <Legend>Usability testing session</Legend>
             
             <InputGroup>
-              <InputLabel htmlFor="userId">User ID for tracking (required for usability testing)</InputLabel>
+              <StyledLabel htmlFor="userId">User ID for tracking (required for usability testing)</StyledLabel>
               <TextInput 
                 id="userId" 
                 name="userId" 
@@ -284,18 +304,19 @@ const UserTypeSelectionPage = () => {
             </InputGroup>
             
             <Checkbox
-              id="internalTeam"
-              name="internalTeam"
+              id="internal-team"
               checked={isInternalTeam}
               onChange={handleInternalTeamChange}
-              label="I am an internal team member (no tracking)"
+              label="I am a member of the internal team"
+              labelStyle={{ color: 'black' }}
             />
           </TrackingSection>
         )}
         
-        <Button type="submit">Continue</Button>
+        <SubmitButton type="submit">Continue</SubmitButton>
       </form>
-    </Container>
+    </ContentCard>
+  </Container>
   );
 };
 

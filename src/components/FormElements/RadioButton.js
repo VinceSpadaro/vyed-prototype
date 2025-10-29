@@ -48,6 +48,7 @@ const StyledLabel = styled.label`
   display: inline-flex;
   align-items: center;
   padding: 5px 0;
+  color: #0b0c0c;
   position: relative;
   
   &:focus-within {

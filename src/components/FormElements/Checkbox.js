@@ -48,6 +48,7 @@ const StyledLabel = styled.label`
   font-size: 19px;
   cursor: pointer;
   display: inline-flex;
+  color: #0b0c0c;
   align-items: center;
   padding: 5px 0;
   position: relative;
