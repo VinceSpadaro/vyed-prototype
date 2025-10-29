@@ -36,6 +36,7 @@ const Footer = () => {
           <FooterLink to="/">Cookies</FooterLink>
           <FooterLink to="/">Accessibility statement</FooterLink>
           <FooterLink to="/">Switch to new homepage</FooterLink>
+          <FooterLink to="/select-user-type">Change organisation</FooterLink>
         </FooterLinks>
       </FooterContent>
     </FooterContainer>

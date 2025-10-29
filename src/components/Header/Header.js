@@ -3,22 +3,26 @@ import styled from 'styled-components';
 import { useUserType } from '../../context/UserTypeContext';
 import { useTracking } from '../../context/TrackingContext';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '../FormElements/Button';
 
 const HeaderContainer = styled.header`
   background-color: #0b0c0c;
   color: white;
   padding: 15px 20px;
+`;
+
+const HeaderInner = styled.div`
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
 `;
 
 const Title = styled(Link)`
   margin: 0;
   font-size: 1.2rem;
-  font-weight: normal;
+  font-weight: bold;
   color: white;
   text-decoration: none;
   display: flex;
@@ -78,18 +82,6 @@ const ButtonsContainer = styled.div`
   gap: 10px;
 `;
 
-const HeaderButton = styled(Button)`
-  color: white;
-  border: ${props => props.variant === 'primary' ? 'none' : '2px solid white'};
-  border-radius: 0;
-  background-color: ${props => props.variant === 'primary' ? '#2e7d32' : 'transparent'};
-  
-  &:hover {
-    background-color: ${props => props.variant === 'primary' ? '#1b5e20' : 'transparent'};
-    border-color: white;
-  }
-`;
-
 const Header = () => {
   const { userType, hasUserTypeSelected } = useUserType();
   const { isTracking, isInternalTeam } = useTracking();
@@ -111,49 +103,45 @@ const Header = () => {
   
   return (
     <HeaderContainer>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Title to="/select-user-type">View your education data</Title>
+      <HeaderInner>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Title to="/select-user-type">View your education data</Title>
+          {hasUserTypeSelected && (
+            <UserInfo>
+              <UserType>{getUserTypeLabel(userType)}</UserType>
+              {isTracking && !isInternalTeam && (
+                <TrackingStatus active={true}>
+                  <TrackingDot /> Recording
+                </TrackingStatus>
+              )}
+              {isTracking && isInternalTeam && (
+                <TrackingStatus active={false}>
+                  <TrackingDot /> Internal
+                </TrackingStatus>
+              )}
+            </UserInfo>
+          )}
+        </div>
         {hasUserTypeSelected && (
-          <UserInfo>
-            <UserType>{getUserTypeLabel(userType)}</UserType>
-            {isTracking && !isInternalTeam && (
-              <TrackingStatus active={true}>
-                <TrackingDot /> Recording
-              </TrackingStatus>
-            )}
-            {isTracking && isInternalTeam && (
-              <TrackingStatus active={false}>
-                <TrackingDot /> Internal
-              </TrackingStatus>
-            )}
-          </UserInfo>
+          <ButtonsContainer>
+            <button 
+              onClick={handleSignOut} 
+              style={{
+                backgroundColor: 'transparent',
+                color: 'white',
+                border: '2px solid white',
+                padding: '8px 16px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                height: '40px',
+                boxSizing: 'border-box'
+              }}
+            >
+              Sign out
+            </button>
+          </ButtonsContainer>
         )}
-      </div>
-      <ButtonsContainer>
-        <Link to="/select-user-type">
-          <HeaderButton variant="primary">
-            {hasUserTypeSelected ? 'Change organisation' : 'Select organisation'}
-          </HeaderButton>
-        </Link>
-        
-        {hasUserTypeSelected && (
-          <button 
-            onClick={handleSignOut} 
-            style={{
-              backgroundColor: 'transparent',
-              color: 'white',
-              border: '2px solid white',
-              padding: '8px 16px',
-              cursor: 'pointer',
-              fontSize: '16px',
-              height: '40px',
-              boxSizing: 'border-box'
-            }}
-          >
-            Sign out
-          </button>
-        )}
-      </ButtonsContainer>
+      </HeaderInner>
     </HeaderContainer>
   );
 };
