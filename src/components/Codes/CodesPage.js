@@ -1,13 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { faker } from '@faker-js/faker';
 import TabNavigation from '../Dashboard/TabNavigation';
-import UpdatesSection from '../Common/UpdatesSection';
 import SupportSection from '../Support/SupportSection';
 import CodesSideNav from './CodesSideNav';
 import Filters from '../Filters/Filters';
 import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
+import { FiInfo } from 'react-icons/fi';
+import { HiEllipsisVertical } from 'react-icons/hi2';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -108,10 +109,181 @@ const ExportText = styled.p`
 `;
 
 const DataInfo = styled.div`
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
   margin-bottom: 20px;
   color: #505a5f;
   font-size: 16px;
+  position: relative;
+  min-width: fit-content;
+`;
+
+const IconsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 60px;
+`;
+
+const InfoIconContainer = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const InfoIconButton = styled.button`
+  background: transparent;
+  color: #505a5f;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  font-size: 32px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #0b0c0c;
+  }
+`;
+
+const InfoOverlay = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  margin-top: 8px;
+  z-index: 1000;
+  min-width: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f3f2f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #b1b4b6;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #6f777b;
+  }
+`;
+
+const OverlayTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+`;
+
+const OverlayTableRow = styled.tr`
+  border-bottom: 1px solid #e5e5e5;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const OverlayTableCell = styled.td`
+  padding: 6px 8px;
+  text-align: left;
+  color: #0b0c0c;
+  
+  &:first-child {
+    font-weight: 600;
+    width: 60%;
+  }
+  
+  &:last-child {
+    text-align: right;
+    width: 40%;
+  }
+`;
+
+const MenuIconContainer = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MenuIconButton = styled.button`
+  background: transparent;
+  color: #505a5f;
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #0b0c0c;
+  }
+`;
+
+const MenuOverlay = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 8px;
+  z-index: 1000;
+  min-width: 200px;
+  overflow: hidden;
+`;
+
+const MenuItem = styled.button`
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: white;
+  color: #0b0c0c;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f3f2f1;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: #f3f2f1;
+  }
+`;
+
+const TableContainerWrapper = styled.div`
+  position: relative;
 `;
 
 const TableContainer = styled.div`
@@ -175,11 +347,11 @@ const CodesPage = () => {
   const { getEffectiveUserType } = useUserType();
   const userType = getEffectiveUserType();
   
-  // Attendance codes
-  const attendanceCodes = ['/', '\\', 'B', 'C', 'D', 'E', 'G', 'I', 'J', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'];
+  // Complete list of attendance codes (matching dropdown)
+  const attendanceCodes = ['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z'];
   
   // Initialize with all codes selected
-  const [selectedCode, setSelectedCode] = useState(['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z']);
+  const [selectedCode, setSelectedCode] = useState(attendanceCodes);
   const [startDate, setStartDate] = useState('01/08/2025');
   const [endDate, setEndDate] = useState('24/10/2025');
 
@@ -222,6 +394,73 @@ const CodesPage = () => {
   }, [allCodesData, selectedCode]);
 
   const totalRows = codesData.length;
+  const [showInfoOverlay, setShowInfoOverlay] = useState(false);
+  const [showMenuOverlay, setShowMenuOverlay] = useState(false);
+  const [isTableHovered, setIsTableHovered] = useState(false);
+  const menuRef = useRef(null);
+  const hideIconTimeoutRef = useRef(null);
+
+  // Handle click outside menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenuOverlay(false);
+      }
+    };
+
+    if (showMenuOverlay) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showMenuOverlay]);
+
+  // Handle icon disappearance with delay
+  const handleTableLeave = () => {
+    setIsTableHovered(false);
+    setShowMenuOverlay(false);
+    
+    // Clear any existing timeout
+    if (hideIconTimeoutRef.current) {
+      clearTimeout(hideIconTimeoutRef.current);
+    }
+  };
+
+  // Handle menu toggle - reset timer and keep icon visible while menu is open
+  const handleMenuToggle = () => {
+    const newMenuState = !showMenuOverlay;
+    setShowMenuOverlay(newMenuState);
+    
+    if (newMenuState) {
+      // Menu is opening - clear any pending timeout to keep icon visible
+      if (hideIconTimeoutRef.current) {
+        clearTimeout(hideIconTimeoutRef.current);
+      }
+    }
+  };
+
+  // Calculate code counts
+  const codeCountMap = useMemo(() => {
+    const counts = {};
+    // Initialize all codes with 0
+    attendanceCodes.forEach(code => {
+      counts[code] = 0;
+    });
+    // Count occurrences in data
+    codesData.forEach(row => {
+      const code = row.attendanceCode;
+      if (counts.hasOwnProperty(code)) {
+        counts[code] = (counts[code] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [codesData, attendanceCodes]);
+
+  // Sort codes for display
+  const sortedCodes = useMemo(() => {
+    return attendanceCodes.map(code => ({ code, count: codeCountMap[code] || 0 }));
+  }, [codeCountMap, attendanceCodes]);
 
   return (
     <Container>
@@ -266,11 +505,73 @@ const CodesPage = () => {
         </ExportSection>
 
         <DataInfo>
-          Number of data rows<br />
-          {totalRows.toLocaleString()} / 150,000
+          <div>
+            Number of data rows<br />
+            {totalRows.toLocaleString()} / 150,000
+          </div>
+          <IconsContainer>
+            <InfoIconContainer
+              onMouseEnter={() => setShowInfoOverlay(true)}
+              onMouseLeave={() => setShowInfoOverlay(false)}
+            >
+              <InfoIconButton>
+                <FiInfo size={14} />
+              </InfoIconButton>
+              {showInfoOverlay && (
+                <InfoOverlay>
+                  <OverlayTable>
+                    <tbody>
+                      {sortedCodes.map(({ code, count }) => (
+                        <OverlayTableRow key={code}>
+                          <OverlayTableCell>{code}</OverlayTableCell>
+                          <OverlayTableCell>{count}</OverlayTableCell>
+                        </OverlayTableRow>
+                      ))}
+                      <OverlayTableRow style={{ borderTop: '2px solid #b1b4b6', fontWeight: 'bold' }}>
+                        <OverlayTableCell style={{ fontWeight: 'bold' }}>Total</OverlayTableCell>
+                        <OverlayTableCell style={{ fontWeight: 'bold' }}>{totalRows}</OverlayTableCell>
+                      </OverlayTableRow>
+                    </tbody>
+                  </OverlayTable>
+                </InfoOverlay>
+              )}
+            </InfoIconContainer>
+            {isTableHovered && (
+              <MenuIconContainer ref={menuRef}>
+                <MenuIconButton onClick={handleMenuToggle}>
+                  <HiEllipsisVertical size={18} />
+                </MenuIconButton>
+                {showMenuOverlay && (
+                  <MenuOverlay>
+                    <MenuItem>Export data</MenuItem>
+                    <MenuItem>Show as a table</MenuItem>
+                    <MenuItem>Get insights</MenuItem>
+                    <MenuItem>Sort descending</MenuItem>
+                    <MenuItem>Sort ascending</MenuItem>
+                    <MenuItem>Sort by</MenuItem>
+                  </MenuOverlay>
+                )}
+              </MenuIconContainer>
+            )}
+          </IconsContainer>
         </DataInfo>
 
-        <TableContainer>
+        <TableContainerWrapper
+          onMouseEnter={() => {
+            // Clear any pending timeout when entering
+            if (hideIconTimeoutRef.current) {
+              clearTimeout(hideIconTimeoutRef.current);
+            }
+            setIsTableHovered(true);
+          }}
+          onMouseLeave={() => {
+            // Set timeout to hide icon after 2 seconds
+            hideIconTimeoutRef.current = setTimeout(() => {
+              handleTableLeave();
+            }, 1500);
+          }}
+        >
+          <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -296,6 +597,7 @@ const CodesPage = () => {
             </tbody>
           </Table>
         </TableContainer>
+        </TableContainerWrapper>
               </PageContent>
             </TabContent>
           </MainContent>
