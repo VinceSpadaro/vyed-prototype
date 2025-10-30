@@ -140,9 +140,7 @@ const ErrorMessage = styled.div`
 const UserTypeSelectionPage = () => {
   const navigate = useNavigate();
   const { userType, setUserType, setOrganisationName, hasUserTypeSelected } = useUserType();
-  const { startTracking, isTracking } = useTracking();
-  
-  // Track if user is changing organization - used in useEffect and handleSubmit
+  const { startTracking } = useTracking();
   
   // Only show tracking options for new users, not when changing organization
   const [showTrackingOptions, setShowTrackingOptions] = useState(false);
@@ -235,13 +233,6 @@ const UserTypeSelectionPage = () => {
     }
   };
 
-  const handleBackClick = () => {
-    // Navigate back to the tools page if user has a selected type
-    if (hasUserTypeSelected) {
-      navigate('/tools');
-    }
-  };
-  
   return (
     <Container>
       <ContentCard>

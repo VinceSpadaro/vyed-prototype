@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
-import { Link } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
 import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
@@ -57,29 +56,7 @@ const Divider = styled.hr`
   margin: 30px 0;
 `;
 
-const BreadcrumbNav = styled.div`
-  margin-bottom: 20px;
-  color: #1d70b8;
-  font-size: 14px;
-`;
-
-const BreadcrumbLink = styled(Link)`
-  color: #1d70b8;
-  text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const BreadcrumbSeparator = styled.span`
-  margin: 0 8px;
-  color: #1d70b8;
-`;
-
-const CurrentPage = styled.span`
-  color: #1d70b8;
-`;
+// Breadcrumb components have been removed as they are not being used
 
 const DownloadsPage = () => {
   const { getEffectiveUserType } = useUserType();
@@ -117,7 +94,7 @@ const DownloadsPage = () => {
   
   const ukprn = getUKPRN();
   const organizationName = getOrganizationName();
-  const breadcrumbText = getBreadcrumbText();
+  // breadcrumbText is not currently used
   
   // Get page title based on user type
   const getPageTitle = () => {

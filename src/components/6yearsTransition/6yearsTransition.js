@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import SupportSection from '../Support/SupportSection';
-import { Link } from 'react-router-dom';
 import { useUserType } from '../../context/UserTypeContext';
 import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 

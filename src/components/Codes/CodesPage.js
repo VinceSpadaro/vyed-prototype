@@ -345,22 +345,19 @@ const TableCell = styled.td`
 `;
 
 const CodesPage = () => {
-  const { getEffectiveUserType } = useUserType();
-  // Removed unused userType variable
-  
   // Complete list of attendance codes (matching dropdown)
   const attendanceCodes = ['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z'];
   
-  // Initialize with all codes selected
-  const [selectedCode, setSelectedCode] = useState(attendanceCodes);
-  const [startDate, setStartDate] = useState('01/08/2025');
-  const [endDate, setEndDate] = useState('24/10/2025');
-
   // School names used throughout the app
   const schoolNames = ['School One', 'School Two', 'School Three', 'School Four', 'School Five'];
   
   // Period types
   const periodTypes = ['Morning attendance', 'Afternoon attendance', 'Authorised attendance'];
+  
+  // Initialize with all codes selected
+  const [selectedCode, setSelectedCode] = useState(attendanceCodes);
+  const [startDate, setStartDate] = useState('01/08/2025');
+  const [endDate, setEndDate] = useState('24/10/2025');
 
   // Memoize school names and period types to prevent unnecessary re-renders
   const memoizedSchoolNames = useMemo(() => schoolNames, []);
