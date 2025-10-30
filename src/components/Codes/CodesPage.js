@@ -5,7 +5,6 @@ import TabNavigation from '../Dashboard/TabNavigation';
 import SupportSection from '../Support/SupportSection';
 import CodesSideNav from './CodesSideNav';
 import Filters from '../Filters/Filters';
-import { useUserType } from '../../context/UserTypeContext';
 import { media } from '../../styles/mediaQueries';
 import { FiInfo } from 'react-icons/fi';
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
@@ -345,24 +344,22 @@ const TableCell = styled.td`
 `;
 
 const CodesPage = () => {
-  // Complete list of attendance codes (matching dropdown)
-  const attendanceCodes = ['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z'];
+  // Memoize all constants that are used in useMemo dependencies
+  const attendanceCodes = useMemo(() => ['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z'], []);
   
-  // School names used throughout the app
-  const schoolNames = ['School One', 'School Two', 'School Three', 'School Four', 'School Five'];
+  const schoolNames = useMemo(() => ['School One', 'School Two', 'School Three', 'School Four', 'School Five'], []);
   
-  // Period types
-  const periodTypes = ['Morning attendance', 'Afternoon attendance', 'Authorised attendance'];
+  const periodTypes = useMemo(() => ['Morning attendance', 'Afternoon attendance', 'Authorised attendance'], []);
   
   // Initialize with all codes selected
   const [selectedCode, setSelectedCode] = useState(attendanceCodes);
   const [startDate, setStartDate] = useState('01/08/2025');
   const [endDate, setEndDate] = useState('24/10/2025');
 
-  // Memoize school names and period types to prevent unnecessary re-renders
-  const memoizedSchoolNames = useMemo(() => schoolNames, []);
-  const memoizedPeriodTypes = useMemo(() => periodTypes, []);
-  const memoizedAttendanceCodes = useMemo(() => attendanceCodes, []);
+  // Use memoized values directly
+  const memoizedSchoolNames = schoolNames;
+  const memoizedPeriodTypes = periodTypes;
+  const memoizedAttendanceCodes = attendanceCodes;
 
   // Generate fake data using faker
   const allCodesData = useMemo(() => {

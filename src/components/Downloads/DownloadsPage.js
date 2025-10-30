@@ -82,19 +82,8 @@ const DownloadsPage = () => {
     return 'Demo School';
   };
   
-  // Get breadcrumb text based on user type
-  const getBreadcrumbText = () => {
-    if (userType === 'localAuthority') {
-      return 'Monitor your local authority attendance';
-    } else if (userType === 'trust') {
-      return 'Monitor your trust attendance';
-    }
-    return 'Monitor your school attendance';
-  };
-  
   const ukprn = getUKPRN();
   const organizationName = getOrganizationName();
-  // breadcrumbText is not currently used
   
   // Get page title based on user type
   const getPageTitle = () => {
