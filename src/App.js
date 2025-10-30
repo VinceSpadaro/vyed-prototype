@@ -166,6 +166,11 @@ function AppRoutes() {
                 <ToolsPage />
               </ProtectedRoute>
             } />
+            <Route path="/feedback" element={
+              <ProtectedRoute>
+                <FeedbackPage />
+              </ProtectedRoute>
+            } />
             <Route path="/downloads" element={
               <ProtectedRoute>
                 <DownloadsPage />

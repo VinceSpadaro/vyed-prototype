@@ -133,10 +133,6 @@ const ReportsPage = () => {
             </FileRow>
           ))}
         </FileTable>
-        
-        <p style={{ marginTop: '20px' }}>
-          This file contains year-to-date absence data for Year 6 pupils who have transitioned to secondary school this academic year.
-        </p>
       </ReportsSection>
       
       <Divider />

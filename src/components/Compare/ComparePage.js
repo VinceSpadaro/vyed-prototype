@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SupportSection from '../Support/SupportSection';
 import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
@@ -258,6 +258,7 @@ const mockDataSets = {
 };
 
 const ComparePage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('local');
   const [nationalSubTab, setNationalSubTab] = useState('overall-attendance');
   const [senFilter, setSenFilter] = useState('whole-school');
@@ -546,8 +547,8 @@ const ComparePage = () => {
         </Tab>
         <div style={{ flexGrow: 1 }}></div>
         <Tab 
-          active={activeTab === 'feedback'} 
-          onClick={() => setActiveTab('feedback')}
+          active={activeTab === 'feedback'}
+          onClick={() => navigate('/feedback')}
         >
           Feedback
         </Tab>
@@ -558,10 +559,47 @@ const ComparePage = () => {
           <>
             <ContentTitle>Local authority comparison</ContentTitle>
             <ContentDescription>
-              Compare your attendance and absence in the same phase of education (primary or secondary) in your local authority. Data is from schools sharing daily attendance data with DfE. It is updated every 2 weeks.
+              Compare your school's attendance with other schools like yours in your local authority.
             </ContentDescription>
+            
             <ContentDescription>
-              Results show data for compulsory school age pupils in the academic year-to-date.
+              {(() => {
+                // Get current date
+                const now = new Date();
+                
+                // Get academic year start (1st September of current year, or previous year if it's before September)
+                const currentYear = now.getFullYear();
+                const academicYearStart = new Date(currentYear, 8, 1); // September 1st
+                if (now < academicYearStart) {
+                  academicYearStart.setFullYear(currentYear - 1);
+                }
+                
+                // Format date as 'd MMMM yyyy'
+                const formatDate = (date) => {
+                  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                };
+                
+                // Calculate last Thursday (update day)
+                const lastThursday = new Date(now);
+                lastThursday.setDate(now.getDate() - ((now.getDay() + 3) % 7) - 7);
+                
+                // Calculate next Thursday
+                const nextThursday = new Date(lastThursday);
+                nextThursday.setDate(lastThursday.getDate() + 7);
+                
+                return (
+                  <>
+                    <div><strong>Data shown:</strong> Academic year start to {formatDate(now)}</div>
+                    <div><strong>Last updated:</strong> {formatDate(lastThursday)}</div>
+                    <div><strong>Next update:</strong> {formatDate(nextThursday)}</div>
+                  </>
+                );
+              })()}
+            </ContentDescription>
+
+            <ContentDescription>
+              This data is updated every 2 weeks and may not match your most recent figures in Monitor your school attendance.
+              Results show compulsory school age pupils for the full academic year.
             </ContentDescription>
             <button 
               onClick={() => window.alert('This would link to guidance on calculations')}
@@ -833,14 +871,50 @@ const ComparePage = () => {
               
               <div style={{ flex: 1 }}>
                 <h2 style={{ fontSize: '24px', marginTop: 0 }}>National comparison</h2>
-                <p>
-                  Compare your attendance and absence in the same phase of education (primary or secondary) in England. Data is from schools
-                  sharing daily attendance data with DfE. It is updated every 2 weeks.
-                </p>
-                <p>
-                  Results show data for compulsory school age pupils in the academic year-to-date.
-                  <br />
-                  <button 
+                <ContentDescription>
+                  Compare your school's attendance with other schools like yours in your local authority.
+                </ContentDescription>
+                
+                <ContentDescription>
+                  {(() => {
+                    // Get current date
+                    const now = new Date();
+                    
+                    // Get academic year start (1st September of current year, or previous year if it's before September)
+                    const currentYear = now.getFullYear();
+                    const academicYearStart = new Date(currentYear, 8, 1); // September 1st
+                    if (now < academicYearStart) {
+                      academicYearStart.setFullYear(currentYear - 1);
+                    }
+                    
+                    // Format date as 'd MMMM yyyy'
+                    const formatDate = (date) => {
+                      return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                    };
+                    
+                    // Calculate last Thursday (update day)
+                    const lastThursday = new Date(now);
+                    lastThursday.setDate(now.getDate() - ((now.getDay() + 3) % 7) - 7);
+                    
+                    // Calculate next Thursday
+                    const nextThursday = new Date(lastThursday);
+                    nextThursday.setDate(lastThursday.getDate() + 7);
+                    
+                    return (
+                      <>
+                        <div><strong>Data shown:</strong> Academic year start to {formatDate(now)}</div>
+                        <div><strong>Last updated:</strong> {formatDate(lastThursday)}</div>
+                        <div><strong>Next update:</strong> {formatDate(nextThursday)}</div>
+                      </>
+                    );
+                  })()}
+                </ContentDescription>
+
+                <ContentDescription>
+                  This data is updated every 2 weeks and may not match your most recent figures in Monitor your school attendance.
+                  Results show compulsory school age pupils for the full academic year.
+                </ContentDescription>
+                <button 
                     onClick={() => window.alert('This would link to guidance on calculations')}
                     style={{ 
                       color: '#1d70b8', 
@@ -855,7 +929,6 @@ const ComparePage = () => {
                   >
                     how we calculate your position and how to use your results.
                   </button>
-                </p>
                 
                 <div style={{ backgroundColor: '#f3f2f1', padding: '15px', marginBottom: '20px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
