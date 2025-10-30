@@ -346,7 +346,7 @@ const TableCell = styled.td`
 
 const CodesPage = () => {
   const { getEffectiveUserType } = useUserType();
-  const userType = getEffectiveUserType();
+  // Removed unused userType variable
   
   // Complete list of attendance codes (matching dropdown)
   const attendanceCodes = ['--', '#', '/', '\\', 'B', 'C', 'C1', 'C2', 'D', 'E', 'G', 'I', 'J1', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y1', 'Y2', 'Y3', 'Y4', 'Y7', 'Z'];
@@ -362,16 +362,21 @@ const CodesPage = () => {
   // Period types
   const periodTypes = ['Morning attendance', 'Afternoon attendance', 'Authorised attendance'];
 
+  // Memoize school names and period types to prevent unnecessary re-renders
+  const memoizedSchoolNames = useMemo(() => schoolNames, []);
+  const memoizedPeriodTypes = useMemo(() => periodTypes, []);
+  const memoizedAttendanceCodes = useMemo(() => attendanceCodes, []);
+
   // Generate fake data using faker
   const allCodesData = useMemo(() => {
     faker.seed(123); // Set seed for consistent data
-    return Array.from({ length: 200 }, (_, index) => {
+    return Array.from({ length: 200 }, () => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       const upn = faker.string.alphanumeric({ length: 13, casing: 'upper' });
-      const school = schoolNames[Math.floor(Math.random() * schoolNames.length)];
-      const code = attendanceCodes[Math.floor(Math.random() * attendanceCodes.length)];
-      const period = periodTypes[Math.floor(Math.random() * periodTypes.length)];
+      const school = memoizedSchoolNames[Math.floor(Math.random() * memoizedSchoolNames.length)];
+      const code = memoizedAttendanceCodes[Math.floor(Math.random() * memoizedAttendanceCodes.length)];
+      const period = memoizedPeriodTypes[Math.floor(Math.random() * memoizedPeriodTypes.length)];
       const date = faker.date.between({ from: '2025-08-01', to: '2025-10-24' });
       const formattedDate = date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
       
@@ -384,7 +389,7 @@ const CodesPage = () => {
         periodAbsence: period
       };
     });
-  }, []);
+  }, [memoizedSchoolNames, memoizedPeriodTypes, memoizedAttendanceCodes]);
 
   // Filter data based on selected codes
   const codesData = useMemo(() => {

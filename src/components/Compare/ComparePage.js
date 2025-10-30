@@ -16,29 +16,7 @@ const PageTitle = styled.h1`
   margin-bottom: 30px;
 `;
 
-const BreadcrumbNav = styled.div`
-  margin-bottom: 20px;
-  color: #1d70b8;
-  font-size: 14px;
-`;
-
-const BreadcrumbLink = styled(Link)`
-  color: #1d70b8;
-  text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const BreadcrumbSeparator = styled.span`
-  margin: 0 8px;
-  color: #1d70b8;
-`;
-
-const CurrentPage = styled.span`
-  color: #1d70b8;
-`;
+// Breadcrumb components have been removed as they are not being used
 
 const TabsContainer = styled.div`
   display: flex;
