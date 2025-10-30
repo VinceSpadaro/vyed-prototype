@@ -8,6 +8,7 @@ import DataTable from '../Common/DataTable';
 import { localAuthorityOverviewData, schoolOptions, schoolsData } from '../../data/localAuthorityData';
 import PageLayout from '../Dashboard/PageLayout';
 import Dropdown from '../Common/Dropdown';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 const LocalAuthorityPageContainer = styled.div`
   margin-bottom: 30px;
@@ -175,6 +176,12 @@ const LocalAuthorityPage = () => {
   return (
     <PageLayout
       title="Local authority attendance data"
+      breadcrumbs={
+        <ToolsBreadcrumbs 
+          items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
+          currentPage="Local authority attendance data" 
+        />
+      }
       showUpdates={true}
       showTabs={true}
       contentSideNav={false}

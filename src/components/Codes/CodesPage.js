@@ -464,13 +464,14 @@ const CodesPage = () => {
 
   return (
     <Container>
-      <PageTitle>Export attendance and absence codes</PageTitle>
-      
-      <TabNavigation />
       <ToolsBreadcrumbs 
         items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
         currentPage="Export attendance and absence codes" 
       />
+      
+      <PageTitle>Export attendance and absence codes</PageTitle>
+      
+      <TabNavigation />
       
       <ContentContainer>
         <MainContentWrapper>

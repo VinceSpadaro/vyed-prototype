@@ -13,6 +13,7 @@ import SupportSection from '../Support/SupportSection';
 import { media } from '../../styles/mediaQueries';
 import { useUserType } from '../../context/UserTypeContext';
 import Dropdown from '../Common/Dropdown';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 // Styled components
 const Container = styled.div`
@@ -493,7 +494,12 @@ const PupilPage = () => {
 
   return (
     <Container>
-      <PageTitle>View school attendance data</PageTitle>
+      <ToolsBreadcrumbs 
+        items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
+        currentPage="Pupil attendance data" 
+      />
+      
+      <PageTitle>{selectedPupil?.name || 'Select a pupil'}</PageTitle>
       
       <UpdatesSection />
       

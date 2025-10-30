@@ -7,6 +7,7 @@ import SupportSection from '../Support/SupportSection';
 import { useUserType } from '../../context/UserTypeContext';
 import PageLayout from '../Dashboard/PageLayout';
 import Dropdown from '../Common/Dropdown';
+import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
 
 // Removed unused ContentContainer
 
@@ -316,6 +317,12 @@ const SchoolPage = () => {
   return (
     <PageLayout
       title="School attendance data"
+      breadcrumbs={
+        <ToolsBreadcrumbs 
+          items={[{ label: 'Monitor your school attendance', to: '/tools' }]} 
+          currentPage="School attendance data" 
+        />
+      }
       showUpdates={true}
       showTabs={true}
       contentSideNav={false}
