@@ -33,7 +33,7 @@ const FiltersContainer = styled.div`
   padding: 5px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-height: 600px;
+  ${props => props.$hasFilters ? 'max-height: 600px;' : 'height: 100%;'}
   overflow-y: auto;
   
   /* Custom scrollbar styling */
@@ -96,7 +96,14 @@ const FiltersOnPage = styled.div`
   margin-bottom: 15px;
 `;
 
-const Filters = () => {
+const NoFiltersMessage = styled.p`
+  font-size: 0.9rem;
+  color: #0b0c0c;
+  padding: 15px;
+  margin: 0;
+`;
+
+const Filters = ({ showFilters = true }) => {
   const { getEffectiveUserType } = useUserType();
   const userType = getEffectiveUserType();
   const [activeFilters, setActiveFilters] = useState({
@@ -255,15 +262,19 @@ const Filters = () => {
   };
 
   return (
-    <FiltersContainer>
+    <FiltersContainer $hasFilters={showFilters}>
       <FiltersHeader>
         <FiltersTitle>Filters</FiltersTitle>
         <ExpandIcon>›</ExpandIcon>
       </FiltersHeader>
       
-      <SearchInput type="text" placeholder="Search" />
-      
-      <FiltersOnPage>Filters on this page</FiltersOnPage>
+      {!showFilters ? (
+        <NoFiltersMessage>There aren't any filters to display.</NoFiltersMessage>
+      ) : (
+        <>
+          <SearchInput type="text" placeholder="Search" />
+          
+          <FiltersOnPage>Filters on this page</FiltersOnPage>
       
       <FilterItem
         title="Compulsory school age"
@@ -409,6 +420,8 @@ const Filters = () => {
         onClear={() => handleClearFilter('leavingDate')}
         onSelect={(option, isAdvanced) => handleFilterChange('leavingDate', option, isAdvanced)}
       />
+        </>
+      )}
     </FiltersContainer>
   );
 };

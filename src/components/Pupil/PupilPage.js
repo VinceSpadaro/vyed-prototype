@@ -14,6 +14,7 @@ import { media } from '../../styles/mediaQueries';
 import { useUserType } from '../../context/UserTypeContext';
 import Dropdown from '../Common/Dropdown';
 import ToolsBreadcrumbs from '../Navigation/ToolsBreadcrumbs';
+import Filters from '../Filters/Filters';
 
 // Styled components
 const Container = styled.div`
@@ -54,6 +55,14 @@ const MainContent = styled.div`
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
+`;
+
+const FiltersSidebar = styled.div`
+  flex: 0 0 300px;
+  
+  ${media.medium`
+    flex: 0 0 100%;
+  `}
 `;
 
 const TabContent = styled.div`
@@ -546,6 +555,10 @@ const PupilPage = () => {
             </Routes>
           </TabContent>
           </MainContent>
+          
+          <FiltersSidebar>
+            <Filters showFilters={false} />
+          </FiltersSidebar>
         </MainContentWrapper>
       </ContentContainer>
       

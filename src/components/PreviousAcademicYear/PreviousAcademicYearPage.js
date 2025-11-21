@@ -14,7 +14,7 @@ const PreviousAcademicYearPage = () => {
       }
       showUpdates={true}
       contentSideNav={true}
-      contentSidebar={<Filters />}
+      contentSidebar={<Filters showFilters={false} />}
       supportSection={<SupportSection />}
     >
       <PreviousAcademicYear />

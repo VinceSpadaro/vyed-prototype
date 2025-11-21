@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import AcademicYearTable from '../Common/AcademicYearTable';
+import { useUserType } from '../../context/UserTypeContext';
 
 const Container = styled.div`
   padding: 0 0 0 20px;
   margin-bottom: 30px;
-  height: calc(100vh - 250px); /* Take full height of viewport minus header space */
+  height: calc(100vh - 50px); /* Take full height of viewport minus header space */
   display: flex;
   flex-direction: column;
 `;
@@ -19,10 +20,23 @@ const Title = styled.h2`
 const Description = styled.p`
   margin-bottom: 20px;
   color: #0b0c0c;
+  
+  ul {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+  
+  li {
+    margin: 5px 0;
+  }
 `;
 
 
 const PreviousAcademicYear = () => {
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
+  const isSchool = userType === 'school';
+  
   // Data from the screenshot
   const data = {
     autumn: [
@@ -77,7 +91,24 @@ const TableWrapper = styled.div`
     <Container>
       <Title>Previous academic year</Title>
       <Description>
-        Use this page to compare previous academic years to the current year. Data is updated daily.
+        {isSchool ? (
+          <>
+            Compare previous academic years to the current year.
+            <br /><br />
+            <strong>What this data is based on</strong>
+            <br /><br />
+            The attendance data in this dashboard includes all pupils who attended during the period. This includes pupils:
+            <ul>
+              <li>who have left in that period</li>
+              <li>of non-compulsory school age (such as nursery or sixth form)</li>
+            </ul>
+            Data is updated daily.
+          </>
+        ) : (
+          <>
+            Use this page to compare previous academic years to the current year. Data is updated daily.
+          </>
+        )}
       </Description>
       
       <TableWrapper>
