@@ -212,7 +212,7 @@ const ToolsPage = () => {
       <Details summary="Monitor your cross-border school attendance">
         <BulletList>
           <BulletItem>
-            <Link to="/downloads">Data downloads</Link>
+            <Link to="/cross-border-downloads">Data downloads</Link>
             <BulletDescription>
               Download a CSV file showing out of area pupils, updated to the latest week. We update the file every Monday to cover data up to the previous Friday.
             </BulletDescription>

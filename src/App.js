@@ -35,6 +35,8 @@ import DownloadsPage from './components/Downloads/DownloadsPage';
 import SchoolsListPage from './components/SchoolsList/SchoolsListPage';
 import CodesPage from './components/Codes/CodesPage';
 import SixYearsTransitionPage from './components/6yearsTransition/6yearsTransition';
+import CrossBorderDataPage from './components/CrossBorderData/CrossBorderDataPage';
+import CrossBorderDownloadsPage from './components/CrossBorderDownloads/CrossBorderDownloadsPage';
 
 const AppContainer = styled.div`
   font-family: Arial, sans-serif;
@@ -195,6 +197,16 @@ function AppRoutes() {
             <Route path="/6yearsTransition" element={
               <ProtectedRoute>
                 <SixYearsTransitionPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/cross-border-data" element={
+              <ProtectedRoute>
+                <CrossBorderDataPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/cross-border-downloads" element={
+              <ProtectedRoute>
+                <CrossBorderDownloadsPage />
               </ProtectedRoute>
             } />
           </Routes>
