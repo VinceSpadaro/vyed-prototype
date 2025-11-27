@@ -37,6 +37,18 @@ const LinkItem = styled.div`
   margin-bottom: 15px;
 `;
 
+const TestingTag = styled.span`
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 8px;
+  background-color: #1d70b8;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 3px;
+  text-transform: uppercase;
+`;
+
 
 
 const ToolsPage = () => {
@@ -203,6 +215,22 @@ const ToolsPage = () => {
             <Link to="/downloads">Data downloads</Link>
             <BulletDescription>
               Download a CSV file showing out of area pupils, updated to the latest week. We update the file every Monday to cover data up to the previous Friday.
+            </BulletDescription>
+          </BulletItem>
+          
+          <BulletItem>
+            <Link to="/insights">View school attendance data</Link>
+            <TestingTag>testing</TestingTag>
+            <BulletDescription>
+              View attendance data and insights for your local authority, pupil groups and individual pupils.
+            </BulletDescription>
+          </BulletItem>
+          
+          <BulletItem>
+            <Link to="/codes">Export attendance and absence codes</Link>
+            <TestingTag>testing</TestingTag>
+            <BulletDescription>
+              View and export attendance and absence codes used by schools in your local authority in the current academic year.
             </BulletDescription>
           </BulletItem>
         </BulletList>
