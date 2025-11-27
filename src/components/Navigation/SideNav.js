@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { media } from '../Dashboard/ResponsiveStyles';
+import { useUserType } from '../../context/UserTypeContext';
 
 const SideNavContainer = styled.nav`
   width: 250px;
@@ -51,6 +52,8 @@ const NavLink = styled(Link)`
 const SideNav = () => {
   const location = useLocation();
   const { pathname } = location;
+  const { getEffectiveUserType } = useUserType();
+  const userType = getEffectiveUserType();
   
   return (
     <SideNavContainer>
@@ -70,12 +73,22 @@ const SideNav = () => {
         <NavItem>
           <NavLink to="/absence-bandings" active={pathname === '/absence-bandings' ? true : undefined}>Absence bandings</NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink to="/unauthorised-absence" active={pathname === '/unauthorised-absence' ? true : undefined}>Unauthorised absence</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/check-leaver-data" active={pathname === '/check-leaver-data' ? true : undefined}>Check leaver data</NavLink>
-        </NavItem>
+        
+        {/* Show different menu items based on user type */}
+        {userType === 'localAuthority' ? (
+          <NavItem>
+            <NavLink to="/attendance-returns" active={pathname === '/attendance-returns' ? true : undefined}>Attendance returns</NavLink>
+          </NavItem>
+        ) : (
+          <>
+            <NavItem>
+              <NavLink to="/unauthorised-absence" active={pathname === '/unauthorised-absence' ? true : undefined}>Unauthorised absence</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink to="/check-leaver-data" active={pathname === '/check-leaver-data' ? true : undefined}>Check leaver data</NavLink>
+            </NavItem>
+          </>
+        )}
       </NavList>
     </SideNavContainer>
   );

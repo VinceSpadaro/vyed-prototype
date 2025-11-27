@@ -20,6 +20,7 @@ import AbsenceBandingsPage from './components/AbsenceBandings/AbsenceBandingsPag
 import AbsenceBandingDetail from './components/AbsenceBandings/AbsenceBandingDetail';
 import UnauthorisedAbsencePage from './components/UnauthorisedAbsence/UnauthorisedAbsencePage';
 import CheckLeaverDataPage from './components/CheckLeaverData/CheckLeaverDataPage';
+import AttendanceReturnsPage from './components/AttendanceReturns/AttendanceReturnsPage';
 import GuidancePage from './components/Guidance/GuidancePage';
 import FeedbackPage from './components/Feedback/FeedbackPage';
 import IndexPage from './components/Home/IndexPage';
@@ -124,6 +125,11 @@ function AppRoutes() {
             <Route path="/check-leaver-data" element={
               <ProtectedRoute>
                 <CheckLeaverDataPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/attendance-returns" element={
+              <ProtectedRoute>
+                <AttendanceReturnsPage />
               </ProtectedRoute>
             } />
             <Route path="/guidance" element={

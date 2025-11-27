@@ -76,8 +76,8 @@ const TabNavigation = () => {
     );
   }
   
-  // Consider insights, data-visualisations, previous-academic-year, year-to-date-comparison, absence-bandings, unauthorised-absence, and check-leaver-data as part of insights dashboard
-  const isInsightsDashboardActive = pathname === '/' || pathname === '/insights' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings' || pathname === '/unauthorised-absence' || pathname === '/check-leaver-data';
+  // Consider insights, data-visualisations, previous-academic-year, year-to-date-comparison, absence-bandings, unauthorised-absence, check-leaver-data, and attendance-returns as part of insights dashboard
+  const isInsightsDashboardActive = pathname === '/' || pathname === '/insights' || pathname === '/data-visualisations' || pathname === '/previous-academic-year' || pathname === '/year-to-date-comparison' || pathname === '/absence-bandings' || pathname === '/unauthorised-absence' || pathname === '/check-leaver-data' || pathname === '/attendance-returns';
   const isLocalAuthorityActive = pathname === '/local-authority';
   const isTrustActive = pathname === '/trust';
   
