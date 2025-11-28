@@ -220,7 +220,6 @@ const ToolsPage = () => {
           
           <BulletItem>
             <Link to="/insights">View school attendance data</Link>
-            <TestingTag>testing</TestingTag>
             <BulletDescription>
               View attendance data and insights for your local authority, pupil groups and individual pupils.
             </BulletDescription>
@@ -228,7 +227,6 @@ const ToolsPage = () => {
           
           <BulletItem>
             <Link to="/codes">Export attendance and absence codes</Link>
-            <TestingTag>testing</TestingTag>
             <BulletDescription>
               View and export attendance and absence codes used by schools in your local authority in the current academic year.
             </BulletDescription>
