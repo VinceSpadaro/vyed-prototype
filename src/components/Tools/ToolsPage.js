@@ -37,20 +37,6 @@ const LinkItem = styled.div`
   margin-bottom: 15px;
 `;
 
-const TestingTag = styled.span`
-  display: inline-block;
-  margin-left: 10px;
-  padding: 2px 8px;
-  background-color: #1d70b8;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius: 3px;
-  text-transform: uppercase;
-`;
-
-
-
 const ToolsPage = () => {
   // Get user type from context - use effective user type which respects viewing context
   const { getEffectiveUserType } = useUserType();
